@@ -21,7 +21,10 @@ variable "description" {
   
 }
 variable "environment_variables" {
-    type = list(map(string))
+    type = list(object({
+        name = string
+        value = string
+    }))
     description = "List of environment variable maps to be used in the running of the build"
     default = []
   

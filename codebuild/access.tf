@@ -47,17 +47,6 @@ data "aws_iam_policy_document" "codebuild-access" {
     effect    = "Allow"
     actions   = ["ec2:CreateNetworkInterfacePermission"]
     resources = ["arn:aws:ec2:us-east-1:123456789012:network-interface/*"]
-
-    condition {
-      test     = "StringEquals"
-      variable = "ec2:Subnet"
-
-      values = [
-        aws_subnet.example1.arn,
-        aws_subnet.example2.arn,
-      ]
-    }
-
     condition {
       test     = "StringEquals"
       variable = "ec2:AuthorizedService"
@@ -69,13 +58,15 @@ data "aws_iam_policy_document" "codebuild-access" {
     effect  = "Allow"
     actions = ["s3:*"]
     resources = [
-      aws_s3_bucket.example.arn,
-      "${aws_s3_bucket.example.arn}/*",
+      module.log_bucket.bucket.arn,
+      "${module.log_bucket.bucket.arn}/*",
+      module.artifact_bucket.bucket.arn,
+       "${module.artifact_bucket.bucket.arn}/*",
     ]
   }
 }
 
 resource "aws_iam_role_policy" "codebuild_role_policy" {
-  role   = aws_iam_role.codebuild-role.name
+  role   = aws_iam_role.codebuild_role.name
   policy = data.aws_iam_policy_document.codebuild-access.json
 }

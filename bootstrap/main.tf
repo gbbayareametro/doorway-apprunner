@@ -6,7 +6,7 @@ module "codebuild" {
     environment = "bootstrap"
     output_artifact_name = "tfstate"
     environment_variables = [
-        {"TF_WORKSPACE": "doorway-bootstrap"}
+        {"name": "TF_WORKSPACE", "value":"doorway-bootstrap"}
     ]
   
 }
