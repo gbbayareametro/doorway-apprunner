@@ -22,6 +22,7 @@ phases:
     commands:
       # Verify the values of vars passed in via the project
       - echo "${TF_WORKSPACE}"
+      - cd ${CODEBUILD_SRC_DIR}
 
       - ls -latr
       # Have to init again to make sure providers are present
