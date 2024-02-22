@@ -23,7 +23,7 @@ phases:
       # Verify the values of vars passed in via the project
       - echo "${TF_WORKSPACE}"
 
-      - git pull
+      - ls -latr
       # Have to init again to make sure providers are present
       - terraform init
 
