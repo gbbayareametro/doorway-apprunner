@@ -30,15 +30,7 @@ data "aws_iam_policy_document" "codebuild-access" {
   statement {
     effect = "Allow"
 
-    actions = [
-      "ec2:CreateNetworkInterface",
-      "ec2:DescribeDhcpOptions",
-      "ec2:DescribeNetworkInterfaces",
-      "ec2:DeleteNetworkInterface",
-      "ec2:DescribeSubnets",
-      "ec2:DescribeSecurityGroups",
-      "ec2:DescribeVpcs",
-    ]
+    actions = var.allowed_aws_actions
 
     resources = ["*"]
   }

@@ -17,6 +17,7 @@ variable "apprunner_service" {
     type = object({
       name = string
       url = string
+      arn = string
 
     })
 }

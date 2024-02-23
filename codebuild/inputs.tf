@@ -20,6 +20,14 @@ variable "description" {
     type = string
   
 }
+variable "buildspec" {
+    type = string
+    default = "buildspec.yml"
+}
+variable "github_repo" {
+    type = string
+    default = "https://github.com/gbbayareametro/doorway-apprunner.git"
+}
 variable "environment_variables" {
     type = list(object({
         name = string
@@ -38,4 +46,9 @@ variable "default_tags" {
     type = map(string)
     default = {"Name": "Doorway",}
   
+}
+
+variable "allowed_aws_actions" {
+    type = list(string)
+    description = "The AWS actions this codebuild instance is allowed to perform"
 }

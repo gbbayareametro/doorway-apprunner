@@ -62,8 +62,9 @@ resource "aws_codebuild_project" "codebuild" {
 
   source {
     type     = "GITHUB"
-    location = "https://github.com/gbbayareametro/doorway-apprunner.git"
+    location = var.github_repo
     git_clone_depth = 0
+    buildspec = var.buildspec
   
   }
 
