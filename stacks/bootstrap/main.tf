@@ -1,5 +1,9 @@
+module "global" {
+    source = "../global"
+    default_tags = module.global.default_tags
+}
 module "codebuild" {
-    source = "../codebuild"
+    source = "../../modules/codebuild"
     description = "Inital Doorway Application Delivery Bootstrap"
     project_use = "bootstrap-env"
     stack = "bootstrap"

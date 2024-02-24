@@ -3,17 +3,9 @@ variable "app_name" {
     default = "doorway"
   
 }
-variable "environment" {
+variable "resource_use" {
     type = string
-    default = "dev"
-}
-variable "stack" {
-    type = string
-  
-}
-variable "project_use" {
-    type = string
-    description = "A helpful listing of what the bucket is being used for. "
+    description = "Part of the resource naming convention s/b [app]-[stack]-[resource (i.e S3)]-[resource_use i.e logs]"
   
 }
 variable "description" {

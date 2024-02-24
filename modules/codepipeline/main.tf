@@ -2,13 +2,25 @@ terraform {
   required_version = ">= 1.3"
   required_providers {
     aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5"
+      source = "hashicorp/aws"
+      #version = "~> 5"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.6.0"
     }
   }
 }
+provider "aws" {
+  region = module.global.default_aws_region
+}
+
+module "global" {
+    source = "../global"
+    default_tags = module.global.default_tags
+}
 resource "aws_codepipeline" "codepipeline" {
-  name     = "tf-test-pipeline"
+  name     = "${global.infra_prefix}-cp"
   role_arn = aws_iam_role.codepipeline_role.arn
 
   artifact_store {
@@ -84,20 +96,6 @@ resource "aws_codestarconnections_connection" "example" {
   name          = "example-connection"
   provider_type = "GitHub"
 }
-
-resource "aws_s3_bucket" "codepipeline_bucket" {
-  bucket = "test-bucket"
-}
-
-resource "aws_s3_bucket_public_access_block" "codepipeline_bucket_pab" {
-  bucket = aws_s3_bucket.codepipeline_bucket.id
-
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
-}
-
 data "aws_iam_policy_document" "assume_role" {
   statement {
     effect = "Allow"
@@ -114,6 +112,12 @@ data "aws_iam_policy_document" "assume_role" {
 resource "aws_iam_role" "codepipeline_role" {
   name               = "test-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
+}
+module "pipeline_bucket" {
+  source = "../s3"
+  stack = "${module.global.infra-prefix}-CP"
+  
+
 }
 
 data "aws_iam_policy_document" "codepipeline_policy" {
