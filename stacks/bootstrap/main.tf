@@ -1,13 +1,11 @@
 module "global" {
     source = "../global"
-    default_tags = module.global.default_tags
 }
 module "codebuild" {
     source = "../../modules/codebuild"
     description = "Inital Doorway Application Delivery Bootstrap"
-    project_use = "bootstrap-env"
-    stack = "bootstrap"
-    environment = "bootstrap"
+    stack_prefix = "${module.global.environment_prefix}-bootstrap"
+    resource_use = "bootstrap"
     output_artifact_name = "tfstate"
     environment_variables = [
         {"name": "TF_WORKSPACE", "value":"doorway-bootstrap"}

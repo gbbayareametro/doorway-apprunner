@@ -15,10 +15,7 @@ provider "aws" {
   region = module.global.default_aws_region
 }
 
-module "global" {
-    source = "../global"
-    default_tags = module.global.default_tags
-}
+
 resource "aws_codepipeline" "codepipeline" {
   name     = "${global.infra_prefix}-cp"
   role_arn = aws_iam_role.codepipeline_role.arn

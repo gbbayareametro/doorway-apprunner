@@ -1,22 +1,14 @@
 
-variable "app_name" {
+variable "stack_prefix" {
     type = string
-    default = "doorway"
-  
+    description = "Resource naming prefix - [app (Doorway usually)]-[environment]"
 }
-variable "environment" {
+variable "resource_use" {
     type = string
-    default = "dev"
+    description = "Part of the resource naming convention s/b [app]-[environment]-[stack]-[resource (i.e S3)]-[resource_use i.e logs]"
 }
-variable "stack" {
-    type = string
-  
-}
-variable "bucket_use" {
-    type = string
-    description = "A helpful listing of what the bucket is being used for. "
-  
-}
+
+
 
 variable "force_destroy" {
     type = bool

@@ -1,12 +1,10 @@
-variable "app_name" {
+variable "stack_prefix" {
     type = string
-    default = "doorway"
-  
+    description = "Resource naming prefix - [app (Doorway usually)]-[environment]"
 }
 variable "resource_use" {
     type = string
-    description = "Part of the resource naming convention s/b [app]-[stack]-[resource (i.e S3)]-[resource_use i.e logs]"
-  
+    description = "Part of the resource naming convention s/b [app]-[environment]-[stack]-[resource (i.e S3)]-[resource_use i.e logs]"
 }
 variable "description" {
     type = string

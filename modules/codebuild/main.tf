@@ -9,18 +9,18 @@ terraform {
 }
 module "artifact_bucket" {
   source     = "../s3"
-  stack      = var.stack
-  bucket_use = "codebuild-art"
+  stack_prefix = var.stack_prefix
+  resource_use = "artifacts"
 }
 module "log_bucket" {
   source     = "../s3"
-  stack      = var.stack
-  bucket_use = "codebuild-log"
+  stack_prefix = var.stack_prefix
+  resource_use = "bld-logs"
 }
 
 
 resource "aws_codebuild_project" "codebuild" {
-  name          = "${var.app_name}-${var.environment}-${var.stack}-${var.project_use}"
+  name          = "${var.stack_prefix}-cb-${var.resource_use}"
   description   = var.description
   build_timeout = 5
   service_role  = aws_iam_role.codebuild_role.arn
@@ -50,8 +50,8 @@ resource "aws_codebuild_project" "codebuild" {
 
   logs_config {
     cloudwatch_logs {
-      group_name  = "${var.app_name}-${var.environment}-${var.stack}-codebuild-loggroup"
-      stream_name = "${var.app_name}-${var.environment}-${var.stack}-codebuild-logstream"
+      group_name  = "${var.stack_prefix}-cb-logs"
+      stream_name = "${var.stack_prefix}-cb-logs"
     }
 
     s3_logs {

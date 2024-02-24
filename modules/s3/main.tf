@@ -22,7 +22,7 @@ terraform {
 # trunk-ignore(checkov/CKV_AWS_21): Turning off versioning
 resource "aws_s3_bucket" "s3_bucket" {
   # bucket_prefix is limited to 37 chars, so we have to keep this brief
-  bucket_prefix = "${var.app_name}-${var.environment}-${var.stack}-${var.bucket_use}"
+  bucket_prefix = "${var.stack_prefix}-s3-${var.resource_use}"
   force_destroy = var.force_destroy
 }
 resource "aws_s3_bucket_public_access_block" "pa_block" {
