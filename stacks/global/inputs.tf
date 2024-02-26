@@ -1,6 +1,6 @@
 variable "app_name" {
   type = string
-  default = "doorway"
+  default = "dw"
 
 }
 variable "environment" {

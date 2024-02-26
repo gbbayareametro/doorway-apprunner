@@ -1,35 +1,10 @@
-variable "vpc_id" {
+variable "stack_prefix" {
     type = string
-    description = "The VPC ID the database will reside in."
-  
+    description = "Resource naming prefix - [app (Doorway usually)]-[environment]"
+    default = "dw-dev"
 }
-variable "database_subnet_group_name" {
+variable "resource_use" {
     type = string
-    description = "The name of the database subnet group."
-  
-}
-variable "database_subnets_cidr_blocks" {
-    type = list(string)
-    description = "The database CIDR blocks"
-  
-}
-
-variable "aws_region" {
-    type = string
-    default = "us-west-2"
-  
-}
-variable "default_tags" {
-    type = map(string)
-    default = {"Name": "Doorway",}
-  
-}
-variable "app_name" {
-    type = string
-    default = "doorway-dev"
-}
-variable "environment" {
-    type = string
-    default = "dev"
-  
+    description = "Part of the resource naming convention s/b [app]-[environment]-[stack]-[resource (i.e S3)]-[resource_use i.e logs]"
+    default = "db"
 }
