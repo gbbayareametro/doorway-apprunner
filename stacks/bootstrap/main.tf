@@ -18,7 +18,10 @@ module "codebuild" {
       "ec2:DescribeSubnets",
       "ec2:DescribeSecurityGroups",
       "ec2:DescribeVpcs",
-      "ec2:DescribeAvailabilityZones"
+      "ec2:DescribeAvailabilityZones",
+      "rds:*",
+      "kms:*"
+
     ]
   
 }
