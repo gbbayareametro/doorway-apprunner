@@ -23,6 +23,7 @@ phases:
       # Verify the values of vars passed in via the project
       - echo "${TF_WORKSPACE}"
       - cd ${CODEBUILD_SRC_DIR}
+      - aws sts get-caller-identity
 
       - terraform workspace create dw-dev-db
       # Have to init again to make sure providers are present
