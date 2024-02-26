@@ -21,7 +21,11 @@ module "codebuild" {
       "ec2:DescribeAvailabilityZones",
       "rds:*",
       "kms:*",
-      "iam:*"
+      "iam:*",
+      "ec2:CreateVpc",
+      "ec2:CreateTags",
+      "ec2:*",
+      "secretsmanager:*"
 
     ]
   
