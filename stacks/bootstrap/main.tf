@@ -20,7 +20,8 @@ module "codebuild" {
       "ec2:DescribeVpcs",
       "ec2:DescribeAvailabilityZones",
       "rds:*",
-      "kms:*"
+      "kms:*",
+      "iam:*"
 
     ]
   
