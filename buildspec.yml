@@ -24,10 +24,9 @@ phases:
       - echo "${TF_WORKSPACE}"
       - cd ${CODEBUILD_SRC_DIR}
 
-      - ls -latr
+      - terraform workspace create dw-dev-db
       # Have to init again to make sure providers are present
       - terraform init
-      - terraform destroy -auto-approve
       # Apply the previously saved plan file
       - terraform apply -auto-approve
-      
+      - terraform destroy -auto-approve
