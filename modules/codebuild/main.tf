@@ -8,7 +8,7 @@ terraform {
   }
 }
 module "artifact_bucket" {
-  source     = "../s3"
+  source     = "../s3-no-prefix"
   stack_prefix = var.stack_prefix
   resource_use = "artifacts"
 }
@@ -26,12 +26,7 @@ resource "aws_codebuild_project" "codebuild" {
   service_role  = aws_iam_role.codebuild_role.arn
 
   artifacts {
-    type           = "S3"
-    location       = module.artifact_bucket.bucket.bucket
-    name           = var.output_artifact_name
-    namespace_type = "BUILD_ID"
-    packaging      = "ZIP"
-
+    type           = "NONE"
   }
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
