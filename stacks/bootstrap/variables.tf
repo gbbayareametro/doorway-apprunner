@@ -3,6 +3,11 @@ variable "pipeline_environment" {
     default = "dev"
   
 }
+variable "app_name" {
+    type = string
+    default = "dw"
+  
+}
 variable "infra_pipeline_envs" {
     type = list(string)
     default = [ "oneoff" ]
