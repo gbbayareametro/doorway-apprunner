@@ -22,7 +22,7 @@ phases:
     commands:
       # Verify the values of vars passed in via the project
       - echo "${TF_WORKSPACE}"
-      - cd ${CODEBUILD_SRC_DIR}
+      - cd ${CODEBUILD_SRC_DIR}/stacks/infra-pipeline
 
       - terraform workspace create doorway-infra
       # Have to init again to make sure providers are present
