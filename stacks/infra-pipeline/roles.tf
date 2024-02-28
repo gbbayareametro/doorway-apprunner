@@ -21,11 +21,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     effect = "Allow"
 
     actions = [
-      "s3:GetObject",
-      "s3:GetObjectVersion",
-      "s3:GetBucketVersioning",
-      "s3:PutObjectAcl",
-      "s3:PutObject",
+      "s3:*",
     ]
 
     resources = [
@@ -44,8 +40,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     effect = "Allow"
 
     actions = [
-      "codebuild:BatchGetBuilds",
-      "codebuild:StartBuild",
+      "codestar_connection:*",
     ]
 
     resources = [module.dev_db_build.build_arn]
