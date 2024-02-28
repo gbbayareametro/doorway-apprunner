@@ -26,6 +26,15 @@ data "aws_iam_policy_document" "codebuild-access" {
 
     resources = ["*"]
   }
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "codestar-connection:*",
+    ]
+
+    resources = ["*"]
+  }
 
   statement {
     effect = "Allow"
@@ -48,10 +57,7 @@ data "aws_iam_policy_document" "codebuild-access" {
 
   statement {
     effect  = "Allow"
-    actions = ["s3:CreateBucket",
-    "s3:GetObject",
-    "s3:List*",
-    "s3:PutObject"]
+    actions = ["s3:*"]
     resources = [
       module.log_bucket.bucket.arn,
       "${module.log_bucket.bucket.arn}/*",
