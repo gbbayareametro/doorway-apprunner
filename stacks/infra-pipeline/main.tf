@@ -41,6 +41,7 @@ module "dev_db_build" {
   resource_use                = "db"
   buildspec = "./stacks/infra-pipeline/buildspec.yaml"
   environment_variables = [{name:"TF_WORKSPACE", value:local.stack_prefix}]
+  log_bucket_arn = module.log_bucket.arn
 
   allowed_aws_actions = ["rds:*", "ec2:*", "ssm:*", "secretsmanager:*", "kms:*"]
 }
