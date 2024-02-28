@@ -28,5 +28,5 @@ phases:
       # Have to init again to make sure providers are present
       - terraform init
       # Apply the previously saved plan file
-      - terraform apply -auto-approve
+      - terraform apply -auto-approve -var-file ./oneoff.tfvars
       - terraform destroy -auto-approve
