@@ -12,7 +12,7 @@ terraform {
   }
 }
 provider "aws" {
-  region = module.global.default_aws_region
+  region = "us-west-2"
 }
 
 locals {
@@ -40,7 +40,7 @@ module "dev_db_build" {
   artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
   resource_use                = "db"
   buildspec = "./stacks/infra-pipeline/buildspec.yaml"
-  environment_variables = [{"TF_WORKSPACE":local.stack_prefix}]
+  environment_variables = [{name:"TF_WORKSPACE", value:local.stack_prefix}]
 
   allowed_aws_actions = ["rds:*", "ec2:*", "ssm:*", "secretsmanager:*", "kms:*"]
 }
