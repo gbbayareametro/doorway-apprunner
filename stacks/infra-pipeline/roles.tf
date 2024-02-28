@@ -29,8 +29,8 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     ]
 
     resources = [
-      aws_s3_bucket.artifact_bucket.arn,
-      "${aws_s3_bucket.artifact_bucket.arn}/*"
+      module.artifact_bucket.arn,
+      "${module.artifact_bucket.arn}/*"
     ]
   }
 

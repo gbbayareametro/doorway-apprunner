@@ -24,7 +24,7 @@ phases:
       - echo "${TF_WORKSPACE}"
       - cd ${CODEBUILD_SRC_DIR}/stacks/infra-pipeline
 
-      - terraform workspace create doorway-infra
+      - terraform workspace select -or-create doorway-oneoff-infra
       # Have to init again to make sure providers are present
       - terraform init
       # Apply the previously saved plan file

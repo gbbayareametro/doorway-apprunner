@@ -50,3 +50,7 @@ variable "log_bucket" {
     description = "name of the log bucket being passed by the pipeline"
   
 }
+variable "log_bucket_arn" {
+    type = string
+    description = "arn of the log bucket being passed by the pipeline"
+}
