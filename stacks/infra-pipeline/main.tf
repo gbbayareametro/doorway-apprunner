@@ -39,6 +39,8 @@ module "dev_db_build" {
   stack_prefix                = "${var.app_name}-dev-db"
   artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
   resource_use                = "db"
+  buildspec = "./stacks/infra-pipeline/buildspec.yaml"
+  environment_variables = [{"TF_WORKSPACE":local.stack_prefix}]
 
   allowed_aws_actions = ["rds:*", "ec2:*", "ssm:*", "secretsmanager:*", "kms:*"]
 }
