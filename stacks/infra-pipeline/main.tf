@@ -34,7 +34,7 @@ resource "aws_codestarconnections_connection" "github" {
 }
 module "dev_db_build" {
   source                      = "../../modules/codebuild"
-  log_bucket                  = module.log_bucket.bucket
+  log_bucket                  = module.log_bucket.bucket.name
   description                 = "Creates the database for ${local.stack_prefix}"
   stack_prefix                = "${var.app_name}-dev-db"
   artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
@@ -49,7 +49,7 @@ resource "aws_codepipeline" "infra-pipeline" {
   role_arn = aws_iam_role.codepipeline_role.arn
   name     = local.stack_prefix
   artifact_store {
-    location = module.artifact_bucket.bucket
+    location = module.artifact_bucket.bucket.name
     type     = "S3"
     encryption_key {
       id   = module.artifact_bucket.encryption_key_arn
