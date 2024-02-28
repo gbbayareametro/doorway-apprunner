@@ -1,5 +1,5 @@
 resource "aws_iam_role" "codebuild_role" {
-  name               = "codebuild_role"
+  name               = "${var.stack_prefix}-codebuild"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 data "aws_iam_policy_document" "assume_role" {

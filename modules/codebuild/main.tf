@@ -1,17 +1,6 @@
 
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-}
-module "artifact_bucket" {
-  source     = "../s3-no-prefix"
-  stack_prefix = var.stack_prefix
-  resource_use = "artifacts"
-}
+
+
 module "log_bucket" {
   source     = "../s3"
   stack_prefix = var.stack_prefix
@@ -22,11 +11,12 @@ module "log_bucket" {
 resource "aws_codebuild_project" "codebuild" {
   name          = "${var.stack_prefix}-cb-${var.resource_use}"
   description   = var.description
-  build_timeout = 5
+  build_timeout = var.build_timeout
   service_role  = aws_iam_role.codebuild_role.arn
+  encryption_key = var.artifact_encryption_key_arn
 
   artifacts {
-    type           = "NONE"
+    type           = "CODEPIPELINE"
   }
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
@@ -42,6 +32,10 @@ resource "aws_codebuild_project" "codebuild" {
 
     }
   }
+  source {
+    type = "CODEPIPELINE"
+    buildspec = var.buildspec
+  }
 
   logs_config {
     cloudwatch_logs {
@@ -51,19 +45,8 @@ resource "aws_codebuild_project" "codebuild" {
 
     s3_logs {
       status   = "ENABLED"
-      location = "${module.log_bucket.bucket.bucket}/logs"
+      location = "${var.log_bucket}/${var.stack_prefix}-cb-logs"
     }
   }
-
-  source {
-    type     = "GITHUB"
-    location = var.github_repo
-    git_clone_depth = 0
-    buildspec = var.buildspec
-  
-  }
-
-  source_version = "main"
-
   tags = var.default_tags
 }
