@@ -69,7 +69,7 @@ resource "aws_codebuild_project" "codebuild" {
 
     s3_logs {
       status   = "ENABLED"
-      location = "${module.log_bucket.bucket.bucket}/logs"
+      location = "${module.log_bucket.arn}/logs"
     }
   }
 
