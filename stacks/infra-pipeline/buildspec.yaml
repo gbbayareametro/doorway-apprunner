@@ -23,10 +23,9 @@ phases:
       # Verify the values of vars passed in via the project
       - echo "${TF_WORKSPACE}"
       - cd ${CODEBUILD_SRC_DIR}/stacks/infra-pipeline
-
-      - terraform workspace select -or-create=true  doorway-oneoff-infra
       # Have to init again to make sure providers are present
       - terraform init
+      - terraform workspace select -or-create=true  doorway-oneoff-infra
       # Apply the previously saved plan file
       - terraform apply -auto-approve -var-file ./oneoff.tfvars
       - terraform destroy -auto-approve -var-file ./oneoff.tfvars
