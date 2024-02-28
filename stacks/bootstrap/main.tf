@@ -7,7 +7,7 @@ terraform {
   }
 }
 locals {
-  workspace = "${var.pipeline_environment}-bootstrap"
+  workspace = "${var.app_name}-${var.pipeline_environment}-bootstrap"
   allowed_aws_actions = [
     "ec2:CreateNetworkInterface",
     "ec2:DescribeDhcpOptions",
@@ -37,14 +37,23 @@ module "log_bucket" {
   stack_prefix = local.workspace
   resource_use = "bld-logs"
 }
+module "artifact_bucket" {
+  source       = "../../modules/s3-no-prefix"
+  stack_prefix = local.workspace
+  resource_use = "artifacts"
+}
 resource "aws_codebuild_project" "codebuild" {
   name          = local.workspace
   description   = "Inital Doorway Application Delivery Bootstrap for ${var.pipeline_environment}"
   build_timeout = 60
   service_role  = aws_iam_role.codebuild_role.arn
+  encryption_key = module.artifact_bucket.encryption_key_arn
 
   artifacts {
-    type = "NO_ARTIFACTS"
+    type = "S3"
+    location = module.artifact_bucket.bucket
+    path = "/"
+
   }
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"

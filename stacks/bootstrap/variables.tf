@@ -6,7 +6,6 @@ variable "pipeline_environment" {
 variable "app_name" {
     type = string
     default = "dw"
-  
 }
 variable "infra_pipeline_envs" {
     type = list(string)
