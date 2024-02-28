@@ -1,16 +1,4 @@
-terraform {
-  required_version = ">= 1.3"
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = "3.6.0"
-    }
-  }
-}
+
 provider "aws" {
   region = "us-west-2"
 }
@@ -19,7 +7,7 @@ locals {
   stack_prefix = "${var.pipeline_environment}-pipeline"
 }
 module "artifact_bucket" {
-  source       = "../../modules/s3"
+  source       = "../../modules/s3-no-prefix"
   stack_prefix = local.stack_prefix
   resource_use = "artifacts"
 }
