@@ -40,7 +40,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     effect = "Allow"
 
     actions = [
-      "codestar_connections:*",
+      "codestar-connections:*",
     ]
 
     resources = [module.dev_db_build.build_arn]
