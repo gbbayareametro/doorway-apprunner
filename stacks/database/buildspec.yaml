@@ -30,4 +30,4 @@ phases:
       - terraform destroy -auto-approve
 
       # Apply the previously saved plan file
-      - terraform apply -auto-approve
+    #  - terraform apply -auto-approve
