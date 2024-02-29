@@ -44,17 +44,11 @@ data "aws_iam_policy_document" "codepipeline_policy" {
   }
   statement {
     effect = "Allow"
-    actions = [
-      "codebuild:*",
-    ]
-    resources = [module.dev_db_build.build_arn]
-  }
-  statement {
-    effect = "Allow"
-    actions = [
-      "codebuild:StartBuild",
-    ]
-    resources = [module.dev_db_build.build_arn]
+    actions = ["sts:AssumeRole"]
+    principals {
+      type = "Service"
+      identifiers = ["codebuild.amazonaws.com"]
+    }
   }
   statement {
     effect = "Allow"
