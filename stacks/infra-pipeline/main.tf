@@ -26,7 +26,7 @@ module "dev_db_build" {
   stack_prefix                = "${var.app_name}-dev-db"
   artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
   resource_use                = "db"
-  buildspec = "./stacks/infra-pipeline/buildspec.yaml"
+  buildspec = "./stacks/database/buildspec.yaml"
   environment_variables = [{name:"TF_WORKSPACE", value:local.stack_prefix}]
   log_bucket_arn = module.log_bucket.arn
 
