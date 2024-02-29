@@ -22,7 +22,7 @@ phases:
     commands:
       # Verify the values of vars passed in via the project
       - echo "${TF_WORKSPACE}"
-      - cd ${CODEBUILD_SRC_DIR}/modules/database
+      - cd ${CODEBUILD_SRC_DIR}/stacks/database
       # Have to init again to make sure providers are present
       #- terraform workspace select -or-create=true  dw-oneoff-db
       - terraform init
