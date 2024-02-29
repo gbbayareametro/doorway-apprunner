@@ -1,21 +1,21 @@
-
-
-resource "aws_iam_role" "codepipeline_role" {
-  name               = "${local.stack_prefix}-pipeline-role"
-  assume_role_policy = data.aws_iam_policy_document.assume_role.json
-}
 data "aws_iam_policy_document" "assume_role" {
   statement {
     effect = "Allow"
 
     principals {
       type        = "Service"
-      identifiers = ["codebuild.amazonaws.com"]
+      identifiers = ["codepipeline.amazonaws.com"]
     }
 
     actions = ["sts:AssumeRole"]
   }
 }
+
+resource "aws_iam_role" "codepipeline_role" {
+  name               = "${local.stack_prefix}-pipeline-role"
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+}
+
 data "aws_iam_policy_document" "codepipeline_policy" {
   statement {
     effect = "Allow"
@@ -41,6 +41,20 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "codestar-connections:*",
     ]
     resources = ["*"]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
+      "codebuild:*",
+    ]
+    resources = [module.dev_db_build.build_arn]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
+      "codebuild:StartBuild",
+    ]
+    resources = [module.dev_db_build.build_arn]
   }
   statement {
     effect = "Allow"
