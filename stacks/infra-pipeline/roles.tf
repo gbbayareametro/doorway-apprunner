@@ -40,7 +40,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     actions = [
       "codestar-connections:*",
     ]
-    resources = [*]
+    resources = ["*"]
   }
   statement {
     effect = "Allow"
