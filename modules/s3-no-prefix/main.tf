@@ -1,16 +1,4 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-  backend "s3" {
-    bucket = "doorway-dev-bootstrap-codebuild-art20240222003151201900000001"
-    key    = "tfstate"
-    region = "us-west-2"
-  }
-}
+
 # NOTE: 
 # The default implementation of the S3 bucket will not have a lot of features turned on. 
 # The primary use case are things like log buckets so essentiall we will just be giving people 
