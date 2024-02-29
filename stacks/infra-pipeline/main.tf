@@ -16,8 +16,8 @@ module "log_bucket" {
   stack_prefix = local.stack_prefix
   resource_use = "logs"
 }
-resource "aws_codestarconnections_connection" "github" {
-  name          = "${local.stack_prefix}-github"
+data "aws_codestarconnections_connection" "github" {
+  name          = "doorway-github-connection"
   provider_type = "GitHub"
 }
 module "dev_db_build" {
@@ -55,7 +55,7 @@ resource "aws_codepipeline" "infra-pipeline" {
       output_artifacts = ["source"]
 
       configuration = {
-        ConnectionArn    = aws_codestarconnections_connection.github.arn
+        ConnectionArn    = data.aws_codestarconnections_connection.github.arn
         FullRepositoryId = var.source_repo
         BranchName       = var.source_branch
       }
