@@ -50,7 +50,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     actions = [
       "kms:*",
     ]
-    resources = [module.artifact_bucket.encryption_key_arn]
+    resources = ["*"]
   }
 }
 
