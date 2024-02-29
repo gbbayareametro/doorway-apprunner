@@ -27,7 +27,7 @@ module "dev_db_build" {
   artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
   resource_use                = "db"
   buildspec = "./stacks/database/buildspec.yaml"
-  environment_variables = [{name:"TF_WORKSPACE", value:"${var.app_name}-oneoff-db"]
+  environment_variables = [{name:"TF_WORKSPACE", value:"${var.app_name}-oneoff-db"}]
   log_bucket_arn = module.log_bucket.arn
 
   allowed_aws_actions = ["rds:*", "ec2:*", "ssm:*", "secretsmanager:*", "kms:*","s3:*"]
