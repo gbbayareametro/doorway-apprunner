@@ -72,7 +72,7 @@ resource "aws_codepipeline" "infra-pipeline" {
       version         = "1"
 
       configuration = {
-        ProjectName = "${var.app_name}-dev-db"
+        ProjectName = module.dev_db_build.name
       }
     }
   }
