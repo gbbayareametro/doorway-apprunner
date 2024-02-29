@@ -24,8 +24,9 @@ phases:
       - echo "${TF_WORKSPACE}"
       - cd ${CODEBUILD_SRC_DIR}/stacks/infra-pipeline
       # Have to init again to make sure providers are present
-      - terraform init
       - terraform workspace select -or-create=true  doorway-oneoff-db
+      - terraform init
+
       # Apply the previously saved plan file
       - terraform apply -auto-approve -var-file ./oneoff.tfvars
       #- terraform destroy -auto-approve -var-file ./oneoff.tfvars
