@@ -24,7 +24,7 @@ phases:
       - echo "${TF_WORKSPACE}"
       - cd ${CODEBUILD_SRC_DIR}/modules/database
       # Have to init again to make sure providers are present
-      - terraform workspace select -or-create=true  dw-oneoff-db
+      #- terraform workspace select -or-create=true  dw-oneoff-db
       - terraform init
       - terraform destroy -auto-approve
 
