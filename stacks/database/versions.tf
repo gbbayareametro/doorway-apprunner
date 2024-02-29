@@ -12,7 +12,7 @@ terraform {
     }
   }
    backend "s3" {
-    bucket         = "dw-dev-bootstrap-s3-artifacts"
+    bucket         = "oneoff-pipeline-s3-artifacts"
     key            = "terraform/terraform.tfstate"
     region         = "us-west-2"
     encrypt        = true
