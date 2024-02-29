@@ -42,8 +42,15 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     actions = [
       "codestar-connections:*",
     ]
-
     resources = [module.dev_db_build.build_arn]
+  }
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "kms:*",
+    ]
+    resources = [module.artifact_bucket.encryption_key_arn]
   }
 }
 
