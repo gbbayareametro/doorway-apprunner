@@ -18,7 +18,6 @@ module "log_bucket" {
 }
 data "aws_codestarconnections_connection" "github" {
   name          = "doorway-github-connection"
-  provider_type = "GitHub"
 }
 module "dev_db_build" {
   source                      = "../../modules/codebuild"
