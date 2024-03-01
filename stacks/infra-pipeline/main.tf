@@ -28,6 +28,7 @@ module "dev_db_build" {
   environment_variables       = [{ name : "TF_WORKSPACE", value : "${var.app_name}-oneoff-db" }]
   log_bucket_arn              = module.log_bucket.arn
   allowed_aws_actions         = ["rds:*", "ec2:*", "ssm:*", "secretsmanager:*", "kms:*", "s3:*", "iam:*"]
+  build_timeout               = 60
 }
 resource "aws_codepipeline" "infra-pipeline" {
   role_arn = aws_iam_role.codepipeline_role.arn
