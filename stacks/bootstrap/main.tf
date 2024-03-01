@@ -30,8 +30,6 @@ locals {
   buildspec             = "stacks/infra-pipeline/buildspec.yaml"
   default_tags          = { "App" = "Doorway", "Workspace" = local.workspace }
 }
-
-
 module "log_bucket" {
   source       = "../../modules/s3"
   stack_prefix = local.workspace
@@ -43,17 +41,15 @@ module "artifact_bucket" {
   resource_use = "artifacts"
 }
 resource "aws_codebuild_project" "codebuild" {
-  name          = local.workspace
-  description   = "Inital Doorway Application Delivery Bootstrap for ${var.pipeline_environment}"
-  build_timeout = 60
-  service_role  = aws_iam_role.codebuild_role.arn
+  name           = local.workspace
+  description    = "Inital Doorway Application Delivery Bootstrap for ${var.pipeline_environment}"
+  build_timeout  = 60
+  service_role   = aws_iam_role.codebuild_role.arn
   encryption_key = module.artifact_bucket.encryption_key_arn
-
   artifacts {
-    type = "S3"
+    type     = "S3"
     location = module.artifact_bucket.bucket
-    path = "/"
-
+    path     = "/"
   }
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
@@ -66,31 +62,24 @@ resource "aws_codebuild_project" "codebuild" {
         name  = environment_variable.key
         value = environment_variable.value
       }
-
     }
   }
-
   logs_config {
     cloudwatch_logs {
       group_name  = "${local.workspace}-cb-logs"
       stream_name = "${local.workspace}-cb-logs"
     }
-
     s3_logs {
       status   = "ENABLED"
       location = "${module.log_bucket.arn}/logs"
     }
   }
-
   source {
     type            = "GITHUB"
     location        = local.github_repo
     git_clone_depth = 0
     buildspec       = local.buildspec
-
   }
-
   source_version = "main"
-
-  tags = local.default_tags
+  tags           = local.default_tags
 }

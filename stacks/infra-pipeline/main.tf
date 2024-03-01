@@ -1,8 +1,6 @@
-
 provider "aws" {
   region = "us-west-2"
 }
-
 locals {
   stack_prefix = "${var.pipeline_environment}-pipeline"
 }
@@ -17,7 +15,7 @@ module "log_bucket" {
   resource_use = "logs"
 }
 data "aws_codestarconnections_connection" "github" {
-  name          = "doorway-github-connection"
+  name = "doorway-github-connection"
 }
 module "dev_db_build" {
   source                      = "../../modules/codebuild"
@@ -26,11 +24,10 @@ module "dev_db_build" {
   stack_prefix                = "${var.app_name}-dev-db"
   artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
   resource_use                = "db"
-  buildspec = "./stacks/database/buildspec.yaml"
-  environment_variables = [{name:"TF_WORKSPACE", value:"${var.app_name}-oneoff-db"}]
-  log_bucket_arn = module.log_bucket.arn
-
-  allowed_aws_actions = ["rds:*", "ec2:*", "ssm:*", "secretsmanager:*", "kms:*","s3:*","iam:*"]
+  buildspec                   = "./stacks/database/buildspec.yaml"
+  environment_variables       = [{ name : "TF_WORKSPACE", value : "${var.app_name}-oneoff-db" }]
+  log_bucket_arn              = module.log_bucket.arn
+  allowed_aws_actions         = ["rds:*", "ec2:*", "ssm:*", "secretsmanager:*", "kms:*", "s3:*", "iam:*"]
 }
 resource "aws_codepipeline" "infra-pipeline" {
   role_arn = aws_iam_role.codepipeline_role.arn
@@ -52,7 +49,6 @@ resource "aws_codepipeline" "infra-pipeline" {
       provider         = "CodeStarSourceConnection"
       version          = "1"
       output_artifacts = ["source"]
-
       configuration = {
         ConnectionArn    = data.aws_codestarconnections_connection.github.arn
         FullRepositoryId = var.source_repo
@@ -60,7 +56,6 @@ resource "aws_codepipeline" "infra-pipeline" {
       }
     }
   }
-
   stage {
     name = "Dev"
     action {
@@ -70,7 +65,6 @@ resource "aws_codepipeline" "infra-pipeline" {
       provider        = "CodeBuild"
       input_artifacts = ["source"]
       version         = "1"
-
       configuration = {
         ProjectName = module.dev_db_build.name
       }
