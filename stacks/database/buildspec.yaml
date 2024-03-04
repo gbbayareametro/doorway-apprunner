@@ -26,6 +26,7 @@ phases:
       - terraform init
 
       - terraform workspace select -or-create=true  ${WORKSPACE}
-      - terraform plan -var=stack_prefix=${WORKSPACE} -debug
+      - export TF_LOG=DEBUG
+      - terraform plan -var=stack_prefix=${WORKSPACE}
       # Apply the previously saved plan file
       - terraform apply -auto-approve -var=stack_prefix=${WORKSPACE}
