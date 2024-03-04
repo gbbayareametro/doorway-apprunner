@@ -2,7 +2,7 @@ provider "aws" {
   region = "us-west-2"
 }
 locals {
-  stack_prefix = "${var.pipeline_environment}-pipeline"
+  stack_prefix = "${var.app_name}-${var.pipeline_environment}-infra-pipeline"
 }
 module "artifact_bucket" {
   source       = "../../modules/s3-no-prefix"
