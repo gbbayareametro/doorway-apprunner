@@ -19,10 +19,10 @@ phases:
   build:
     commands:
       # Verify the values of vars passed in via the project
-      - echo "${TF_WORKSPACE}"
+      - echo "${WORKSPACE}"
       - cd ${CODEBUILD_SRC_DIR}/stacks/database
       # Have to init again to make sure providers are present
-      - terraform workspace select -or-create=true  ${TF_WORKSPACE}
+      - terraform workspace select -or-create=true  ${WORKSPACE}
       - terraform init
       # Apply the previously saved plan file
       - terraform apply -auto-approve

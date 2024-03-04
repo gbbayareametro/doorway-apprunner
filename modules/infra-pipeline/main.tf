@@ -27,7 +27,7 @@ module "db_build" {
   artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
   resource_use                = "database"
   buildspec                   = "./stacks/database/buildspec.yaml"
-  environment_variables = [{ name : "TF_WORKSPACE", value : "${var.app_name}-${each.value}-db" },
+  environment_variables = [{ name : "WORKSPACE", value : "${var.app_name}-${each.value}-db" },
   { name : "PIPELINE_ENV", value : var.pipeline_environment }]
   log_bucket_arn      = module.log_bucket.arn
   allowed_aws_actions = ["rds:*", "ec2:*", "ssm:*", "secretsmanager:*", "kms:*", "s3:*", "iam:*"]
