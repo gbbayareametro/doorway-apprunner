@@ -23,6 +23,7 @@ phases:
       - echo "${PIPELINE_ENV}"
       - cd ${CODEBUILD_SRC_DIR}/stacks/prod-pipeline
       # Have to init again to make sure providers are present
+      - terraform workspace select -or-create ${TF_WORKSPACE}
       - terraform init
 
       # Apply the previously saved plan file
