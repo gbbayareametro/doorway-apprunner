@@ -64,7 +64,7 @@ resource "aws_codepipeline" "infra-pipeline" {
   dynamic "stage" {
     for_each = toset(var.build_envs)
     content {
-      name = each.value
+      name = stage.key
       action {
         name            = "Database"
         category        = "Build"
@@ -73,7 +73,7 @@ resource "aws_codepipeline" "infra-pipeline" {
         input_artifacts = ["source"]
         version         = "1"
         configuration = {
-          ProjectName = "${var.app_name}-${each.key}-db-cb-database"
+          ProjectName = "${var.app_name}-${stage.key}-db-cb-database"
         }
       }
     }
