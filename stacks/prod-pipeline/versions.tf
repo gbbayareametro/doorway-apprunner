@@ -11,7 +11,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket     = "dw-prod-infra-pipeline-s3-artifacts"
+    bucket     = "dw-prod-bootstrap-s3-artifacts"
     key        = "terraform/terraform.tfstate"
     region     = "us-west-2"
     encrypt    = true
