@@ -24,6 +24,6 @@ phases:
       - cd ${CODEBUILD_SRC_DIR}/stacks/prod-pipeline
       # Have to init again to make sure providers are present
       - terraform init
-      - terraform workspace select -or-create=true  doorway-${PIPELINE_ENV}-infra
+
       # Apply the previously saved plan file
       - terraform apply -auto-approve
