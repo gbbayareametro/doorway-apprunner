@@ -27,7 +27,7 @@ locals {
   ]
   environment_variables = { "name" : "TF_WORKSPACE", "value" : local.workspace }
   github_repo           = "https://github.com/gbbayareametro/doorway-apprunner.git"
-  buildspec             = "stacks/infra-pipeline/buildspec.yaml"
+  buildspec             = "stacks/prod-pipeline/buildspec.yaml"
   default_tags          = { "App" = "Doorway", "Workspace" = local.workspace }
 }
 module "log_bucket" {
