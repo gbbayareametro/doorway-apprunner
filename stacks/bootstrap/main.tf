@@ -25,7 +25,7 @@ locals {
     "ec2:*",
     "secretsmanager:*"
   ]
-  environment_variables = { "TF_WORKSPACE" : local.workspace, "PIPELINE_ENV" : var.pipeline_environment }
+  environment_variables = { "WORKSPACE" : local.workspace, "PIPELINE_ENV" : var.pipeline_environment }
   github_repo           = "https://github.com/gbbayareametro/doorway-apprunner.git"
   buildspec             = "stacks/prod-pipeline/buildspec.yaml"
   default_tags          = { "App" = "Doorway", "Workspace" = local.workspace }

@@ -19,11 +19,11 @@ phases:
   build:
     commands:
       # Verify the values of vars passed in via the project
-      - echo "${TF_WORKSPACE}"
+      - echo "${WORKSPACE}"
       - echo "${PIPELINE_ENV}"
       - cd ${CODEBUILD_SRC_DIR}/stacks/prod-pipeline
       # Have to init again to make sure providers are present
-      - terraform workspace select -or-create ${TF_WORKSPACE}
+      - terraform workspace select -or-create ${WORKSPACE}
       - terraform init
 
       # Apply the previously saved plan file
