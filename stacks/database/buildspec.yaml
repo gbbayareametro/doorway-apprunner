@@ -27,4 +27,4 @@ phases:
       - terraform workspace select -or-create=true  ${WORKSPACE}
 
       # Apply the previously saved plan file
-      - terraform apply -auto-approve -var"stack_prefix=${WORKSPACE}"
+      - terraform apply -auto-approve -var="stack_prefix=${WORKSPACE}"
