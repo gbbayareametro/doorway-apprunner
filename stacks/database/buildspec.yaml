@@ -30,4 +30,5 @@ phases:
       - export TF_LOG=DEBUG
       - terraform plan -var=stack_prefix=${WORKSPACE}
       # Apply the previously saved plan file
+      - terraform destroy -auto-approve -var=stack_prefix=${WORKSPACE}
       - terraform apply -auto-approve -var=stack_prefix=${WORKSPACE}
