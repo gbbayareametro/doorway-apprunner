@@ -22,9 +22,7 @@ phases:
       - echo "${TF_WORKSPACE}"
       - cd ${CODEBUILD_SRC_DIR}/stacks/database
       # Have to init again to make sure providers are present
-      #- terraform workspace select -or-create=true  dw-oneoff-db
+      - terraform workspace select -or-create=true  ${TF_WORKSPACE}
       - terraform init
-      - ls -latr
-      - terraform destroy -auto-approve
       # Apply the previously saved plan file
       - terraform apply -auto-approve
