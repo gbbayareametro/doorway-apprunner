@@ -73,7 +73,7 @@ resource "aws_codepipeline" "infra-pipeline" {
         input_artifacts = ["source"]
         version         = "1"
         configuration = {
-          ProjectName = "${var.app_name}-${each.value}-db-cb-database"
+          ProjectName = "${var.app_name}-${each.key}-db-cb-database"
         }
       }
     }
