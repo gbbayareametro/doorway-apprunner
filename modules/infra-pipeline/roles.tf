@@ -35,19 +35,27 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     ]
     resources = ["*"]
   }
-  statement {
-    effect = "Allow"
-    actions = [
-      "codebuild:*",
-    ]
-    resources = [module.dev_db_build.build_arn]
+  dynamic "statement" {
+    for_each = toset(var.build_envs)
+    content {
+      effect = "Allow"
+      actions = [
+        "codebuild:*",
+      ]
+      resources = [module.db_build[each.key].build_arn]
+    }
   }
-  statement {
-    effect = "Allow"
-    actions = [
-      "codebuild:StartBuild",
-    ]
-    resources = [module.dev_db_build.build_arn]
+  dynamic "statement" {
+    for_each = toset(var.build_envs)
+    content {
+      effect = "Allow"
+      actions = [
+        "codebuild:StartBuild",
+      ]
+      resources = [module.db_build[each.key].build_arn]
+
+    }
+
   }
   statement {
     effect = "Allow"
