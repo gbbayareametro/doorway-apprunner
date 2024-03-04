@@ -21,7 +21,7 @@ phases:
       # Verify the values of vars passed in via the project
       - echo "${WORKSPACE}"
       - echo ${STACK_PREFIX}
-      - cd ${CODEBUILD_SRC_DIR}/modules/database
+      - cd ${CODEBUILD_SRC_DIR}/stacks/database
       # Have to init again to make sure providers are present
       - terraform init
       - export TF_VAR_stack_prefix=${WORKSPACE}
