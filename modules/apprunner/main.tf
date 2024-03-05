@@ -1,31 +1,39 @@
-terraform {
-  required_version = ">= 1.3"
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5"
-    }
-  }
-}
-provider "aws" {
-  region = var.aws_region
-  default_tags { tags = var.default_tags }
+
+resource "aws_apprunner_connection" "github" {
+  connection_name = "${var.stack_prefix}-gh"
+  provider_type   = "GITHUB"
+
+  tags = var.default_tags
 }
 resource "aws_apprunner_service" "service" {
-  service_name = var.service_name
+  service_name = "${var.stack_prefix}-${var.resource_use}"
   source_configuration {
-    image_repository {
-      image_configuration {
-        port = "80"
-      }
-      image_identifier      = "public.ecr.aws/nginx/nginx:stable-perl"
-      image_repository_type = "ECR_PUBLIC"
+    authentication_configuration {
+      connection_arn = aws_apprunner_connection.example.arn
     }
-    auto_deployments_enabled = false
+    auto_deployments_enabled = var.autodeploy
+    code_repository {
+      code_configuration {
+        code_configuration_values {
+          build_command = var.build_command
+          port          = var.http_port
+          runtime       = var.runtime
+          start_command = var.start_command
+        }
+        configuration_source = "API"
+      }
+      repository_url   = var.github_repo
+      source_directory = var.source_directory
+      source_code_version {
+        type  = "BRANCH"
+        value = "main"
+      }
+    }
   }
+  tags = var.default_tags
 }
 resource "aws_apprunner_custom_domain_association" "domain" {
-  domain_name          = "apprunner.housingbayarea.mtc.ca.gov"
+  domain_name          = var.domain_name
   service_arn          = aws_apprunner_service.service.arn
   enable_www_subdomain = false
 }

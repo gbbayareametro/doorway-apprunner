@@ -27,7 +27,6 @@ phases:
       - export TF_VAR_stack_prefix=${WORKSPACE}
 
       - terraform workspace select -or-create=true  ${WORKSPACE}
-      - export TF_LOG=DEBUG
       - terraform plan -var=stack_prefix=${WORKSPACE}
       # Apply the previously saved plan file
       - terraform destroy -auto-approve -var=stack_prefix=${WORKSPACE}

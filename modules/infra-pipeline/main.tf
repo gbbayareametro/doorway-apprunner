@@ -1,6 +1,4 @@
-provider "aws" {
-  region = "us-west-2"
-}
+
 locals {
   stack_prefix = "${var.app_name}-${var.pipeline_environment}-infra-pipeline"
 }
