@@ -14,7 +14,7 @@ resource "aws_codebuild_project" "codebuild" {
   }
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
+    image                       = var.build_image_url
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
     dynamic "environment_variable" {

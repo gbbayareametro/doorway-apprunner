@@ -52,3 +52,8 @@ variable "log_bucket_arn" {
   type        = string
   description = "arn of the log bucket being passed by the pipeline"
 }
+variable "build_image_url" {
+  type    = string
+  default = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
+
+}

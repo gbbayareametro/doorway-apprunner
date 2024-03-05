@@ -1,2 +1,16 @@
 .terraform*
 terraform.tfstate*
+node_modules/.package-lock.json
+node_modules/.bin/yarn
+node_modules/.bin/yarnpkg
+node_modules/yarn/LICENSE
+node_modules/yarn/package.json
+node_modules/yarn/preinstall.js
+node_modules/yarn/README.md
+node_modules/yarn/bin/yarn
+node_modules/yarn/bin/yarn.cmd
+node_modules/yarn/bin/yarn.js
+node_modules/yarn/bin/yarnpkg
+node_modules/yarn/bin/yarnpkg.cmd
+node_modules/yarn/lib/cli.js
+node_modules/yarn/lib/v8-compile-cache.js

@@ -46,16 +46,32 @@ resource "aws_codepipeline" "infra-pipeline" {
   stage {
     name = "Source"
     action {
-      name             = "Source"
+      name             = "InfraSource"
       category         = "Source"
       owner            = "AWS"
       provider         = "CodeStarSourceConnection"
       version          = "1"
-      output_artifacts = ["source"]
+      output_artifacts = ["infra-source"]
       configuration = {
         ConnectionArn    = data.aws_codestarconnections_connection.github.arn
-        FullRepositoryId = var.source_repo
-        BranchName       = var.source_branch
+        FullRepositoryId = var.infra_source_repo
+        BranchName       = var.infra_source_branch
+      }
+    }
+  }
+  stage {
+    name = "Source"
+    action {
+      name             = "DoorwaySource"
+      category         = "Source"
+      owner            = "AWS"
+      provider         = "CodeStarSourceConnection"
+      version          = "1"
+      output_artifacts = ["doorway-source"]
+      configuration = {
+        ConnectionArn    = data.aws_codestarconnections_connection.github.arn
+        FullRepositoryId = var.doorway_source_repo
+        BranchName       = var.doorway_source_branch
       }
     }
   }
@@ -68,7 +84,7 @@ resource "aws_codepipeline" "infra-pipeline" {
         category        = "Build"
         owner           = "AWS"
         provider        = "CodeBuild"
-        input_artifacts = ["source"]
+        input_artifacts = ["infra-source"]
         version         = "1"
         configuration = {
           ProjectName = "${var.app_name}-${stage.key}-db-cb-database"
