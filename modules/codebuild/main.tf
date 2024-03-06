@@ -13,9 +13,9 @@ resource "aws_codebuild_project" "codebuild" {
     type = "CODEPIPELINE"
   }
   environment {
-    compute_type                = "BUILD_GENERAL1_SMALL"
+    compute_type                = var.compute_type
     image                       = var.build_image_url
-    type                        = "LINUX_CONTAINER"
+    type                        = var.environment_type
     image_pull_credentials_type = "CODEBUILD"
     dynamic "environment_variable" {
       for_each = var.environment_variables

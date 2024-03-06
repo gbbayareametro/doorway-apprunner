@@ -57,3 +57,14 @@ variable "build_image_url" {
   default = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
 
 }
+variable "environment_type" {
+  type    = string
+  default = "LINUX_CONTAINER"
+
+}
+variable "compute_type" {
+  type    = string
+  default = "BUILD_GENERAL1_SMALL"
+
+
+}
