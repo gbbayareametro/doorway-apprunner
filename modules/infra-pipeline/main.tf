@@ -18,7 +18,7 @@ data "aws_codestarconnections_connection" "github" {
 
 module "db_build" {
   for_each                    = toset(var.build_envs)
-  source                      = "../../modules/codebuild"
+  source                      = "../codebuild"
   log_bucket                  = module.log_bucket.bucket
   description                 = "Creates the database for ${local.stack_prefix}"
   stack_prefix                = "${var.app_name}-${each.value}-db"
@@ -30,6 +30,16 @@ module "db_build" {
   log_bucket_arn      = module.log_bucket.arn
   allowed_aws_actions = ["rds:*", "ec2:*", "ssm:*", "secretsmanager:*", "kms:*", "s3:*", "iam:*"]
   build_timeout       = 60
+}
+module "db_migrator" {
+  for_each                    = toset(var.build_envs)
+  source                      = "../db_migrator"
+  stack_prefix                = "${var.app_name}-${each.value}-db-migration"
+  log_bucket                  = module.log_bucket.bucket
+  log_bucket_arn              = module.log_bucket.arn
+  artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
+
+
 }
 resource "aws_codepipeline" "infra-pipeline" {
   role_arn = aws_iam_role.codepipeline_role.arn
