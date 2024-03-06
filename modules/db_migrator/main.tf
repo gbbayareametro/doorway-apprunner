@@ -4,9 +4,9 @@ module "db_migrator_job" {
   log_bucket_arn              = var.log_bucket_arn
   stack_prefix                = var.stack_prefix
   description                 = "Runs Db Migration for Doorway"
-  allowed_aws_actions         = []
+  allowed_aws_actions         = ["secretsmanager:*"]
   resource_use                = "migration"
   artifact_encryption_key_arn = var.artifact_encryption_key_arn
-  environment_variables       = ["secretsmanager:*"]
+  environment_variables       = []
   build_image_url             = "aws/codebuild/amazonlinux-aarch64-lambda-standard:nodejs18"
 }
