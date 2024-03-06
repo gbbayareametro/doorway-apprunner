@@ -57,10 +57,8 @@ resource "aws_codepipeline" "infra-pipeline" {
         FullRepositoryId = var.infra_source_repo
         BranchName       = var.infra_source_branch
       }
+
     }
-  }
-  stage {
-    name = "Source"
     action {
       name             = "DoorwaySource"
       category         = "Source"
@@ -75,6 +73,7 @@ resource "aws_codepipeline" "infra-pipeline" {
       }
     }
   }
+
   dynamic "stage" {
     for_each = toset(var.build_envs)
     content {
