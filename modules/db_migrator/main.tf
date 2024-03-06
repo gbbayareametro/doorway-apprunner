@@ -7,6 +7,6 @@ module "db_migrator_job" {
   allowed_aws_actions         = []
   resource_use                = "migration"
   artifact_encryption_key_arn = var.artifact_encryption_key_arn
-  environment_variables       = []
+  environment_variables       = ["secretsmanager:*"]
   build_image_url             = "aws/codebuild/amazonlinux-aarch64-lambda-standard:nodejs18"
 }

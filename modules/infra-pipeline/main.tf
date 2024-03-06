@@ -40,6 +40,7 @@ module "db_migrator" {
   artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
 
 
+
 }
 resource "aws_codepipeline" "infra-pipeline" {
   role_arn = aws_iam_role.codepipeline_role.arn
@@ -97,6 +98,17 @@ resource "aws_codepipeline" "infra-pipeline" {
         version         = "1"
         configuration = {
           ProjectName = "${var.app_name}-${stage.key}-db-cb-database"
+        }
+      }
+      action {
+        name            = "DatabaseMigration"
+        category        = "Build"
+        owner           = "AWS"
+        provider        = "CodeBuild"
+        input_artifacts = ["doorway-source"]
+        version         = "1"
+        configuration = {
+          ProjectName = "${var.app_name}-${stage.key}-db-cb-db-migration"
         }
       }
     }
