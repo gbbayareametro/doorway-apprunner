@@ -42,7 +42,8 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       actions = [
         "codebuild:*",
       ]
-      resources = [module.db_build[statement.key].build_arn]
+      resources = [module.db_build[statement.key].build_arn,
+      module.db_migrator[statement.key].build_arn]
     }
   }
   dynamic "statement" {
@@ -52,7 +53,8 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       actions = [
         "codebuild:StartBuild",
       ]
-      resources = [module.db_build[statement.key].build_arn]
+      resources = [module.db_build[statement.key].build_arn,
+      module.db_migrator[statement.key].build_arn]
 
     }
 
