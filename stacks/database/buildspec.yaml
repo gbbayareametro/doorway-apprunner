@@ -29,5 +29,5 @@ phases:
       - terraform workspace select -or-create=true  ${WORKSPACE}
       - terraform plan -var=stack_prefix=${WORKSPACE}
       # Apply the previously saved plan file
-      - terraform destroy -auto-approve -var=stack_prefix=${WORKSPACE}
+     # - terraform destroy -auto-approve -var=stack_prefix=${WORKSPACE}
       - terraform apply -auto-approve -var=stack_prefix=${WORKSPACE}
