@@ -34,13 +34,10 @@ module "db_build" {
 module "db_migrator" {
   for_each                    = toset(var.build_envs)
   source                      = "../db_migrator"
-  stack_prefix                = "${var.app_name}-${each.value}-db-migration"
+  stack_prefix                = "${var.app_name}-${each.value}-db-migrator"
   log_bucket                  = module.log_bucket.bucket
   log_bucket_arn              = module.log_bucket.arn
   artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
-
-
-
 }
 resource "aws_codepipeline" "infra-pipeline" {
   role_arn = aws_iam_role.codepipeline_role.arn
