@@ -44,7 +44,8 @@ resource "aws_codebuild_project" "codebuild" {
     for_each = toset(var.secondary_sources)
     content {
       type              = "GITHUB"
-      source_identifier = secondary_sources.key
+      location          = secondary_sources.key.source_location
+      source_identifier = secondary_sources.key.source_id
     }
 
   }

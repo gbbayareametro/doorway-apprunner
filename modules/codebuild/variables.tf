@@ -70,7 +70,7 @@ variable "compute_type" {
 
 }
 variable "secondary_sources" {
-  type    = list(string)
+  type    = list(map(string))
   default = []
 
 }

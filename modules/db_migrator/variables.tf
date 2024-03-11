@@ -17,7 +17,6 @@ variable "artifact_encryption_key_arn" {
   type = string
 }
 variable "secondary_sources" {
-  type    = list(string)
-  default = ["metrotranscom/doorway"]
-
+  type    = list(map(string))
+  default = [{ source_id = "doorway_source", source_location = "https://github.com/metrotranscom/doorway.git" }]
 }
