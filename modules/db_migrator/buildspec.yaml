@@ -10,12 +10,6 @@ env:
     # This var tells terraform to disable prompts for missing variables
     TF_INPUT: "false"
 phases:
-  install:
-    commands:
-      # Install terraform in /usr/bin
-      - cd /usr/bin
-      - curl -s -qL -o terraform.zip "https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip"
-      - unzip -o terraform.zip
   build:
     commands:
       # Verify the values of vars passed in via the project
