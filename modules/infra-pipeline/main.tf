@@ -104,7 +104,7 @@ resource "aws_codepipeline" "infra-pipeline" {
         input_artifacts = ["doorway-source"]
         version         = "1"
         configuration = {
-          ProjectName = module.db_module.db_migrator[var.build_envs[stage.key]].name
+          ProjectName = module.db_migrator[var.build_envs[stage.key]].name
         }
       }
     }
