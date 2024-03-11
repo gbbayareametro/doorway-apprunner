@@ -40,4 +40,12 @@ resource "aws_codebuild_project" "codebuild" {
     }
   }
   tags = var.default_tags
+  dynamic "secondary_sources" {
+    for_each = toset(var.secondary_sources)
+    content {
+      type              = "CODEPIPELINE"
+      source_identifier = each.value
+    }
+
+  }
 }

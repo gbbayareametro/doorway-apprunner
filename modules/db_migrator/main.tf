@@ -12,4 +12,5 @@ module "db_migrator_job" {
   environment_type            = "ARM_LAMBDA_CONTAINER"
   compute_type                = "BUILD_LAMBDA_1GB"
   buildspec                   = "./modules/db_migrator/buildspec.yaml"
+  secondary_sources           = var.secondary_sources
 }

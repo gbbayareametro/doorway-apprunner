@@ -16,3 +16,8 @@ variable "name" {
 variable "artifact_encryption_key_arn" {
   type = string
 }
+variable "secondary_sources" {
+  type    = list(string)
+  default = ["doorway-source"]
+
+}
