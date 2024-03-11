@@ -84,7 +84,7 @@ resource "aws_codepipeline" "infra-pipeline" {
   dynamic "stage" {
     for_each = var.build_envs
     content {
-      name = stage.key
+      name = stage.value
       action {
         name            = "Database"
         category        = "Build"
@@ -93,7 +93,7 @@ resource "aws_codepipeline" "infra-pipeline" {
         input_artifacts = ["infra-source"]
         version         = "1"
         configuration = {
-          ProjectName = "${var.app_name}-${stage.key}-database"
+          ProjectName = module.db_build[var.build_envs[stage.key]].name
         }
       }
       action {
@@ -104,7 +104,7 @@ resource "aws_codepipeline" "infra-pipeline" {
         input_artifacts = ["doorway-source"]
         version         = "1"
         configuration = {
-          ProjectName = module.db_migrator[stage.key].name
+          ProjectName = module.db_module.db_migrator[var.build_envs[stage.key]].name
         }
       }
     }
