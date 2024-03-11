@@ -44,7 +44,7 @@ resource "aws_codebuild_project" "codebuild" {
     for_each = toset(var.secondary_sources)
     content {
       type              = "CODEPIPELINE"
-      source_identifier = each.value
+      source_identifier = secondary_sources.key
     }
 
   }
