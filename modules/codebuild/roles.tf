@@ -57,6 +57,16 @@ data "aws_iam_policy_document" "codebuild-access" {
       "arn:aws:ssm:::parameter/CodeBuild/*"
     ]
   }
+  statement {
+    effect = "Allow"
+    actions = [
+      "kms:*"
+
+    ]
+    resources = [
+      "*"
+    ]
+  }
 }
 resource "aws_iam_role_policy" "codebuild_role_policy" {
   role   = aws_iam_role.codebuild_role.name
