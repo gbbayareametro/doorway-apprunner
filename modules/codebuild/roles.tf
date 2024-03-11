@@ -44,8 +44,7 @@ data "aws_iam_policy_document" "codebuild-access" {
       "s3:List*",
     "s3:PutObject"]
     resources = [
-      var.log_bucket_arn,
-      "${var.log_bucket_arn}/*",
+      "*"
     ]
   }
   statement {
