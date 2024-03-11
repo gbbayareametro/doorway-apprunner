@@ -36,7 +36,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     resources = ["*"]
   }
   dynamic "statement" {
-    for_each = toset(var.build_envs)
+    for_each = var.build_envs
     content {
       effect = "Allow"
       actions = [
@@ -47,7 +47,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     }
   }
   dynamic "statement" {
-    for_each = toset(var.build_envs)
+    for_each = var.build_envs
     content {
       effect = "Allow"
       actions = [

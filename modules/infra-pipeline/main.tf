@@ -82,7 +82,7 @@ resource "aws_codepipeline" "infra-pipeline" {
   }
 
   dynamic "stage" {
-    for_each = toset(var.build_envs)
+    for_each = var.build_envs
     content {
       name = stage.key
       action {
