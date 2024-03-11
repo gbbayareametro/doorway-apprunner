@@ -5,12 +5,12 @@ locals {
 module "artifact_bucket" {
   source       = "../../modules/s3-no-prefix"
   stack_prefix = local.stack_prefix
-  resource_use = "artifacts"
+  name         = "artifacts"
 }
 module "log_bucket" {
   source       = "../../modules/s3"
   stack_prefix = local.stack_prefix
-  resource_use = "logs"
+  name         = "logs"
 }
 data "aws_codestarconnections_connection" "github" {
   name = "doorway-github-connection"
@@ -21,9 +21,8 @@ module "db_build" {
   source                      = "../codebuild"
   log_bucket                  = module.log_bucket.bucket
   description                 = "Creates the database for ${local.stack_prefix}"
-  stack_prefix                = "${var.app_name}-${each.value}-db"
+  stack_prefix                = "${var.app_name}-${each.value}"
   artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
-  resource_use                = "database"
   buildspec                   = "./stacks/database/buildspec.yaml"
   environment_variables = [{ name : "WORKSPACE", value : "${var.app_name}-${each.value}-db" },
   { name : "PIPELINE_ENV", value : var.pipeline_environment }]
@@ -34,7 +33,7 @@ module "db_build" {
 module "db_migrator" {
   for_each                    = toset(var.build_envs)
   source                      = "../db_migrator"
-  stack_prefix                = "${var.app_name}-${each.value}-db-migrator"
+  stack_prefix                = "${var.app_name}-${each.value}"
   log_bucket                  = module.log_bucket.bucket
   log_bucket_arn              = module.log_bucket.arn
   artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
@@ -94,7 +93,7 @@ resource "aws_codepipeline" "infra-pipeline" {
         input_artifacts = ["infra-source"]
         version         = "1"
         configuration = {
-          ProjectName = "${var.app_name}-${stage.key}-db-cb-database"
+          ProjectName = "${var.app_name}-${stage.key}-database"
         }
       }
       action {
@@ -105,7 +104,7 @@ resource "aws_codepipeline" "infra-pipeline" {
         input_artifacts = ["doorway-source"]
         version         = "1"
         configuration = {
-          ProjectName = "${var.app_name}-${stage.key}-db-migration-cb-migration"
+          ProjectName = module.db_migrator[stage.key].name
         }
       }
     }

@@ -33,12 +33,12 @@ locals {
 module "log_bucket" {
   source       = "../../modules/s3"
   stack_prefix = local.workspace
-  resource_use = "bld-logs"
+  name         = "bld-logs"
 }
 module "artifact_bucket" {
   source       = "../../modules/s3-no-prefix"
   stack_prefix = local.workspace
-  resource_use = "artifacts"
+  name         = "artifacts"
 }
 resource "aws_codebuild_project" "codebuild" {
   name           = local.workspace

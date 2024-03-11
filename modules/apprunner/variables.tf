@@ -7,9 +7,10 @@ variable "default_tags" {
   default = { "Name" : "Doorway", }
 
 }
-variable "resource_use" {
+variable "name" {
   type        = string
   description = "One-word (usually) description of why this infra is being created. In the apprunner case its usually 'public','partner' or 'api'."
+  default     = "apprunner"
 
 }
 variable "github_repo" {
