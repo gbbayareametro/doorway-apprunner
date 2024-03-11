@@ -66,19 +66,6 @@ resource "aws_codepipeline" "infra-pipeline" {
       }
 
     }
-    action {
-      name             = "DoorwaySource"
-      category         = "Source"
-      owner            = "AWS"
-      provider         = "CodeStarSourceConnection"
-      version          = "1"
-      output_artifacts = ["doorway-source"]
-      configuration = {
-        ConnectionArn    = data.aws_codestarconnections_connection.github.arn
-        FullRepositoryId = var.doorway_source_repo
-        BranchName       = var.doorway_source_branch
-      }
-    }
   }
 
   dynamic "stage" {

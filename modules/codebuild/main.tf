@@ -43,7 +43,7 @@ resource "aws_codebuild_project" "codebuild" {
   dynamic "secondary_sources" {
     for_each = toset(var.secondary_sources)
     content {
-      type              = "CODEPIPELINE"
+      type              = "GITHUB"
       source_identifier = secondary_sources.key
     }
 

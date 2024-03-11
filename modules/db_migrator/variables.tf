@@ -18,6 +18,6 @@ variable "artifact_encryption_key_arn" {
 }
 variable "secondary_sources" {
   type    = list(string)
-  default = ["doorway-source"]
+  default = ["metrotranscom/doorway"]
 
 }
