@@ -11,4 +11,5 @@ module "db_migrator_job" {
   build_image_url             = "aws/codebuild/amazonlinux-aarch64-lambda-standard:nodejs18"
   environment_type            = "ARM_LAMBDA_CONTAINER"
   compute_type                = "BUILD_LAMBDA_1GB"
+  buildspec                   = "./modules/db_migrator/buildspec.yaml"
 }
