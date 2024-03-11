@@ -48,6 +48,16 @@ data "aws_iam_policy_document" "codebuild-access" {
       "${var.log_bucket_arn}/*",
     ]
   }
+  statement {
+    effect = "Allow"
+    actions = [
+      "ssm:getParameters"
+
+    ]
+    resources = [
+      "arn:aws:ssm:::parameter/CodeBuild/*"
+    ]
+  }
 }
 resource "aws_iam_role_policy" "codebuild_role_policy" {
   role   = aws_iam_role.codebuild_role.name
