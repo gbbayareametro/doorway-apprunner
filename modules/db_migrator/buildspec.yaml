@@ -21,7 +21,7 @@ phases:
       # Verify the values of vars passed in via the project
       - echo "${WORKSPACE}"
       - echo ${STACK_PREFIX}
-      - cd ${CODEBUILD_SRC_DIR_doorway-source}/backend/core
+      - cd ${CODEBUILD_SRC_DIR_doorway_source}/backend/core
       # Have to init again to make sure providers are present
       - npm install -G yarn
       - yarn install

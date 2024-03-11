@@ -88,7 +88,7 @@ resource "aws_codepipeline" "infra-pipeline" {
         category        = "Build"
         owner           = "AWS"
         provider        = "CodeBuild"
-        input_artifacts = ["infra-source", "doorway-source"]
+        input_artifacts = ["infra-source"]
         version         = "1"
         configuration = {
           ProjectName = module.db_migrator[var.build_envs[stage.key]].name
