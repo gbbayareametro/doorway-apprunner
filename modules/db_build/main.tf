@@ -8,7 +8,7 @@ module "db_build_job" {
   allowed_aws_actions         = ["rds:*", "ec2:*", "ssm:*", "secretsmanager:*", "kms:*", "s3:*", "iam:*"]
   name                        = var.name
   artifact_encryption_key_arn = var.artifact_encryption_key_arn
-  environment_variables       = [{ "SSM_PARM_ENCRYPTION_ID" : var.ssm_paraneter_encryption_key_id }]
+  environment_variables       = [{ name : "SSM_PARM_ENCRYPTION_ID", value : var.ssm_paraneter_encryption_key_id }]
   buildspec                   = var.buildspec
   secondary_sources           = var.secondary_sources
   build_timeout               = 60
