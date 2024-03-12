@@ -10,7 +10,7 @@ variable "stack_prefix" {
 }
 variable "name" {
   type    = string
-  default = "db-migrator"
+  default = "db-build"
 
 }
 variable "artifact_encryption_key_arn" {
