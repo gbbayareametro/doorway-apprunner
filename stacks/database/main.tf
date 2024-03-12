@@ -25,7 +25,7 @@ module "aurora_postgresql_v2" {
   engine_mode          = "provisioned"
   engine_version       = data.aws_rds_engine_version.postgresql.version
   storage_encrypted    = true
-  master_username      = "root"
+  master_username      = "doorway"
   vpc_id               = module.vpc.vpc_id
   db_subnet_group_name = module.vpc.database_subnet_group_name
   security_group_rules = {
@@ -65,4 +65,29 @@ module "vpc" {
   private_subnets  = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 3)]
   database_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 6)]
   tags             = local.tags
+}
+resource "aws_ssm_parameter" "db_url" {
+  name   = "/${var.stack_prefix}/db/url"
+  value  = module.aurora_postgresql_v2.cluster_arn
+  type   = "SecureString"
+  key_id = var.ssm_paraneter_encryption_key_id
+}
+resource "aws_ssm_parameter" "db_name" {
+  name   = "/${var.stack_prefix}/db/name"
+  value  = var.database_name
+  type   = "SecureString"
+  key_id = var.ssm_paraneter_encryption_key_id
+}
+resource "aws_ssm_parameter" "db_port" {
+  name   = "/${var.stack_prefix}/db/port"
+  value  = module.aurora_postgresql_v2.cluster_port
+  type   = "SecureString"
+  key_id = var.ssm_paraneter_encryption_key_id
+}
+
+resource "aws_ssm_parameter" "cluster_id" {
+  name   = "/${var.stack_prefix}/db/cluster_id"
+  value  = module.aurora_postgresql_v2.cluster_id
+  type   = "SecureString"
+  key_id = var.ssm_paraneter_encryption_key_id
 }

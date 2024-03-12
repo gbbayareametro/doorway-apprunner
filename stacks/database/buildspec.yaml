@@ -9,6 +9,7 @@ env:
     TF_IN_AUTOMATION: "true"
     # This var tells terraform to disable prompts for missing variables
     TF_INPUT: "false"
+
 phases:
   install:
     commands:
@@ -30,4 +31,4 @@ phases:
       - terraform plan -var=stack_prefix=${WORKSPACE}
       # Apply the previously saved plan file
      # - terraform destroy -auto-approve -var=stack_prefix=${WORKSPACE}
-      - terraform apply -auto-approve -var=stack_prefix=${WORKSPACE}
+      - terraform apply -auto-approve -var=stack_prefix=${WORKSPACE} -var=ssm_paraneter_encryption_key_id=${SSM_PARM_ENCRYPTION_ID}

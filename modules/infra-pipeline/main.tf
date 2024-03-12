@@ -15,20 +15,25 @@ module "log_bucket" {
 data "aws_codestarconnections_connection" "github" {
   name = "doorway-github-connection"
 }
+# trunk-ignore(checkov/CKV_TF_1): global terraform registry doesn't use commit hash versioning
+module "kms" {
+  for_each    = var.build_envs
+  source      = "terraform-aws-modules/kms/aws"
+  version     = "2.2.0"
+  description = "Encryption Key for${var.app_name}-${each.value} database parameters"
+}
+
 
 module "db_build" {
-  for_each                    = toset(var.build_envs)
-  source                      = "../codebuild"
-  log_bucket                  = module.log_bucket.bucket
-  description                 = "Creates the database for ${local.stack_prefix}"
-  stack_prefix                = "${var.app_name}-${each.value}"
-  artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
-  buildspec                   = "./stacks/database/buildspec.yaml"
-  environment_variables = [{ name : "WORKSPACE", value : "${var.app_name}-${each.value}-db" },
-  { name : "PIPELINE_ENV", value : var.pipeline_environment }]
-  log_bucket_arn      = module.log_bucket.arn
-  allowed_aws_actions = ["rds:*", "ec2:*", "ssm:*", "secretsmanager:*", "kms:*", "s3:*", "iam:*"]
-  build_timeout       = 60
+  for_each                        = toset(var.build_envs)
+  source                          = "../../modules/db_build"
+  log_bucket                      = module.log_bucket.bucket
+  stack_prefix                    = "${var.app_name}-${each.value}"
+  name                            = "db"
+  ssm_paraneter_encryption_key_id = module.kms[each.value].key_id
+  artifact_encryption_key_arn     = module.artifact_bucket.encryption_key_arn
+  buildspec                       = "./stacks/database/buildspec.yaml"
+  log_bucket_arn                  = module.log_bucket.arn
 }
 module "db_migrator" {
   for_each                    = toset(var.build_envs)

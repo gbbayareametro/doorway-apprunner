@@ -1,3 +1,7 @@
+data "aws_ssm_parameter" "cluster_id" {
+  name = "/${var.stack_prefix}/db/cluster_id"
+
+}
 module "db_migrator_job" {
   source                      = "../codebuild"
   log_bucket                  = var.log_bucket
@@ -7,7 +11,7 @@ module "db_migrator_job" {
   allowed_aws_actions         = ["secretsmanager:*"]
   name                        = var.name
   artifact_encryption_key_arn = var.artifact_encryption_key_arn
-  environment_variables       = []
+  environment_variables       = [{ "STACK_PREFIX" : var.stack_prefix }, { "DB_CREDS_ARN" : data.aws_ssm_parameter.cluster_id.value }]
   build_image_url             = "aws/codebuild/amazonlinux-aarch64-lambda-standard:nodejs18"
   environment_type            = "ARM_LAMBDA_CONTAINER"
   compute_type                = "BUILD_LAMBDA_1GB"

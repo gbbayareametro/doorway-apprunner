@@ -1,14 +1,15 @@
 version: 0.2
 env:
   shell: bash
-  variables:
-    # This var is used to define which version of terraform to use
-    # This can be overridden by passing a TF_VERSION var to the build
-    TF_VERSION: "1.7.4"
-    # This var tells terraform that we're running in a CI/CD pipeline
-    TF_IN_AUTOMATION: "true"
-    # This var tells terraform to disable prompts for missing variables
-    TF_INPUT: "false"
+  parameter-store:
+    PGDATABASE: "/${STACK_PREFIX}/db/name"
+    DATABASE_URL: "/${STACK_PREFIX}/db/url"
+    DATABASE_PORT: "/${STACK_PREFIX}/db/port"
+
+  secrets-manager:
+    PUSER: "${DB_CREDS_ARN}:username"
+    PGPASSWORD: "${DB_CREDS_ARN}:password"
+
 phases:
   build:
     commands:
@@ -19,5 +20,4 @@ phases:
       - cd ${CODEBUILD_SRC_DIR_doorway_source}/backend/core
       # Have to init again to make sure providers are present
 
-      - yarn install
-      - yarn build
+      - yarn db:migration:run
