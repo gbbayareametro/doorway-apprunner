@@ -11,7 +11,7 @@ module "db_migrator_job" {
   allowed_aws_actions         = ["secretsmanager:*"]
   name                        = var.name
   artifact_encryption_key_arn = var.artifact_encryption_key_arn
-  environment_variables       = [{ "STACK_PREFIX" : var.stack_prefix }, { "DB_CREDS_ARN" : data.aws_ssm_parameter.cluster_id.value }]
+  environment_variables       = [{ name : "STACK_PREFIX", value : var.stack_prefix }, { name : "DB_CREDS_ARN", value : data.aws_ssm_parameter.cluster_id.value }]
   build_image_url             = "aws/codebuild/amazonlinux-aarch64-lambda-standard:nodejs18"
   environment_type            = "ARM_LAMBDA_CONTAINER"
   compute_type                = "BUILD_LAMBDA_1GB"

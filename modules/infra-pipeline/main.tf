@@ -17,7 +17,7 @@ data "aws_codestarconnections_connection" "github" {
 }
 # trunk-ignore(checkov/CKV_TF_1): global terraform registry doesn't use commit hash versioning
 module "kms" {
-  for_each    = var.build_envs
+  for_each    = toset(var.build_envs)
   source      = "terraform-aws-modules/kms/aws"
   version     = "2.2.0"
   description = "Encryption Key for${var.app_name}-${each.value} database parameters"
