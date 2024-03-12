@@ -86,8 +86,8 @@ resource "aws_ssm_parameter" "db_port" {
 }
 
 resource "aws_ssm_parameter" "cluster_id" {
-  name   = "/${var.stack_prefix}/db/cluster_id"
-  value  = module.aurora_postgresql_v2.cluster_id
+  name   = "/${var.stack_prefix}/db/secrets"
+  value  = module.aurora_postgresql_v2.cluster_master_user_secret
   type   = "SecureString"
   key_id = var.ssm_paraneter_encryption_key_id
 }

@@ -5,10 +5,7 @@ env:
     PGDATABASE: "/${STACK_PREFIX}/db/name"
     DATABASE_URL: "/${STACK_PREFIX}/db/url"
     DATABASE_PORT: "/${STACK_PREFIX}/db/port"
-
-  secrets-manager:
-    PUSER: "${DB_CREDS_ARN}:username"
-    PGPASSWORD: "${DB_CREDS_ARN}:password"
+    DB_SECRETS: "/${STACK_PREFIX}/db/secrets"
 
 phases:
   build:
@@ -18,6 +15,7 @@ phases:
       - echo ${STACK_PREFIX}
       - npm install -G yarn
       - cd ${CODEBUILD_SRC_DIR_doorway_source}/backend/core
-      # Have to init again to make sure providers are present
-
+      # These two massive kludges parse an AWS secret to get the db login. I'm not thrilled with this and hoping I can find a better way.
+      - export DB_USER="$(aws secretsmanager get-secret-value --secret-id '${DB_SECRETS}'|jq .SecretString|sed 's/\\//g; s/^.//g; s/.$//g'|jq .username|sed 's/\"//g')"
+      - export DB_PASSWORD="$(aws secretsmanager get-secret-value --secret-id '${DB_SECRETS}'|jq .SecretString|sed 's/\\//g; s/^.//g; s/.$//g'|jq .password|sed 's/\"//g')"
       - yarn db:migration:run
