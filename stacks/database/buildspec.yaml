@@ -10,6 +10,7 @@ env:
     # This var tells terraform to disable prompts for missing variables
     TF_INPUT: "false"
 
+
 phases:
   install:
     commands:

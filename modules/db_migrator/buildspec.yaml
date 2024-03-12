@@ -1,11 +1,10 @@
 version: 0.2
 env:
   shell: bash
-  parameter-store:
-    PGDATABASE: "/${STACK_PREFIX}/db/name"
-    DATABASE_URL: "/${STACK_PREFIX}/db/url"
-    DATABASE_PORT: "/${STACK_PREFIX}/db/port"
-
+  variables:
+    MASTER_SECRET_ARN: $(aws rds describe-db-clusters --db-cluster-id dw-dev-db-database|jq .DBClusters[0].MasterUserSecret.SecretArn)
+  secrets-manager:
+    DB_SECRETS: ${MASTER_SECRET_ARN}
 
 phases:
   build:
@@ -16,6 +15,6 @@ phases:
       - npm install -G yarn
       - cd ${CODEBUILD_SRC_DIR_doorway_source}/backend/core
       # These two massive kludges parse an AWS secret to get the db login. I'm not thrilled with this and hoping I can find a better way.
-      - export DB_USER="$(aws secretsmanager get-secret-value --secret-id '${DB_SECRETS}'|jq .SecretString|sed 's/\\//g; s/^.//g; s/.$//g'|jq .username|sed 's/\"//g')"
-      - export DB_PASSWORD="$(aws secretsmanager get-secret-value --secret-id '${DB_SECRETS}'|jq .SecretString|sed 's/\\//g; s/^.//g; s/.$//g'|jq .password|sed 's/\"//g')"
-      - yarn db:migration:run
+     # - export DB_USER="$(aws secretsmanager get-secret-value --secret-id '${DB_SECRETS}'|jq .SecretString|sed 's/\\//g; s/^.//g; s/.$//g'|jq .username|sed 's/\"//g')"
+     # - export DB_PASSWORD="$(aws secretsmanager get-secret-value --secret-id '${DB_SECRETS}'|jq .SecretString|sed 's/\\//g; s/^.//g; s/.$//g'|jq .password|sed 's/\"//g')"
+     # - yarn db:migration:runß

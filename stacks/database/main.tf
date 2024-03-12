@@ -66,28 +66,3 @@ module "vpc" {
   database_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 6)]
   tags             = local.tags
 }
-resource "aws_ssm_parameter" "db_url" {
-  name   = "/${var.stack_prefix}/db/url"
-  value  = module.aurora_postgresql_v2.cluster_arn
-  type   = "SecureString"
-  key_id = var.ssm_paraneter_encryption_key_id
-}
-resource "aws_ssm_parameter" "db_name" {
-  name   = "/${var.stack_prefix}/db/name"
-  value  = var.database_name
-  type   = "SecureString"
-  key_id = var.ssm_paraneter_encryption_key_id
-}
-resource "aws_ssm_parameter" "db_port" {
-  name   = "/${var.stack_prefix}/db/port"
-  value  = module.aurora_postgresql_v2.cluster_port
-  type   = "SecureString"
-  key_id = var.ssm_paraneter_encryption_key_id
-}
-
-resource "aws_ssm_parameter" "secret_arn" {
-  name   = "/${var.stack_prefix}/db/secrets"
-  value  = module.aurora_postgresql_v2.cluster_master_user_secret.arn
-  type   = "SecureString"
-  key_id = var.ssm_paraneter_encryption_key_id
-}
