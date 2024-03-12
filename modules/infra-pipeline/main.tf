@@ -85,7 +85,7 @@ resource "aws_codepipeline" "infra-pipeline" {
         input_artifacts = ["infra-source"]
         version         = "1"
         configuration = {
-          ProjectName = module.db_build[var.build_envs[stage.key]].name
+          ProjectName = module.db_build[var.build_envs[stage.value]].name
         }
       }
       action {
@@ -96,7 +96,7 @@ resource "aws_codepipeline" "infra-pipeline" {
         input_artifacts = ["infra-source"]
         version         = "1"
         configuration = {
-          ProjectName = module.db_migrator[var.build_envs[stage.key]].name
+          ProjectName = module.db_migrator[var.build_envs[stage.value]].name
         }
       }
     }
