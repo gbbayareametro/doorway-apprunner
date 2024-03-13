@@ -8,9 +8,17 @@ variable "log_bucket_arn" {
 variable "stack_prefix" {
   type = string
 }
-variable "name" {
+variable "resource_name" {
   type    = string
   default = "db-migrator"
+}
+variable "database_name" {
+  type    = string
+  default = "database"
+
+}
+variable "db_server_id" {
+  type = string
 }
 variable "artifact_encryption_key_arn" {
   type = string

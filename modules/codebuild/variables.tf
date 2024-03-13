@@ -2,7 +2,7 @@ variable "stack_prefix" {
   type        = string
   description = "Resource naming prefix - [app (Doorway usually)]-[environment]"
 }
-variable "name" {
+variable "resource_name" {
   type        = string
   description = "Part of the resource naming convention s/b [app]-[environment]-[stack]-[resource (i.e S3)]-[name i.e logs]"
   default     = "codebuild"
@@ -49,10 +49,7 @@ variable "log_bucket" {
   description = "name of the log bucket being passed by the pipeline"
 
 }
-variable "log_bucket_arn" {
-  type        = string
-  description = "arn of the log bucket being passed by the pipeline"
-}
+
 variable "build_image_url" {
   type    = string
   default = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"

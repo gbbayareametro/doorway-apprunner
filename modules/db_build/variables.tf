@@ -8,11 +8,17 @@ variable "log_bucket_arn" {
 variable "stack_prefix" {
   type = string
 }
-variable "name" {
+variable "resource_name" {
   type    = string
   default = "db-build"
 
 }
+variable "database_server_resource_name" {
+  type    = string
+  default = "db"
+
+}
+
 variable "artifact_encryption_key_arn" {
   type = string
 }
@@ -26,6 +32,10 @@ variable "buildspec" {
 variable "ssm_paraneter_encryption_key_id" {
   type = string
 
+}
+variable "database_name" {
+  type    = string
+  default = "doorway"
 }
 
 

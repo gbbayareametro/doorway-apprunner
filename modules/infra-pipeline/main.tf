@@ -3,14 +3,14 @@ locals {
   stack_prefix = "${var.app_name}-${var.pipeline_environment}-infra-pipeline"
 }
 module "artifact_bucket" {
-  source       = "../../modules/s3-no-prefix"
-  stack_prefix = local.stack_prefix
-  name         = "artifacts"
+  source        = "../../modules/s3-no-prefix"
+  stack_prefix  = local.stack_prefix
+  resource_name = "artifacts"
 }
 module "log_bucket" {
-  source       = "../../modules/s3"
-  stack_prefix = local.stack_prefix
-  name         = "logs"
+  source        = "../../modules/s3"
+  stack_prefix  = local.stack_prefix
+  resource_name = "logs"
 }
 data "aws_codestarconnections_connection" "github" {
   name = "doorway-github-connection"
@@ -29,11 +29,13 @@ module "db_build" {
   source                          = "../../modules/db_build"
   log_bucket                      = module.log_bucket.bucket
   stack_prefix                    = "${var.app_name}-${each.value}"
-  name                            = "db"
+  resource_name                   = var.database_server_resource_name
+  database_name                   = var.default_database_name
   ssm_paraneter_encryption_key_id = module.kms[each.value].key_id
   artifact_encryption_key_arn     = module.artifact_bucket.encryption_key_arn
   buildspec                       = "./stacks/database/buildspec.yaml"
   log_bucket_arn                  = module.log_bucket.arn
+
 }
 module "db_migrator" {
   for_each                    = toset(var.build_envs)
@@ -42,6 +44,8 @@ module "db_migrator" {
   log_bucket                  = module.log_bucket.bucket
   log_bucket_arn              = module.log_bucket.arn
   artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
+  db_server_id                = "${var.app_name}-${each.value}-db"
+
 }
 resource "aws_codepipeline" "infra-pipeline" {
   role_arn = aws_iam_role.codepipeline_role.arn
@@ -72,7 +76,6 @@ resource "aws_codepipeline" "infra-pipeline" {
 
     }
   }
-
   dynamic "stage" {
     for_each = var.build_envs
     content {

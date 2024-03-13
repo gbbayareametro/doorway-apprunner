@@ -10,7 +10,7 @@
 # trunk-ignore(terrascan/AC_AWS_0214)
 resource "aws_s3_bucket" "s3_bucket" {
   # bucket_prefix is limited to 37 chars, so we have to keep this brief
-  bucket        = "${var.stack_prefix}-s3-${var.name}"
+  bucket        = "${var.stack_prefix}-${var.resource_name}"
   force_destroy = var.force_destroy
 }
 resource "aws_s3_bucket_public_access_block" "pa_block" {

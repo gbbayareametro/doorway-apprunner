@@ -2,9 +2,9 @@ version: 0.2
 env:
   shell: bash
   variables:
-    MASTER_SECRET_ARN: $(aws rds describe-db-clusters --db-cluster-id dw-dev-db-database|jq .DBClusters[0].MasterUserSecret.SecretArn)
-  secrets-manager:
-    DB_SECRETS: ${MASTER_SECRET_ARN}
+    DATABASE_ID="${STACK_PREFIX}-${NAME}"
+    PGDATABASE = ${DATABASE_NAME}
+
 
 phases:
   build:
@@ -14,7 +14,14 @@ phases:
       - echo ${STACK_PREFIX}
       - npm install -G yarn
       - cd ${CODEBUILD_SRC_DIR_doorway_source}/backend/core
-      # These two massive kludges parse an AWS secret to get the db login. I'm not thrilled with this and hoping I can find a better way.
-     # - export DB_USER="$(aws secretsmanager get-secret-value --secret-id '${DB_SECRETS}'|jq .SecretString|sed 's/\\//g; s/^.//g; s/.$//g'|jq .username|sed 's/\"//g')"
-     # - export DB_PASSWORD="$(aws secretsmanager get-secret-value --secret-id '${DB_SECRETS}'|jq .SecretString|sed 's/\\//g; s/^.//g; s/.$//g'|jq .password|sed 's/\"//g')"
-     # - yarn db:migration:runß
+      - export DESCRIBE_DB_JSON=$(aws rds describe-db-clusters --db-cluster-id ${DATABASE_ID})
+      - export PGHOST=$(echo ${DESCRIBE_DB_JSON}|jq -r .DBClusters[0].Endpoint)
+      - export PGPORT=$(echo ${DESCRIBE_DB_JSON}|jq -r .DBClusters[0].Port)
+      # These two massive kludges parse an AWS secret to get the db login.
+      # I'm not thrilled with this and hoping I can find a better way.
+      - export DB_SECRET_ARN=$(echo $DESCRIBE_DB_JSON|jq -r .DBClusters[0].MasterUserSecret.SecretArn)
+      - export PGUSER="$(aws secretsmanager get-secret-value --secret-id ${DB_SECRET_ARN}|jq -r .SecretString|jq -r .username)"
+      - export PGPASSWORD="$(aws secretsmanager get-secret-value --secret-id ${DB_SECRET_ARN}|jq -r .SecretString.password")
+      - export DATABASE_URL = "postgresql://${PGUSER}@${PGHOST}:${PGPORT}/${PGDATABASE}"
+
+      - yarn db:migration:run

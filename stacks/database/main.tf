@@ -1,5 +1,5 @@
 locals {
-  name     = "${var.stack_prefix}-${var.name}"
+  name     = "${var.stack_prefix}-${var.resource_name}"
   vpc_cidr = "10.0.0.0/16"
   azs      = slice(data.aws_availability_zones.available.names, 0, 3)
   tags = {
@@ -25,7 +25,7 @@ module "aurora_postgresql_v2" {
   engine_mode          = "provisioned"
   engine_version       = data.aws_rds_engine_version.postgresql.version
   storage_encrypted    = true
-  master_username      = "doorway"
+  master_username      = var.db_master_user
   vpc_id               = module.vpc.vpc_id
   db_subnet_group_name = module.vpc.database_subnet_group_name
   security_group_rules = {
@@ -58,11 +58,15 @@ resource "random_password" "master" {
 module "vpc" {
   source           = "terraform-aws-modules/vpc/aws"
   version          = "~> 5.0"
-  name             = local.name
+  name             = "${var.stack_prefix}-vpc"
   cidr             = local.vpc_cidr
   azs              = local.azs
   public_subnets   = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k)]
   private_subnets  = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 3)]
   database_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 6)]
   tags             = local.tags
+}
+resource "postgresql_database" "create_database" {
+  name  = var.database_name
+  owner = var.db_master_user
 }

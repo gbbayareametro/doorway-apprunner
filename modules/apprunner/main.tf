@@ -6,7 +6,7 @@ resource "aws_apprunner_connection" "github" {
   tags = var.default_tags
 }
 resource "aws_apprunner_service" "service" {
-  service_name = "${var.stack_prefix}-${var.name}"
+  service_name = "${var.stack_prefix}-${var.resource_name}"
   source_configuration {
     authentication_configuration {
       connection_arn = aws_apprunner_connection.example.arn

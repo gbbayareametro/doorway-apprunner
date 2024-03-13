@@ -14,17 +14,6 @@ variable "infra_source_branch" {
   default     = "main"
   description = "the name of the branch"
 }
-variable "doorway_source_repo" {
-  type        = string
-  default     = "metrotranscom/doorway"
-  description = "the name of the Github repository the Doorway source code is located in"
-
-}
-variable "doorway_source_branch" {
-  type        = string
-  default     = "main"
-  description = "the name of the branch"
-}
 variable "app_name" {
   type    = string
   default = "dw"
@@ -33,5 +22,15 @@ variable "app_name" {
 variable "build_envs" {
   type    = list(string)
   default = ["oneoff"]
+
+}
+variable "database_server_resource_name" {
+  type    = string
+  default = "db"
+
+}
+variable "default_database_name" {
+  type    = string
+  default = "doorway"
 
 }
