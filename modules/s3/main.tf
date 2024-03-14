@@ -1,4 +1,3 @@
-
 # NOTE:
 # The default implementation of the S3 bucket will not have a lot of features turned on.
 # The primary use case are things like log buckets so essentiall we will just be giving people
@@ -8,9 +7,10 @@
 # trunk-ignore(checkov/CKV_AWS_144): Turning off cross-region replication.
 # trunk-ignore(checkov/CKV_AWS_18): Turning off logging
 # trunk-ignore(checkov/CKV_AWS_21): Turning off versioning
+# trunk-ignore(terrascan/AC_AWS_0214)
 resource "aws_s3_bucket" "s3_bucket" {
   # bucket_prefix is limited to 37 chars, so we have to keep this brief
-  bucket_prefix = var.name
+  bucket        = var.name
   force_destroy = var.force_destroy
 }
 resource "aws_s3_bucket_public_access_block" "pa_block" {

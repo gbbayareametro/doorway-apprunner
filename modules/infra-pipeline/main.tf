@@ -1,6 +1,6 @@
 
 module "artifact_bucket" {
-  source = "../../modules/s3-no-prefix"
+  source = "../../modules/s3"
   name   = "${var.name}-artifacts"
 }
 module "log_bucket" {
