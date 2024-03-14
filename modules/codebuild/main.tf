@@ -1,7 +1,4 @@
-module "log_bucket" {
-  source = "../s3"
-  name   = var.log_bucket
-}
+
 resource "aws_codebuild_project" "codebuild" {
   name           = var.name
   description    = var.description
