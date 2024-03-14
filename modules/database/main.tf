@@ -57,4 +57,3 @@ resource "random_password" "master" {
   special = false
 }
 
-

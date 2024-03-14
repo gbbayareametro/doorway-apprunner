@@ -30,19 +30,17 @@ module "network_build" {
 }
 
 
-# module "db_build" {
-#   for_each                        = toset(var.build_envs)
-#   source                          = "../../modules/db_build"
-#   log_bucket                      = module.log_bucket.bucket
-#   stack_prefix                    = "${var.app_name}-${each.value}"
-#   resource_name                   = var.database_server_resource_name
-#   database_name                   = var.default_database_name
-#   ssm_paraneter_encryption_key_id = module.kms[each.value].key_id
-#   artifact_encryption_key_arn     = module.artifact_bucket.encryption_key_arn
-#   buildspec                       = "./modules/database/buildspec.yaml"
-#   log_bucket_arn                  = module.log_bucket.arn
-
-# }
+module "db_build" {
+  for_each                        = toset(var.build_envs)
+  source                          = "../../modules/db_build"
+  log_bucket                      = module.log_bucket.bucket
+  name                            = "${var.app_name}-${each.key}-db-build"
+  database_server_name            = "${var.app_name}-${each.key}-db"
+  ssm_paraneter_encryption_key_id = module.kms[each.value].key_id
+  artifact_encryption_key_arn     = module.artifact_bucket.encryption_key_arn
+  buildspec                       = "./modules/database/buildspec.yaml"
+  log_bucket_arn                  = module.log_bucket.arn
+}
 # module "db_migrator" {
 #   for_each                    = toset(var.build_envs)
 #   source                      = "../db_migrator"
@@ -98,18 +96,18 @@ resource "aws_codepipeline" "infra-pipeline" {
           ProjectName = module.network_build[var.build_envs[stage.key]].name
         }
       }
-      # action {
-      #   name            = "Database"
-      #   category        = "Build"
-      #   owner           = "AWS"
-      #   provider        = "CodeBuild"
-      #   input_artifacts = ["infra-source"]
-      #   version         = "1"
-      #   run_order       = 1
-      #   configuration = {
-      #     ProjectName = module.db_build[var.build_envs[stage.key]].name
-      #   }
-      # }
+      action {
+        name            = "Database"
+        category        = "Build"
+        owner           = "AWS"
+        provider        = "CodeBuild"
+        input_artifacts = ["infra-source"]
+        version         = "1"
+        run_order       = 1
+        configuration = {
+          ProjectName = module.db_build[var.build_envs[stage.key]].name
+        }
+      }
       # action {
       #   name            = "DatabaseMigration"
       #   category        = "Build"

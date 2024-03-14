@@ -5,18 +5,14 @@ variable "log_bucket" {
 variable "log_bucket_arn" {
   type = string
 }
-variable "stack_prefix" {
+
+variable "name" {
   type = string
-}
-variable "resource_name" {
-  type    = string
-  default = "db-build"
+
 
 }
-variable "database_server_resource_name" {
-  type    = string
-  default = "db"
-
+variable "database_server_name" {
+  type = string
 }
 
 variable "artifact_encryption_key_arn" {
@@ -24,7 +20,7 @@ variable "artifact_encryption_key_arn" {
 }
 variable "secondary_sources" {
   type    = list(map(string))
-  default = [{ source_id = "doorway_source", source_location = "https://github.com/metrotranscom/doorway.git" }]
+  default = []
 }
 variable "buildspec" {
   type = string
