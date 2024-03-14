@@ -57,7 +57,4 @@ resource "random_password" "master" {
   special = false
 }
 
-resource "postgresql_database" "create_database" {
-  name  = var.database_name
-  owner = var.master_username
-}
+
