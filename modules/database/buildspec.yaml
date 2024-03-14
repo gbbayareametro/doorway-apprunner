@@ -29,4 +29,5 @@ phases:
       - export TF_VAR_stack_prefix=${WORKSPACE}
 
       - terraform workspace select -or-create=true  ${WORKSPACE}
-      - terraform apply -auto-approve -var=stack_prefix=${STACK_PREFIX}
+      - terraform destroy -auto-approve -var=stack_prefix=${STACK_PREFIX}
+      #- terraform apply -auto-approve -var=stack_prefix=${STACK_PREFIX}
