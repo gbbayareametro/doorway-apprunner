@@ -92,18 +92,18 @@ resource "aws_codepipeline" "infra-pipeline" {
           ProjectName = module.db_build[var.build_envs[stage.key]].name
         }
       }
-      action {
-        name            = "DatabaseMigration"
-        category        = "Build"
-        owner           = "AWS"
-        provider        = "CodeBuild"
-        input_artifacts = ["infra-source"]
-        version         = "1"
-        run_order       = 2
-        configuration = {
-          ProjectName = module.db_migrator[var.build_envs[stage.key]].name
-        }
-      }
+      # action {
+      #   name            = "DatabaseMigration"
+      #   category        = "Build"
+      #   owner           = "AWS"
+      #   provider        = "CodeBuild"
+      #   input_artifacts = ["infra-source"]
+      #   version         = "1"
+      #   run_order       = 2
+      #   configuration = {
+      #     ProjectName = module.db_migrator[var.build_envs[stage.key]].name
+      #   }
+      # }
     }
 
   }
