@@ -1,0 +1,32 @@
+version: 0.2
+env:
+  shell: bash
+  variables:
+    # This var is used to define which version of terraform to use
+    # This can be overridden by passing a TF_VERSION var to the build
+    TF_VERSION: "1.7.4"
+    # This var tells terraform that we're running in a CI/CD pipeline
+    TF_IN_AUTOMATION: "true"
+    # This var tells terraform to disable prompts for missing variables
+    TF_INPUT: "false"
+
+
+phases:
+  install:
+    commands:
+      # Install terraform in /usr/bin
+      - cd /usr/bin
+      - curl -s -qL -o terraform.zip "https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip"
+      - unzip -o terraform.zip
+  build:
+    commands:
+      # Verify the values of vars passed in via the project
+      - echo "${WORKSPACE}"
+      - echo ${STACK_PREFIX}
+      - cd ${CODEBUILD_SRC_DIR}/modules/database
+      # Have to init again to make sure providers are present
+      - terraform init
+      - export TF_VAR_stack_prefix=${WORKSPACE}
+
+      - terraform workspace select -or-create=true  ${WORKSPACE}
+      - terraform apply -auto-approve -var=stack_prefix=${STACK_PREFIX}
