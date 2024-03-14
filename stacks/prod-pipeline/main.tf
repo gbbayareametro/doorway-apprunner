@@ -1,5 +1,5 @@
 module "prod_pipeline" {
   source     = "../../modules/infra-pipeline"
-  name       = "doorway-prod-pipeline"
+  name       = "dw-prod-infra"
   build_envs = ["dev"]
 }
