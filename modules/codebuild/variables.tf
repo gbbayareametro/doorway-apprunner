@@ -1,11 +1,7 @@
-variable "stack_prefix" {
+
+variable "name" {
   type        = string
-  description = "Resource naming prefix - [app (Doorway usually)]-[environment]"
-}
-variable "resource_name" {
-  type        = string
-  description = "Part of the resource naming convention s/b [app]-[environment]-[stack]-[resource (i.e S3)]-[name i.e logs]"
-  default     = "codebuild"
+  description = "Name of the build"
 }
 variable "description" {
   type = string
@@ -29,11 +25,7 @@ variable "artifact_encryption_key_arn" {
   description = "Used to encrypt any output artifacts"
 
 }
-variable "default_tags" {
-  type    = map(string)
-  default = { "Name" : "Doorway", }
 
-}
 variable "allowed_aws_actions" {
   type        = list(string)
   description = "The AWS actions this codebuild instance is allowed to perform"

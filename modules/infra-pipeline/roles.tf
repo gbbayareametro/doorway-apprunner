@@ -9,7 +9,7 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 resource "aws_iam_role" "codepipeline_role" {
-  name               = "${local.stack_prefix}-pipeline-role"
+  name               = "${var.name}-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 data "aws_iam_policy_document" "codepipeline_policy" {
@@ -28,13 +28,6 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     actions   = ["codestar-connections:*"]
     resources = [data.aws_codestarconnections_connection.github.arn]
   }
-  statement {
-    effect = "Allow"
-    actions = [
-      "codestar-connections:*",
-    ]
-    resources = ["*"]
-  }
   dynamic "statement" {
     for_each = var.build_envs
     content {
@@ -42,8 +35,11 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       actions = [
         "codebuild:*",
       ]
-      resources = [module.db_build[var.build_envs[statement.key]].build_arn,
-      module.db_migrator[var.build_envs[statement.key]].build_arn]
+      resources = [
+        module.network_build[var.build_envs[statement.key]].build_arn
+        # module.db_build[var.build_envs[statement.key]].build_arn,
+        # module.db_migrator[var.build_envs[statement.key]].build_arn
+      ]
     }
   }
   dynamic "statement" {
@@ -53,8 +49,11 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       actions = [
         "codebuild:StartBuild",
       ]
-      resources = [module.db_build[var.build_envs[statement.key]].build_arn,
-      module.db_migrator[var.build_envs[statement.key]].build_arn]
+      resources = [
+        module.network_build[var.build_envs[statement.key]].build_arn
+        # module.db_build[var.build_envs[statement.key]].build_arn,
+        # module.db_migrator[var.build_envs[statement.key]].build_arn
+      ]
     }
 
   }
@@ -63,7 +62,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     actions = [
       "kms:*",
     ]
-    resources = ["*"]
+    resources = [module.log_bucket.encryption_key_arn, module.artifact_bucket.encryption_key_arn]
   }
 }
 resource "aws_iam_role_policy" "codepipeline_policy" {

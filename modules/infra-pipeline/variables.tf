@@ -1,6 +1,5 @@
-variable "pipeline_environment" {
-  type        = string
-  description = "The pipeline environment variable allows you to build out test pipelines when doing major infrastructure work so as not to interrupt the primary pipeline"
+variable "name" {
+  type = string
 
 }
 variable "infra_source_repo" {
@@ -22,15 +21,5 @@ variable "app_name" {
 variable "build_envs" {
   type    = list(string)
   default = ["oneoff"]
-
-}
-variable "database_server_resource_name" {
-  type    = string
-  default = "db"
-
-}
-variable "default_database_name" {
-  type    = string
-  default = "doorway"
 
 }

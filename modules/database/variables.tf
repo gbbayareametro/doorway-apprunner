@@ -1,19 +1,33 @@
-variable "stack_prefix" {
+variable "name" {
   type        = string
-  description = "Resource naming prefix - [app (Doorway usually)]-[environment]"
+  description = "The name of the resource that will be used in AWS"
 }
-variable "resource_name" {
+variable "vpc_id" {
+  type = string
+}
+
+variable "database_subnet_group" {
   type        = string
-  description = "name of the resource"
-  default     = "database"
+  description = "The name of the database subnet group"
+
 }
-variable "db_master_user" {
-  type    = string
-  default = "doorway"
+
+
+variable "master_username" {
+  type        = string
+  default     = "root"
+  description = "pg admin"
+
+}
+variable "app_user" {
+  type        = string
+  default     = "doorway"
+  description = "Doorway app user"
+
 
 }
 variable "database_name" {
-  type    = string
-  default = "doorway"
-
+  type        = string
+  default     = "doorway"
+  description = "The name of the database on the database server"
 }
