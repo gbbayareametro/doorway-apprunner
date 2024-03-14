@@ -103,7 +103,7 @@ resource "aws_codepipeline" "infra-pipeline" {
         provider        = "CodeBuild"
         input_artifacts = ["infra-source"]
         version         = "1"
-        run_order       = 1
+        run_order       = 2
         configuration = {
           ProjectName = module.db_build[var.build_envs[stage.key]].name
         }
