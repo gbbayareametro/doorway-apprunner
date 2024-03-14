@@ -33,7 +33,7 @@ module "db_build" {
   database_name                   = var.default_database_name
   ssm_paraneter_encryption_key_id = module.kms[each.value].key_id
   artifact_encryption_key_arn     = module.artifact_bucket.encryption_key_arn
-  buildspec                       = "./stacks/database/buildspec.yaml"
+  buildspec                       = "./stacks/modules/database/buildspec.yaml"
   log_bucket_arn                  = module.log_bucket.arn
 
 }
@@ -44,7 +44,7 @@ module "db_migrator" {
   log_bucket                  = module.log_bucket.bucket
   log_bucket_arn              = module.log_bucket.arn
   artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
-  db_server_id                = "${var.app_name}-${each.value}-db"
+  db_server_id                = "${var.app_name}-${each.value}"
 
 }
 resource "aws_codepipeline" "infra-pipeline" {

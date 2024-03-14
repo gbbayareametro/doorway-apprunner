@@ -2,8 +2,8 @@ terraform {
   required_version = ">= 1.3"
   required_providers {
     aws = {
-      source = "hashicorp/aws"
-      # version = "~> 5"
+      source  = "hashicorp/aws"
+      version = "~> 5"
     }
   }
 }
@@ -31,6 +31,5 @@ module "vpc" {
   private_subnets       = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k)]
   public_subnets        = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 4)]
   database_subnets      = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 8)]
-  database_subnet_names = [for k, v in local.azs : "${var.app_name}-${var.environment}-db-${k}"]
-
+  database_subnet_names = [for k, v in local.azs : "${var.stack_prefix}-${k}"]
 }
