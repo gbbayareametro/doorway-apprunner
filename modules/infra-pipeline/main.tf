@@ -33,7 +33,7 @@ module "db_build" {
   database_name                   = var.default_database_name
   ssm_paraneter_encryption_key_id = module.kms[each.value].key_id
   artifact_encryption_key_arn     = module.artifact_bucket.encryption_key_arn
-  buildspec                       = "./stacks/modules/database/buildspec.yaml"
+  buildspec                       = "./modules/database/buildspec.yaml"
   log_bucket_arn                  = module.log_bucket.arn
 
 }
