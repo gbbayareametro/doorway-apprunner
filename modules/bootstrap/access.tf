@@ -48,9 +48,22 @@ data "aws_iam_policy_document" "codebuild-access" {
   }
   statement {
     effect  = "Allow"
-    actions = ["s3:*"]
+    actions = ["s3:PutObject"]
     resources = [
-      "*"
+      module.artifact_bucket.arn,
+      module.log_bucket.arn
+
+
+    ]
+  }
+  statement {
+    effect  = "Allow"
+    actions = ["kms:Encrypt", "kms:Decrypt"]
+    resources = [
+      module.artifact_bucket.encryption_key_arn,
+      module.log_bucket.encryption_key_arn
+
+
     ]
   }
 }
