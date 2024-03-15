@@ -19,6 +19,7 @@ phases:
   build:
     commands:
       - curl -s -qL -o terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.55.16/terragrunt_linux_amd64
+      - chmod 755 /usr/bin/terragrunt
       # Verify the values of vars passed in via the project
       - echo "${WORKSPACE}"
       - cd ${CODEBUILD_SRC_DIR}/modules/infra-pipeline
