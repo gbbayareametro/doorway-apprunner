@@ -13,5 +13,5 @@ variable "github_repo" {
 }
 variable "buildspec" {
   type    = string
-  default = "stacks/prod-pipeline/buildspec.yaml"
+  default = "modules/infra-pipeline/buildspec.yaml"
 }
