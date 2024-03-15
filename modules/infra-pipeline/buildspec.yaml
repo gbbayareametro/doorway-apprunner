@@ -25,7 +25,7 @@ phases:
       - echo "${WORKSPACE}"
       - echo ${TF_STATE_BUCKET}
       - cd ${CODEBUILD_SRC_DIR}/modules/infra-pipeline
-      - terragrunt init
+      - terragrunt init --terragrunt-log-level debug --terragrunt-debug
       # Have to init again to make sure providers are present
       - terragrunt workspace select -or-create ${WORKSPACE} --terragrunt-log-level debug --terragrunt-debug
 
