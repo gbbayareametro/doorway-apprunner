@@ -16,7 +16,6 @@ remote_state {
     region="us-west-2"
     key=get_env("WORKSPACE")
     encrypt=true
-    disable_init=true
 
   }
 }
