@@ -27,7 +27,7 @@ phases:
       - cd ${CODEBUILD_SRC_DIR}/modules/infra-pipeline
       - terragrunt init
       # Have to init again to make sure providers are present
-      - terragrunt workspace select -or-create ${WORKSPACE}
+      - terragrunt workspace select -or-create ${WORKSPACE} --terragrunt-log-level debug --terragrunt-debug
 
       # Apply the previously saved plan file
       - terragrunt apply -auto-approve  -var-file=../../vars/${PIPELINE_NAME}.tfvars
