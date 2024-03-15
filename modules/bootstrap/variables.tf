@@ -9,10 +9,9 @@ variable "app_name" {
 }
 variable "github_repo" {
   type    = string
-  default = ""https://github.com/gbbayareametro/doorway-apprunner.git""
-
+  default = "https://github.com/gbbayareametro/doorway-apprunner.git"
 }
 variable "buildspec" {
-  type = string
+  type    = string
   default = "stacks/prod-pipeline/buildspec.yaml"
 }

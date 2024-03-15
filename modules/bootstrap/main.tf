@@ -7,7 +7,7 @@ terraform {
   }
 }
 locals {
-  workspace = "${var.app_name}-${var.pipeline_environment}-bootstrap"
+  workspace = "${var.pipeline_name}-bootstrap"
   allowed_aws_actions = [
     "ec2:CreateNetworkInterface",
     "ec2:DescribeDhcpOptions",
@@ -29,11 +29,11 @@ locals {
 }
 module "log_bucket" {
   source = "../../modules/s3"
-  name   = "bootstrap-bld-logs"
+  name   = "${var.app_name}-${var.pipeline_name}-bootstrap-logs"
 }
 module "artifact_bucket" {
   source = "../../modules/s3"
-  name   = "bootstrap-artifacts"
+  name   = "${var.app_name}-${var.pipeline_name}-bootstrap-artifacts"
 }
 resource "aws_codebuild_project" "codebuild" {
   name           = local.workspace
