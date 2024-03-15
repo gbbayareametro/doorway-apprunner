@@ -47,12 +47,17 @@ data "aws_iam_policy_document" "codebuild-access" {
     }
   }
   statement {
-    effect  = "Allow"
-    actions = ["s3:PutObject", "s3:getObject"]
+    effect = "Allow"
+    actions = ["s3:ListBucket",
+      "s3:GetBucketVersioning",
+      "s3:CreateBucket",
+      "s3:PutObject",
+    "s3:GetObject"]
     resources = [
-      "*"
-
-
+      module.artifact_bucket.arn,
+      "${module.artifact_bucket.arn}/*",
+      module.log_bucket.arn,
+      "${module.log_bucket.arn}/*"
     ]
   }
   statement {

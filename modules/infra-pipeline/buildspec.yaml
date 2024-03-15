@@ -23,6 +23,7 @@ phases:
 
       # Verify the values of vars passed in via the project
       - echo "${WORKSPACE}"
+      - echo ${TF_STATE_BUCKET}
       - cd ${CODEBUILD_SRC_DIR}/modules/infra-pipeline
       - terragrunt init
       # Have to init again to make sure providers are present
