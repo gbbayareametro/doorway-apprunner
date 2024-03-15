@@ -20,12 +20,10 @@ phases:
     commands:
       # Verify the values of vars passed in via the project
       - echo "${WORKSPACE}"
-      - echo "${PIPELINE_ENV}"
-      - cd ${CODEBUILD_SRC_DIR}/stacks/prod-pipeline
+      - cd ${CODEBUILD_SRC_DIR}/modules/infra-pipeline
       - terraform init
       # Have to init again to make sure providers are present
       - terraform workspace select -or-create ${WORKSPACE}
-
-
+      - yum install terragrunt
       # Apply the previously saved plan file
-      - terraform apply -auto-approve
+      - terraform apply -auto-approve  -var-file=../../vars/${PIPELINE_NAME}.tfvars

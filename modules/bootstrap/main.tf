@@ -25,24 +25,19 @@ locals {
     "ec2:*",
     "secretsmanager:*"
   ]
-  environment_variables = { "WORKSPACE" : local.workspace, "PIPELINE_ENV" : var.pipeline_environment }
-  github_repo           = "https://github.com/gbbayareametro/doorway-apprunner.git"
-  buildspec             = "stacks/prod-pipeline/buildspec.yaml"
-  default_tags          = { "App" = "Doorway", "Workspace" = local.workspace }
+  environment_variables = { "WORKSPACE" : local.workspace, "PIPELINE_NAME" : var.pipeline_name, "TF_STATE_BUCKET" : module.artifact_bucket.bucket }
 }
 module "log_bucket" {
-  source       = "../../modules/s3"
-  stack_prefix = local.workspace
-  name         = "bld-logs"
+  source = "../../modules/s3"
+  name   = "bootstrap-bld-logs"
 }
 module "artifact_bucket" {
-  source       = "../../modules/s3-no-prefix"
-  stack_prefix = local.workspace
-  name         = "artifacts"
+  source = "../../modules/s3"
+  name   = "bootstrap-artifacts"
 }
 resource "aws_codebuild_project" "codebuild" {
   name           = local.workspace
-  description    = "Inital Doorway Application Delivery Bootstrap for ${var.pipeline_environment}"
+  description    = "Inital Doorway Application Delivery Bootstrap for ${var.pipeline_name}"
   build_timeout  = 60
   service_role   = aws_iam_role.codebuild_role.arn
   encryption_key = module.artifact_bucket.encryption_key_arn
@@ -76,10 +71,9 @@ resource "aws_codebuild_project" "codebuild" {
   }
   source {
     type            = "GITHUB"
-    location        = local.github_repo
+    location        = var.github_repo
     git_clone_depth = 0
-    buildspec       = local.buildspec
+    buildspec       = var.buildspec
   }
   source_version = "main"
-  tags           = local.default_tags
 }

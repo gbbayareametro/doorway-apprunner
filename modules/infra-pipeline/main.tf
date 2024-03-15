@@ -24,9 +24,6 @@ module "network_build" {
   artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
   vpc_name                    = "${var.app_name}-${each.key}"
   log_bucket                  = module.log_bucket.bucket
-
-
-
 }
 
 
