@@ -18,7 +18,7 @@ phases:
       - unzip -o terraform.zip
   build:
     commands:
-      - yum install terragrunt
+      - yum -y install terragrunt
       # Verify the values of vars passed in via the project
       - echo "${WORKSPACE}"
       - cd ${CODEBUILD_SRC_DIR}/modules/infra-pipeline
