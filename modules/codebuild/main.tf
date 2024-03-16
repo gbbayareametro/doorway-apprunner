@@ -1,4 +1,4 @@
-# trunk-ignore(checkov/CKV_AWS_147): No artifacts being passed at this point
+#trunk-ignore(checkov/CKV_AWS_147): No artifacts being passed at this point
 resource "aws_codebuild_project" "codebuild" {
   name          = var.name
   description   = var.description
