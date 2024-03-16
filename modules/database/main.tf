@@ -32,7 +32,7 @@ module "aurora_postgresql_v2" {
   db_subnet_group_name = var.database_subnet_group
   security_group_rules = {
     vpc_ingress = {
-      cidr_blocks = data.vpc_id.cidr_blocks
+      cidr_blocks = data.aws_vpc.vpc.cidr_blocks
     }
   }
   monitoring_interval = 60
