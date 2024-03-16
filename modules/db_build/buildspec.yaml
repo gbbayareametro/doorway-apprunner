@@ -14,6 +14,7 @@ env:
     TF_STATE_BUCKET: "/${APP_NAME}/pipelines/${PIPELINE_NAME}/tf_state_bucket"
     KMS_KEY: "/${APP_NAME}/pipelines/${PIPELINE_NAME}/tf_state_bucket_encryption_key"
     DB_SERVER_NAME: "/${APP_NAME}/pipelines/${PIPELINE_NAME}/${ENVIRONMENT}/database_server_name"
+    VPC_ID: "/${APP_NAME}/pipelines/${PIPELINE_NAME}/${ENVIRONMENT}/vpc_name"
 phases:
   install:
     commands:
@@ -33,4 +34,4 @@ phases:
       # Have to init again to make sure providers are present
       - terragrunt workspace select -or-create ${WORKSPACE}
       # Apply the previously saved plan file
-      - terragrunt apply -auto-approve -var=name=${DB_SERVER_NAME}
+      - terragrunt apply -auto-approve -var=name=${DB_SERVER_NAME} -var=vpc.id=${VPC_ID} -var=database_subnet_grpup=${VPC_ID}
