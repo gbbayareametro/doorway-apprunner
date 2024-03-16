@@ -8,7 +8,10 @@ module "network_build_job" {
   artifact_encryption_key_arn = var.artifact_encryption_key_arn
   environment_variables = [
     { name = "VPC_NAME", value = var.vpc_name },
-    { name : "WORKSPACE", value = var.name },
+    { name = "WORKSPACE", value = var.name },
+    { name = "KMS_KEY", value = var.artifact_encryption_key_arn },
+    { name = "ARTIFACT_BUCKET", value = var.artifact_bucket }
+
   ]
   buildspec     = var.buildspec
   build_timeout = 60

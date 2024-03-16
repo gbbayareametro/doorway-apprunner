@@ -10,6 +10,7 @@ module "db_build_job" {
   environment_variables = [{ name : "SSM_PARM_ENCRYPTION_ID", value : var.ssm_paraneter_encryption_key_id },
     { name = "DB_SERVER_ID", value = var.database_server_name },
     { name : "WORKSPACE", value = var.name },
+    { name : "TF_STATE_BUCKET", value = var.artifact_bucket }
   ]
   buildspec     = var.buildspec
   build_timeout = 60
