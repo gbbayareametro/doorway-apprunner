@@ -52,7 +52,11 @@ data "aws_iam_policy_document" "codebuild-access" {
       "s3:GetBucketVersioning",
       "s3:CreateBucket",
       "s3:PutObject",
-    "s3:GetObject"]
+      "s3:GetObject", "s3:GetEncryptionConfiguration",
+      "s3:GetBucketPolicy", "s3:GetBucketPublicAccessBlock",
+      "s3:PutEncryptionConfiguration", "s3:PutBucketVersioning", "s3:PutBucketTagging", "s3:PutBucketPublicAccessBlock",
+      "s3:PutBucketPolicy", "s3:PutBucketLogging", "s3:PutBucketAcl", "s3:ListBucket", "s3:GetObject", "s3:GetBucketVersioning", "s3:GetBucketLogging",
+    "s3:GetBucketAcl", "s3:CreateBucket"]
     resources = [
       module.artifact_bucket.arn,
       "${module.artifact_bucket.arn}/*",

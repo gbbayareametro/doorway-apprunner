@@ -25,7 +25,8 @@ locals {
     "ec2:*",
     "secretsmanager:*"
   ]
-  environment_variables = { "WORKSPACE" : local.workspace, "PIPELINE_NAME" : var.pipeline_name, "TF_STATE_BUCKET" : module.artifact_bucket.bucket }
+  environment_variables = { "WORKSPACE" : local.workspace, "PIPELINE_NAME" : var.pipeline_name, "TF_STATE_BUCKET" : module.artifact_bucket.bucket,
+  "KMS_KEY" : module.artifact_bucket.encryption_key_arn }
 }
 module "log_bucket" {
   source = "../../modules/s3"
