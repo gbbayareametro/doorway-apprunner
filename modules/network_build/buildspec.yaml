@@ -35,4 +35,4 @@ phases:
       # Have to init again to make sure providers are present
       - terragrunt workspace select -or-create ${WORKSPACE}
       # Apply the previously saved plan file
-      - terragrunt apply -auto-approve -var=vpc.name=${VPC_NAME}
+      - terragrunt apply -auto-approve -var=name=${VPC_NAME}
