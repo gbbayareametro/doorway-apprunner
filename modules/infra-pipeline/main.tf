@@ -29,18 +29,15 @@ module "network_build" {
   log_bucket    = module.log_bucket.bucket
   environment   = each.key
 }
-
-
-# module "db_build" {
-#   for_each                        = toset(var.build_envs)
-#   source                          = "../../modules/db_build"
-#   log_bucket                      = module.log_bucket.bucket
-#   name                            = "${var.app_name}-${each.key}-db-build"
-#   database_server_name            = "${var.app_name}-${each.key}-db"
-#   ssm_paraneter_encryption_key_id = module.kms[each.value].key_id
-#   buildspec                       = "./modules/database/buildspec.yaml"
-#   tf_state_bucket                 = module.tf_state_bucket.bucket
-# }
+module "db_build" {
+  for_each      = toset(var.build_envs)
+  source        = "../../modules/db_build"
+  log_bucket    = module.log_bucket.bucket
+  name          = "${var.app_name}-${each.key}-db-build"
+  pipeline_name = var.name
+  app_name      = var.app_name
+  environment   = each.key
+}
 # module "db_migrator" {
 #   for_each                    = toset(var.build_envs)
 #   source                      = "../db_migrator"
@@ -96,18 +93,18 @@ resource "aws_codepipeline" "infra-pipeline" {
           ProjectName = module.network_build[var.build_envs[stage.key]].name
         }
       }
-      # action {
-      #   name            = "Database"
-      #   category        = "Build"
-      #   owner           = "AWS"
-      #   provider        = "CodeBuild"
-      #   input_artifacts = ["infra-source"]
-      #   version         = "1"
-      #   run_order       = 2
-      #   configuration = {
-      #     ProjectName = module.db_build[var.build_envs[stage.key]].name
-      #   }
-      # }
+      action {
+        name            = "Database"
+        category        = "Build"
+        owner           = "AWS"
+        provider        = "CodeBuild"
+        input_artifacts = ["infra-source"]
+        version         = "1"
+        run_order       = 2
+        configuration = {
+          ProjectName = module.db_build[var.build_envs[stage.key]].name
+        }
+      }
       # # action {
       #   name            = "DatabaseMigration"
       #   category        = "Build"

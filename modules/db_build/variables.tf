@@ -5,24 +5,20 @@ variable "log_bucket" {
 variable "name" {
   type = string
 }
-variable "database_server_name" {
-  type = string
-}
-
-variable "artifact_encryption_key_arn" {
-  type = string
-}
-
 variable "buildspec" {
-  type = string
-}
-variable "ssm_paraneter_encryption_key_id" {
-  type = string
-
-}
-variable "tf_state_bucket" {
-  type = string
-
+  type    = string
+  default = "modules/db_build/buildspec.yaml"
 }
 
-
+variable "pipeline_name" {
+  type        = string
+  description = "The name of the build pipeline the job is part of"
+}
+variable "app_name" {
+  type    = string
+  default = "dw"
+}
+variable "environment" {
+  type        = string
+  description = "The environment the database belongs to"
+}
