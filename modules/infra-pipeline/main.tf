@@ -31,17 +31,16 @@ module "network_build" {
 }
 
 
-module "db_build" {
-  for_each                        = toset(var.build_envs)
-  source                          = "../../modules/db_build"
-  log_bucket                      = module.log_bucket.bucket
-  name                            = "${var.app_name}-${each.key}-db-build"
-  database_server_name            = "${var.app_name}-${each.key}-db"
-  ssm_paraneter_encryption_key_id = module.kms[each.value].key_id
-  artifact_encryption_key_arn     = module.tf_state_bucket.encryption_key_arn
-  buildspec                       = "./modules/database/buildspec.yaml"
-  tf_state_bucket                 = module.tf_state_bucket.bucket
-}
+# module "db_build" {
+#   for_each                        = toset(var.build_envs)
+#   source                          = "../../modules/db_build"
+#   log_bucket                      = module.log_bucket.bucket
+#   name                            = "${var.app_name}-${each.key}-db-build"
+#   database_server_name            = "${var.app_name}-${each.key}-db"
+#   ssm_paraneter_encryption_key_id = module.kms[each.value].key_id
+#   buildspec                       = "./modules/database/buildspec.yaml"
+#   tf_state_bucket                 = module.tf_state_bucket.bucket
+# }
 # module "db_migrator" {
 #   for_each                    = toset(var.build_envs)
 #   source                      = "../db_migrator"
