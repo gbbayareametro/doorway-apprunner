@@ -11,8 +11,6 @@ variable "database_subnet_group" {
   description = "The name of the database subnet group"
 
 }
-
-
 variable "master_username" {
   type        = string
   default     = "root"
@@ -25,9 +23,4 @@ variable "app_user" {
   description = "Doorway app user"
 
 
-}
-variable "database_name" {
-  type        = string
-  default     = "doorway"
-  description = "The name of the database on the database server"
 }

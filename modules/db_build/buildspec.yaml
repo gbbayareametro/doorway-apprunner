@@ -34,4 +34,4 @@ phases:
       # Have to init again to make sure providers are present
       - terragrunt workspace select -or-create ${WORKSPACE}
       # Apply the previously saved plan file
-      - terragrunt apply -auto-approve -var=name=${DB_SERVER_NAME} -var=vpc.id=${VPC_ID} -var=database_subnet_grpup=${VPC_ID}
+      - terragrunt apply -auto-approve -var=name=${DB_SERVER_NAME} -var=vpc_id=${VPC_ID} -var=database_subnet_group=${VPC_ID}
