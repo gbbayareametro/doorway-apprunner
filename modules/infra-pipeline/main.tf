@@ -1,12 +1,15 @@
 
-module "artifact_bucket" {
+
+module "tf_state_bucket" {
   source = "../../modules/s3"
   name   = "${var.name}-artifacts"
 }
+
 module "log_bucket" {
   source = "../../modules/s3"
   name   = "${var.name}-logs"
 }
+
 data "aws_codestarconnections_connection" "github" {
   name = "doorway-github-connection"
 }
@@ -18,13 +21,13 @@ module "kms" {
   description = "Encryption Key for${var.app_name}-${each.value} database parameters"
 }
 module "network_build" {
-  for_each                    = toset(var.build_envs)
-  source                      = "../network_build"
-  name                        = "${var.app_name}-${each.key}-network"
-  artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
-  vpc_name                    = "${var.app_name}-${each.key}"
-  log_bucket                  = module.log_bucket.bucket
-  artifact_bucket             = module.artifact_bucket.bucket
+  for_each      = toset(var.build_envs)
+  source        = "../network_build"
+  name          = "${var.app_name}-${each.key}-network"
+  pipeline_name = var.name
+  app_name      = var.app_name
+  log_bucket    = module.log_bucket.bucket
+  environment   = each.key
 }
 
 
@@ -35,9 +38,9 @@ module "db_build" {
   name                            = "${var.app_name}-${each.key}-db-build"
   database_server_name            = "${var.app_name}-${each.key}-db"
   ssm_paraneter_encryption_key_id = module.kms[each.value].key_id
-  artifact_encryption_key_arn     = module.artifact_bucket.encryption_key_arn
+  artifact_encryption_key_arn     = module.tf_state_bucket.encryption_key_arn
   buildspec                       = "./modules/database/buildspec.yaml"
-  artifact_bucket                 = module.artifact_bucket.bucket
+  tf_state_bucket                 = module.tf_state_bucket.bucket
 }
 # module "db_migrator" {
 #   for_each                    = toset(var.build_envs)
@@ -45,7 +48,7 @@ module "db_build" {
 #   stack_prefix                = "${var.app_name}-${each.value}"
 #   log_bucket                  = module.log_bucket.bucket
 #   log_bucket_arn              = module.log_bucket.arn
-#   artifact_encryption_key_arn = module.artifact_bucket.encryption_key_arn
+#   artifact_encryption_key_arn = module.tf_state_bucket.encryption_key_arn
 #   db_server_id                = "${var.app_name}-${each.value}"
 
 # }
@@ -53,10 +56,10 @@ resource "aws_codepipeline" "infra-pipeline" {
   role_arn = aws_iam_role.codepipeline_role.arn
   name     = var.name
   artifact_store {
-    location = module.artifact_bucket.bucket
+    location = module.tf_state_bucket.bucket
     type     = "S3"
     encryption_key {
-      id   = module.artifact_bucket.encryption_key_arn
+      id   = module.tf_state_bucket.encryption_key_arn
       type = "KMS"
     }
   }

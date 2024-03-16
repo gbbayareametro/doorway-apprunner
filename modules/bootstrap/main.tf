@@ -25,14 +25,14 @@ locals {
     "ec2:*",
     "secretsmanager:*"
   ]
-  environment_variables = { "WORKSPACE" : local.workspace, "PIPELINE_NAME" : var.pipeline_name, "TF_STATE_BUCKET" : module.artifact_bucket.bucket,
-  "KMS_KEY" : module.artifact_bucket.encryption_key_arn }
+  environment_variables = { "WORKSPACE" : local.workspace, "PIPELINE_NAME" : var.pipeline_name, "TF_STATE_BUCKET" : module.tf_state_bucket.bucket,
+  "KMS_KEY" : module.tf_state_bucket.encryption_key_arn }
 }
 module "log_bucket" {
   source = "../../modules/s3"
   name   = "${var.app_name}-${var.pipeline_name}-bootstrap-logs"
 }
-module "artifact_bucket" {
+module "tf_state_bucket" {
   source = "../../modules/s3"
   name   = "${var.app_name}-${var.pipeline_name}-bootstrap-artifacts"
 }
@@ -41,10 +41,10 @@ resource "aws_codebuild_project" "codebuild" {
   description    = "Inital Doorway Application Delivery Bootstrap for ${var.pipeline_name}"
   build_timeout  = 60
   service_role   = aws_iam_role.codebuild_role.arn
-  encryption_key = module.artifact_bucket.encryption_key_arn
+  encryption_key = module.tf_state_bucket.encryption_key_arn
   artifacts {
     type     = "S3"
-    location = module.artifact_bucket.bucket
+    location = module.tf_state_bucket.bucket
     path     = "/"
   }
   environment {

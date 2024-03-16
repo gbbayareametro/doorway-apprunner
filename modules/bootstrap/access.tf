@@ -58,7 +58,7 @@ data "aws_iam_policy_document" "codebuild-access" {
     effect  = "Allow"
     actions = ["kms:Encrypt", "kms:Decrypt"]
     resources = [
-      module.artifact_bucket.encryption_key_arn,
+      module.tf_state_bucket.encryption_key_arn,
       module.log_bucket.encryption_key_arn
 
 

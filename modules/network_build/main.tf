@@ -1,17 +1,15 @@
 
 module "network_build_job" {
-  source                      = "../codebuild"
-  name                        = var.name
-  log_bucket                  = var.log_bucket
-  description                 = "Runs Network Build for Doorway VPC ${var.vpc_name}"
-  allowed_aws_actions         = ["rds:*", "ec2:*", "ssm:*", "secretsmanager:*", "kms:*", "s3:*", "iam:*"]
-  artifact_encryption_key_arn = var.artifact_encryption_key_arn
+  source              = "../codebuild"
+  name                = var.name
+  log_bucket          = var.log_bucket
+  description         = "Runs Network Build for Doorway VPC for the ${var.environment} environment"
+  allowed_aws_actions = ["ec2:*", "ssm:*", "kms:*", "s3:*", "iam:*"]
   environment_variables = [
-    { name = "VPC_NAME", value = var.vpc_name },
     { name = "WORKSPACE", value = var.name },
-    { name = "KMS_KEY", value = var.artifact_encryption_key_arn },
-    { name = "TF_STATE_BUCKET", value = var.artifact_bucket }
-
+    { name = "PIPELINE_NAME", value = var.pipeline_name },
+    { name = "APP_NAME", value = var.app_name },
+    { name = "ENVIRONMENT", value = var.environment },
   ]
   buildspec     = var.buildspec
   build_timeout = 60

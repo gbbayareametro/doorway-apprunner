@@ -20,11 +20,7 @@ variable "environment_variables" {
   default     = []
 
 }
-variable "artifact_encryption_key_arn" {
-  type        = string
-  description = "Used to encrypt any output artifacts"
 
-}
 
 variable "allowed_aws_actions" {
   type        = list(string)

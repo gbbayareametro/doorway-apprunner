@@ -21,5 +21,4 @@ variable "app_name" {
 variable "build_envs" {
   type    = list(string)
   default = ["oneoff"]
-
 }

@@ -19,8 +19,8 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "s3:*",
     ]
     resources = [
-      module.artifact_bucket.arn,
-      "${module.artifact_bucket.arn}/*"
+      module.tf_state_bucket.arn,
+      "${module.tf_state_bucket.arn}/*"
     ]
   }
   statement {
@@ -62,7 +62,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     actions = [
       "kms:*",
     ]
-    resources = [module.log_bucket.encryption_key_arn, module.artifact_bucket.encryption_key_arn]
+    resources = [module.log_bucket.encryption_key_arn, module.tf_state_bucket.encryption_key_arn]
   }
 }
 resource "aws_iam_role_policy" "codepipeline_policy" {

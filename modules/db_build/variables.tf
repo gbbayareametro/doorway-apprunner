@@ -20,7 +20,7 @@ variable "ssm_paraneter_encryption_key_id" {
   type = string
 
 }
-variable "artifact_bucket" {
+variable "tf_state_bucket" {
   type = string
 
 }
