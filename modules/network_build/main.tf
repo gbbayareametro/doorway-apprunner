@@ -4,7 +4,7 @@ module "network_build_job" {
   name                = var.name
   log_bucket          = var.log_bucket
   description         = "Runs Network Build for Doorway VPC for the ${var.environment} environment"
-  allowed_aws_actions = ["ec2:*", "ssm:*", "kms:*", "s3:*", "iam:*", "rds:CreateDBSubnetGroup", "rds:AddTagsToResource"]
+  allowed_aws_actions = ["ec2:*", "ssm:*", "kms:*", "s3:*", "iam:*", "rds:CreateDBSubnetGroup", "rds:*"]
   environment_variables = [
     { name = "WORKSPACE", value = var.name },
     { name = "PIPELINE_NAME", value = var.pipeline_name },
