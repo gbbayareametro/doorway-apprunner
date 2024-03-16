@@ -36,7 +36,6 @@ module "db_build" {
   ssm_paraneter_encryption_key_id = module.kms[each.value].key_id
   artifact_encryption_key_arn     = module.artifact_bucket.encryption_key_arn
   buildspec                       = "./modules/database/buildspec.yaml"
-  log_bucket_arn                  = module.log_bucket.arn
 }
 # module "db_migrator" {
 #   for_each                    = toset(var.build_envs)
@@ -93,19 +92,19 @@ resource "aws_codepipeline" "infra-pipeline" {
           ProjectName = module.network_build[var.build_envs[stage.key]].name
         }
       }
-      action {
-        name            = "Database"
-        category        = "Build"
-        owner           = "AWS"
-        provider        = "CodeBuild"
-        input_artifacts = ["infra-source"]
-        version         = "1"
-        run_order       = 2
-        configuration = {
-          ProjectName = module.db_build[var.build_envs[stage.key]].name
-        }
-      }
       # action {
+      #   name            = "Database"
+      #   category        = "Build"
+      #   owner           = "AWS"
+      #   provider        = "CodeBuild"
+      #   input_artifacts = ["infra-source"]
+      #   version         = "1"
+      #   run_order       = 2
+      #   configuration = {
+      #     ProjectName = module.db_build[var.build_envs[stage.key]].name
+      #   }
+      # }
+      # # action {
       #   name            = "DatabaseMigration"
       #   category        = "Build"
       #   owner           = "AWS"

@@ -20,7 +20,6 @@ phases:
       - chmod 755 /usr/bin/terragrunt
   build:
     commands:
-
       # Verify the values of vars passed in via the project
       - echo "${WORKSPACE}"
       - echo ${TF_STATE_BUCKET}

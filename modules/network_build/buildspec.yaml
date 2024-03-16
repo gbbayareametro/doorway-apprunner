@@ -9,8 +9,6 @@ env:
     TF_IN_AUTOMATION: "true"
     # This var tells terraform to disable prompts for missing variables
     TF_INPUT: "false"
-
-
 phases:
   install:
     commands:
@@ -18,16 +16,16 @@ phases:
       - cd /usr/bin
       - curl -s -qL -o terraform.zip "https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip"
       - unzip -o terraform.zip
+      - curl -s -qL -o terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.55.16/terragrunt_linux_amd64
+      - chmod 755 /usr/bin/terragrunt
   build:
     commands:
       # Verify the values of vars passed in via the project
       - echo "${WORKSPACE}"
-      - echo ${STACK_PREFIX}
-      - cd ${CODEBUILD_SRC_DIR}/modules/network
+      - echo ${TF_STATE_BUCKET}
+      - cd ${CODEBUILD_SRC_DIR}/modules/database
+      - terragrunt init
       # Have to init again to make sure providers are present
-      - terraform init
-      - export TF_VAR_stack_prefix=${WORKSPACE}
-
-      - terraform workspace select -or-create=true  ${WORKSPACE}
-      - terraform destroy -auto-approve -var=name=${VPC_NAME}
-      #- terraform apply -auto-approve -var=name=${VPC_NAME}
+      - terragrunt workspace select -or-create ${WORKSPACE}
+      # Apply the previously saved plan file
+      - terragrunt apply -auto-approve -var=vpc.name=${VPC_NAME}

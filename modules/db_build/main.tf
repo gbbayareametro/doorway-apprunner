@@ -8,12 +8,10 @@ module "db_build_job" {
   name                        = var.name
   artifact_encryption_key_arn = var.artifact_encryption_key_arn
   environment_variables = [{ name : "SSM_PARM_ENCRYPTION_ID", value : var.ssm_paraneter_encryption_key_id },
-    { name = "DATABASE_NAME", value = var.database_name },
     { name = "DB_SERVER_ID", value = var.database_server_name },
     { name : "WORKSPACE", value = var.name },
   ]
-  buildspec         = var.buildspec
-  secondary_sources = var.secondary_sources
-  build_timeout     = 60
+  buildspec     = var.buildspec
+  build_timeout = 60
 }
 
