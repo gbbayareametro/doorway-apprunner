@@ -23,7 +23,8 @@ locals {
     "ec2:CreateVpc",
     "ec2:CreateTags",
     "ec2:*",
-    "secretsmanager:*"
+    "secretsmanager:*",
+    "ssm:*"
   ]
   environment_variables = { "WORKSPACE" : local.workspace, "PIPELINE_NAME" : var.pipeline_name, "TF_STATE_BUCKET" : module.tf_state_bucket.bucket,
   "KMS_KEY" : module.tf_state_bucket.encryption_key_arn }
