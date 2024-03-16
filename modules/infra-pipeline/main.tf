@@ -37,6 +37,7 @@ module "db_build" {
   ssm_paraneter_encryption_key_id = module.kms[each.value].key_id
   artifact_encryption_key_arn     = module.artifact_bucket.encryption_key_arn
   buildspec                       = "./modules/database/buildspec.yaml"
+  artifact_bucket                 = module.artifact_bucket.bucket
 }
 # module "db_migrator" {
 #   for_each                    = toset(var.build_envs)
