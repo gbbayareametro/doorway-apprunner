@@ -29,4 +29,4 @@ phases:
       - terragrunt workspace select -or-create ${WORKSPACE} --terragrunt-log-level debug --terragrunt-debug
 
       # Apply the previously saved plan file
-      - terragrunt destroy -auto-approve  -var-file=../../vars/${PIPELINE_NAME}.tfvars
+      - terragrunt apply -auto-approve  -var-file=../../vars/${PIPELINE_NAME}.tfvars
