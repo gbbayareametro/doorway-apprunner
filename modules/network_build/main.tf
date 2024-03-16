@@ -10,7 +10,7 @@ module "network_build_job" {
     { name = "VPC_NAME", value = var.vpc_name },
     { name = "WORKSPACE", value = var.name },
     { name = "KMS_KEY", value = var.artifact_encryption_key_arn },
-    { name = "ARTIFACT_BUCKET", value = var.artifact_bucket }
+    { name = "TF_STATE_BUCKET", value = var.artifact_bucket }
 
   ]
   buildspec     = var.buildspec
