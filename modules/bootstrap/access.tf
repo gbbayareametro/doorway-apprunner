@@ -47,23 +47,13 @@ data "aws_iam_policy_document" "codebuild-access" {
     }
   }
   statement {
-    effect = "Allow"
-    actions = ["s3:ListBucket",
-      "s3:GetBucketVersioning",
-      "s3:CreateBucket",
-      "s3:PutObject",
-      "s3:GetObject", "s3:GetEncryptionConfiguration",
-      "s3:GetBucketPolicy", "s3:GetBucketPublicAccessBlock",
-      "s3:PutEncryptionConfiguration", "s3:PutBucketVersioning", "s3:PutBucketTagging", "s3:PutBucketPublicAccessBlock",
-      "s3:PutBucketPolicy", "s3:PutBucketLogging", "s3:PutBucketAcl", "s3:ListBucket", "s3:GetObject", "s3:GetBucketVersioning", "s3:GetBucketLogging",
-    "s3:GetBucketAcl", "s3:CreateBucket"]
+    effect  = "Allow"
+    actions = ["s3:*"]
     resources = [
-      module.artifact_bucket.arn,
-      "${module.artifact_bucket.arn}/*",
-      module.log_bucket.arn,
-      "${module.log_bucket.arn}/*"
+      "*"
     ]
   }
+
   statement {
     effect  = "Allow"
     actions = ["kms:Encrypt", "kms:Decrypt"]
