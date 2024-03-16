@@ -32,7 +32,7 @@ resource "aws_ssm_parameter" "log_bucket_encryption_key_arn" {
   key_id      = module.kms_parameter_store.key_id
 }
 resource "aws_ssm_parameter" "vpc_name" {
-  for_each    = var.build_envs
+  for_each    = toset(var.build_envs)
   name        = "/${var.app_name}/pipelines/${var.name}/${each.key}/vpc_name"
   type        = "SecureString"
   value       = "${var.app_name}-${each.key}"
@@ -40,7 +40,7 @@ resource "aws_ssm_parameter" "vpc_name" {
   key_id      = module.kms_parameter_store.key_id
 }
 resource "aws_ssm_parameter" "database_server_name" {
-  for_each    = var.build_envs
+  for_each    = toset(var.build_envs)
   name        = "/${var.app_name}/pipelines/${var.name}/${each.key}/database_server_name"
   type        = "SecureString"
   value       = "${var.app_name}-db-${each.key}"
