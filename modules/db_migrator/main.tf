@@ -14,7 +14,7 @@ module "db_migrator_job" {
   vpcs = [{
     vpc_id             = data.aws_vpc.vpc.id,
     subnets            = data.aws_subnets.private.ids
-    security_group_ids = data.aws_security_groups.groups.ids
+    security_group_ids = [data.aws_security_groups.groups.ids]
 
   }]
 }
