@@ -22,7 +22,7 @@ module "db_migrator_job" {
   }]
 }
 data "aws_ssm_parameter" "vpc_id" {
-  name = "${var.app_name}/pipelines/${var.pipeline_name}/${var.environment}/vpc_id"
+  name = "/${var.app_name}/pipelines/${var.pipeline_name}/${var.environment}/vpc_id"
 }
 
 data "aws_vpc" "vpc" {
