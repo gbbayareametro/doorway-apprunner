@@ -22,5 +22,20 @@ variable "app_user" {
   default     = "doorway"
   description = "Doorway app user"
 
+}
+variable "app_name" {
+  type    = string
+  default = "dw"
+
+}
+variable "pipeline_name" {
+  type = string
+}
+variable "environment" {
+  type = string
+
+}
+variable "ssm_encryption_key" {
+  type = string
 
 }

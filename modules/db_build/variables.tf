@@ -9,7 +9,6 @@ variable "buildspec" {
   type    = string
   default = "modules/db_build/buildspec.yaml"
 }
-
 variable "pipeline_name" {
   type        = string
   description = "The name of the build pipeline the job is part of"
