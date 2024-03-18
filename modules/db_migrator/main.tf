@@ -14,7 +14,7 @@ module "db_migrator_job" {
   vpcs = [{
     vpc_id             = data.aws_vpc.vpc.id,
     subnets            = data.aws_subnets.private.ids
-    security_group_ids = data.aws_security_groups.groups.ids
+    security_group_ids = [data.aws_security_group.group.id]
 
   }]
 }
@@ -35,11 +35,8 @@ data "aws_subnets" "private" {
     values = ["${var.app_name}-${var.environment}-private-*"]
   }
 }
-data "aws_security_groups" "groups" {
-  filter {
-    name   = "name"
-    values = ["${var.app_name}-${var.environment}-default"]
-  }
+data "aws_security_group" "group" {
+  name = "${var.app_name}-${var.environment}-default"
 
 
 }
