@@ -12,12 +12,18 @@ env:
 
 
 phases:
+  install:
+    commands:
+      - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+      - source ~/.bashrc
+      - nvm install v18.19
+      - npm install -G yarn
+
   build:
     commands:
       # Verify the values of vars passed in via the project
       - echo "${WORKSPACE}"
-      - echo ${STACK_PREFIX}
-      - npm install -G yarn
       - cd ${CODEBUILD_SRC_DIR_doorway_source}/backend/core
       - export DATABASE_URL = "postgresql://${PGUSER}@${PGHOST}:${PGPORT}/${PGDATABASE}"
+      - yarn install
       - yarn db:migration:run

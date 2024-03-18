@@ -9,9 +9,6 @@ module "db_migrator_job" {
     { name = "PIPELINE_NAME", value = var.pipeline_name },
     { name = "APP_NAME", value = var.app_name },
   { name = "ENVIRONMENT", value = var.environment }, ]
-  build_image_url   = "aws/codebuild/amazonlinux-aarch64-lambda-standard:nodejs18"
-  environment_type  = "ARM_LAMBDA_CONTAINER"
-  compute_type      = "BUILD_LAMBDA_1GB"
   buildspec         = "./modules/db_migrator/buildspec.yaml"
   secondary_sources = var.secondary_sources
   vpcs = [{
