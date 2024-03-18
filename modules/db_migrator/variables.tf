@@ -1,27 +1,20 @@
+variable "app_name" {
+  type    = string
+  default = "dw"
+}
+variable "environment" {
+  type = string
+}
+variable "pipeline_name" {
+  type = string
+}
+variable "name" {
+  type = string
+
+}
 variable "log_bucket" {
   type        = string
   description = "The bucket to write logs to"
-}
-variable "log_bucket_arn" {
-  type = string
-}
-variable "stack_prefix" {
-  type = string
-}
-variable "resource_name" {
-  type    = string
-  default = "db-migrator"
-}
-variable "database_name" {
-  type    = string
-  default = "database"
-
-}
-variable "db_server_id" {
-  type = string
-}
-variable "artifact_encryption_key_arn" {
-  type = string
 }
 variable "secondary_sources" {
   type    = list(map(string))

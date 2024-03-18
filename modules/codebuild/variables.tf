@@ -5,7 +5,6 @@ variable "name" {
 }
 variable "description" {
   type = string
-
 }
 variable "buildspec" {
   type    = string
@@ -20,8 +19,15 @@ variable "environment_variables" {
   default     = []
 
 }
+variable "vpcs" {
+  type = list(object({
+    vpc_id             = string,
+    subnets            = list(string),
+    security_group_ids = list(string)
+  }))
+  default = []
 
-
+}
 variable "allowed_aws_actions" {
   type        = list(string)
   description = "The AWS actions this codebuild instance is allowed to perform"
@@ -35,7 +41,6 @@ variable "build_timeout" {
 variable "log_bucket" {
   type        = string
   description = "name of the log bucket being passed by the pipeline"
-
 }
 
 variable "build_image_url" {
@@ -51,8 +56,6 @@ variable "environment_type" {
 variable "compute_type" {
   type    = string
   default = "BUILD_GENERAL1_SMALL"
-
-
 }
 variable "secondary_sources" {
   type    = list(map(string))

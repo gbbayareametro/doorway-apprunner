@@ -42,6 +42,14 @@ resource "aws_codebuild_project" "codebuild" {
       location          = secondary_sources.key.source_location
       source_identifier = secondary_sources.key.source_id
     }
+  }
+  dynamic "vpc_config" {
+    for_each = var.vpcs
+    content {
+      vpc_id             = vpc_config.vpc_id
+      subnets            = vpc_config.subnets
+      security_group_ids = vpc_config.security_group_ids
+    }
 
   }
 }
