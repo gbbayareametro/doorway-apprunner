@@ -36,7 +36,6 @@ data "aws_iam_policy_document" "codepipeline_policy" {
         "codebuild:*",
       ]
       resources = [
-        module.vpc[var.build_envs[statement.key]].build_arn,
         module.db_build[var.build_envs[statement.key]].build_arn,
         # module.db_migrator[var.build_envs[statement.key]].build_arn
       ]
@@ -50,7 +49,6 @@ data "aws_iam_policy_document" "codepipeline_policy" {
         "codebuild:StartBuild",
       ]
       resources = [
-        module.vpc[var.build_envs[statement.key]].build_arn,
         module.db_build[var.build_envs[statement.key]].build_arn,
         # module.db_migrator[var.build_envs[statement.key]].build_arn
       ]
