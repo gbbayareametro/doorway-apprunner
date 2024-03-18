@@ -13,6 +13,27 @@ module "log_bucket" {
 data "aws_codestarconnections_connection" "github" {
   name = "doorway-github-connection"
 }
+locals {
+  azs  = slice(data.aws_availability_zones.available.names, 0, 3)
+  cidr = "10.0.0.0/16"
+}
+data "aws_availability_zones" "available" {
+
+}
+# trunk-ignore(checkov/CKV_TF_1): main registry doesn't version by hash
+module "vpc" {
+  for_each              = var.build_envs
+  source                = "terraform-aws-modules/vpc/aws"
+  version               = "~>5.1"
+  name                  = "${var.app_name}-${each.key}"
+  cidr                  = local.cidr
+  azs                   = local.azs
+  private_subnets       = [for k, v in local.azs : cidrsubnet(local.cidr, 8, k)]
+  public_subnets        = [for k, v in local.azs : cidrsubnet(local.cidr, 8, k + 4)]
+  database_subnets      = [for k, v in local.azs : cidrsubnet(local.cidr, 8, k + 8)]
+  database_subnet_names = [for k, v in local.azs : "${var.name}-db-${k}"]
+}
+
 # trunk-ignore(checkov/CKV_TF_1): global terraform registry doesn't use commit hash versioning
 module "kms" {
   for_each    = toset(var.build_envs)
@@ -20,15 +41,15 @@ module "kms" {
   version     = "2.2.0"
   description = "Encryption Key for${var.app_name}-${each.value} database parameters"
 }
-module "network_build" {
-  for_each      = toset(var.build_envs)
-  source        = "../network_build"
-  name          = "${var.app_name}-${each.key}-network"
-  pipeline_name = var.name
-  app_name      = var.app_name
-  log_bucket    = module.log_bucket.bucket
-  environment   = each.key
-}
+# module "network_build" {
+#   for_each      = toset(var.build_envs)
+#   source        = "../network_build"
+#   name          = "${var.app_name}-${each.key}-network"
+#   pipeline_name = var.name
+#   app_name      = var.app_name
+#   log_bucket    = module.log_bucket.bucket
+#   environment   = each.key
+# }
 module "db_build" {
   for_each      = toset(var.build_envs)
   source        = "../../modules/db_build"
@@ -79,18 +100,18 @@ resource "aws_codepipeline" "infra-pipeline" {
     for_each = var.build_envs
     content {
       name = stage.value
-      action {
-        name            = "Network"
-        category        = "Build"
-        owner           = "AWS"
-        provider        = "CodeBuild"
-        input_artifacts = ["infra-source"]
-        version         = "1"
-        run_order       = 1
-        configuration = {
-          ProjectName = module.network_build[var.build_envs[stage.key]].name
-        }
-      }
+      # action {
+      #   name            = "Network"
+      #   category        = "Build"
+      #   owner           = "AWS"
+      #   provider        = "CodeBuild"
+      #   input_artifacts = ["infra-source"]
+      #   version         = "1"
+      #   run_order       = 1
+      #   configuration = {
+      #     ProjectName = module.network_build[var.build_envs[stage.key]].name
+      #   }
+      # }
       action {
         name            = "Database"
         category        = "Build"
