@@ -46,6 +46,14 @@ resource "aws_ssm_parameter" "vpc_name" {
   description = "the VPC id for each environment in the pipeline"
   key_id      = module.kms_parameter_store.key_id
 }
+resource "aws_ssm_parameter" "vpc_id" {
+  for_each    = toset(var.build_envs)
+  name        = "/${var.app_name}/pipelines/${var.name}/${each.key}/vpc_id"
+  type        = "SecureString"
+  value       = module.vpc.vpc_id
+  description = "the VPC id for each environment in the pipeline"
+  key_id      = module.kms_parameter_store.key_id
+}
 resource "aws_ssm_parameter" "database_server_name" {
   for_each    = toset(var.build_envs)
   name        = "/${var.app_name}/pipelines/${var.name}/${each.key}/db/server_name"

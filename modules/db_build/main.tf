@@ -11,6 +11,7 @@ module "db_build_job" {
     { name = "PIPELINE_NAME", value = var.pipeline_name },
     { name = "APP_NAME", value = var.app_name },
     { name = "ENVIRONMENT", value = var.environment },
+
   ]
   buildspec     = var.buildspec
   build_timeout = 60
