@@ -12,31 +12,18 @@ module "db_migrator_job" {
   buildspec         = "./modules/db_migrator/buildspec.yaml"
   secondary_sources = var.secondary_sources
   vpcs = [{
-    vpc_id             = data.aws_vpc.vpc.id,
-    subnets            = data.aws_subnets.private.ids
-    security_group_ids = [data.aws_security_group.group.id]
+    vpc_id             = data.aws_ssm_parameter.vpc_id
+    subnets            = data.aws_ssm_parameter.subnets
+    security_group_ids = [data.aws_ssm_parameter.default_sg]
 
   }]
 }
 data "aws_ssm_parameter" "vpc_id" {
   name = "/${var.app_name}/pipelines/${var.pipeline_name}/${var.environment}/vpc_id"
 }
-
-data "aws_vpc" "vpc" {
-  id = data.aws_ssm_parameter.vpc_id.value
+data "aws_ssm_parameter" "subnets" {
+  name = "/${var.app_name}/pipelines/${var.pipeline_name}/${var.environment}/subnets"
 }
-data "aws_subnets" "private" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.vpc.id]
-  }
-  filter {
-    name   = "tag:Name"
-    values = ["${var.app_name}-${var.environment}-private-*"]
-  }
-}
-data "aws_security_group" "group" {
-  name = "${var.app_name}-${var.environment}-default"
-
-
+data "aws_ssm_parameter" "default_sg" {
+  name = "/${var.app_name}/pipelines/${var.pipeline_name}/${var.environment}/default_sg"
 }
