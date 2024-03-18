@@ -59,14 +59,19 @@ module "db_build" {
   app_name      = var.app_name
   environment   = each.key
 }
-# module "db_migrator" {
-#   for_each      = toset(var.build_envs)
-#   source        = "../db_migrator"
-#   name          = "${var.app_name}-${each.key}-db-migration"
-#   environment   = each.key
-#   pipeline_name = var.name
-#   log_bucket    = module.log_bucket.bucket
-# }
+module "db_migrator" {
+  for_each      = toset(var.build_envs)
+  source        = "../db_migrator"
+  name          = "${var.app_name}-${each.key}-db-migration"
+  environment   = each.key
+  pipeline_name = var.name
+  log_bucket    = module.log_bucket.bucket
+  vpcs = [{
+    vpc_id             = module.vpc[each.key].vpc_id
+    subnets            = module.vpc[each.key].private_subnets
+    security_group_ids = [module.vpc[each.key].security_group_ids]
+  }]
+}
 resource "aws_codepipeline" "infra-pipeline" {
   role_arn = aws_iam_role.codepipeline_role.arn
   name     = var.name
@@ -124,18 +129,18 @@ resource "aws_codepipeline" "infra-pipeline" {
           ProjectName = module.db_build[var.build_envs[stage.key]].name
         }
       }
-      # action {
-      #   name            = "DatabaseMigration"
-      #   category        = "Build"
-      #   owner           = "AWS"
-      #   provider        = "CodeBuild"
-      #   input_artifacts = ["infra-source"]
-      #   version         = "1"
-      #   run_order       = 2
-      #   configuration = {
-      #     ProjectName = module.db_migrator[var.build_envs[stage.key]].name
-      #   }
-      # }
+      action {
+        name            = "DatabaseMigration"
+        category        = "Build"
+        owner           = "AWS"
+        provider        = "CodeBuild"
+        input_artifacts = ["infra-source"]
+        version         = "1"
+        run_order       = 2
+        configuration = {
+          ProjectName = module.db_migrator[var.build_envs[stage.key]].name
+        }
+      }
     }
 
   }

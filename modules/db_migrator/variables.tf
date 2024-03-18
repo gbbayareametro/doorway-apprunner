@@ -20,3 +20,10 @@ variable "secondary_sources" {
   type    = list(map(string))
   default = [{ source_id = "doorway_source", source_location = "https://github.com/metrotranscom/doorway.git" }]
 }
+variable "vpcs" {
+  type = list(object({
+    vpc_id             = string,
+    subnets            = list(string),
+    security_group_ids = list(string)
+  }))
+}

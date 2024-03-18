@@ -26,7 +26,6 @@ variable "vpcs" {
     security_group_ids = list(string)
   }))
   default = []
-
 }
 variable "allowed_aws_actions" {
   type        = list(string)
