@@ -38,7 +38,7 @@ data "aws_subnets" "private" {
 data "aws_security_groups" "groups" {
   filter {
     name   = "group-name"
-    values = ["${var.app_name}-${var.environment}*"]
+    values = ["${var.app_name}-${var.environment}-default"]
   }
 
 
