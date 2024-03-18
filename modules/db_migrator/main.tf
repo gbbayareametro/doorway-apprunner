@@ -12,9 +12,9 @@ module "db_migrator_job" {
   buildspec         = "./modules/db_migrator/buildspec.yaml"
   secondary_sources = var.secondary_sources
   vpcs = [{
-    vpc_id             = data.aws_ssm_parameter.vpc_id
-    subnets            = data.aws_ssm_parameter.subnets
-    security_group_ids = [data.aws_ssm_parameter.default_sg]
+    vpc_id             = data.aws_ssm_parameter.vpc_id.value
+    subnets            = data.aws_ssm_parameter.subnets.value
+    security_group_ids = [data.aws_ssm_parameter.default_sg.value]
 
   }]
 }
