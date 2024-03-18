@@ -69,7 +69,7 @@ module "db_migrator" {
   vpcs = [{
     vpc_id             = module.vpc[each.key].vpc_id
     subnets            = module.vpc[each.key].private_subnets
-    security_group_ids = [module.vpc[each.key].security_group_ids]
+    security_group_ids = [module.vpc[each.key].default_security_group_id]
   }]
 }
 resource "aws_codepipeline" "infra-pipeline" {
