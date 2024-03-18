@@ -22,7 +22,7 @@ data "aws_availability_zones" "available" {
 }
 # trunk-ignore(checkov/CKV_TF_1): main registry doesn't version by hash
 module "vpc" {
-  for_each              = var.build_envs
+  for_each              = toset(var.build_envs)
   source                = "terraform-aws-modules/vpc/aws"
   version               = "~>5.1"
   name                  = "${var.app_name}-${each.key}"
