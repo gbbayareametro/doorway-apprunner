@@ -13,6 +13,7 @@ env:
     TF_STATE_BUCKET: "/${APP_NAME}/pipelines/${PIPELINE_NAME}/tf_state_bucket"
     KMS_KEY: "/${APP_NAME}/pipelines/${PIPELINE_NAME}/tf_state_bucket_encryption_key"
     VPC_NAME: "/${APP_NAME}/pipelines/${PIPELINE_NAME}/${ENVIRONMENT}/vpc_name"
+    SSM_KEY: "/${APP_NAME}/pipelines/${PIPELINE_NAME}/ssm_encryption_key"
 
 
 
@@ -30,9 +31,12 @@ phases:
       # Verify the values of vars passed in via the project
       - echo "${WORKSPACE}"
       - echo ${TF_STATE_BUCKET}
+      - echo ${VPC_NAME}
+      - echo ${APP_NAME}
+      - echo ${ENVIRONMENT}
       - cd ${CODEBUILD_SRC_DIR}/modules/network
       - terragrunt init
       # Have to init again to make sure providers are present
       - terragrunt workspace select -or-create ${WORKSPACE}
       # Apply the previously saved plan file
-      - terragrunt apply -auto-approve -var=name=${VPC_NAME}
+      - terragrunt apply -auto-approve -var=name=${VPC_NAME} -var=app_name=${APP_NAME} -var=environment=${ENVIRONMENT} -var=ssm_encryption_key=${SSM_KEY}

@@ -31,6 +31,13 @@ resource "aws_ssm_parameter" "log_bucket_encryption_key_arn" {
   description = "The the encryption key for the bucket for the tf state files for this pipeline"
   key_id      = module.kms_parameter_store.key_id
 }
+resource "aws_ssm_parameter" "ssm_encryption_key" {
+  name        = "/${var.app_name}/pipelines/${var.name}/ssm_encryption_key"
+  type        = "SecureString"
+  value       = module.kms_parameter_store.key_id
+  description = "The the encryption key for the bucket for the tf state files for this pipeline"
+  key_id      = module.kms_parameter_store.key_id
+}
 resource "aws_ssm_parameter" "vpc_name" {
   for_each    = toset(var.build_envs)
   name        = "/${var.app_name}/pipelines/${var.name}/${each.key}/vpc_name"
@@ -41,7 +48,7 @@ resource "aws_ssm_parameter" "vpc_name" {
 }
 resource "aws_ssm_parameter" "database_server_name" {
   for_each    = toset(var.build_envs)
-  name        = "/${var.app_name}/pipelines/${var.name}/${each.key}/database_server_name"
+  name        = "/${var.app_name}/pipelines/${var.name}/${each.key}/db/server_name"
   type        = "SecureString"
   value       = "${var.app_name}-db-${each.key}"
   description = "the VPC id for each environment in the pipeline"
