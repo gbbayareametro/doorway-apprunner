@@ -44,11 +44,11 @@ resource "aws_codebuild_project" "codebuild" {
     }
   }
   dynamic "vpc_config" {
-    for_each = var.vpcs
+    for_each = toset(var.vpcs)
     content {
-      vpc_id             = vpc_config.vpc_id
-      subnets            = vpc_config.subnets
-      security_group_ids = vpc_config.security_group_ids
+      vpc_id             = vpc_config.key.vpc_id
+      subnets            = vpc_config.key.subnets
+      security_group_ids = vpc_config.key.security_group_ids
     }
 
   }
