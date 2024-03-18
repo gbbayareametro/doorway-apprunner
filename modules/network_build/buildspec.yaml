@@ -39,4 +39,4 @@ phases:
       # Have to init again to make sure providers are present
       - terragrunt workspace select -or-create ${WORKSPACE}
       # Apply the previously saved plan file
-      - terragrunt apply -auto-approve -var=name=${VPC_NAME} -var=app_name=${APP_NAME} -var=environment=${ENVIRONMENT} -var=ssm_encryption_key=${SSM_KEY}
+      - terragrunt apply -auto-approve -var=name=${VPC_NAME} -var=app_name=${APP_NAME} -var=pipeline_name=${PIPELINE_NAME} -var=environment=${ENVIRONMENT} -var=ssm_encryption_key=${SSM_KEY}
