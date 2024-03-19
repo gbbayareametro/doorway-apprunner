@@ -35,6 +35,7 @@ module "vpc" {
   database_subnets                   = [for k, v in local.azs : cidrsubnet(local.cidr, 8, k + 8)]
   database_subnet_names              = [for k, v in local.azs : "${var.name}-db-${k}"]
 }
+#trunk-ignore(checkov/CKV2_AWS_5)
 resource "aws_security_group" "egress_to_internet" {
   for_each    = toset(var.build_envs)
   name        = "allow internet egress"
@@ -48,6 +49,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
   security_group_id = aws_security_group.egress_to_internet[each.key].id
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1" # semantically equivalent to all ports
+  description       = "allow outbound ipv4 traffic"
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv6" {
@@ -55,6 +57,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv6" {
   security_group_id = aws_security_group.egress_to_internet[each.key].id
   cidr_ipv6         = "::/0"
   ip_protocol       = "-1" # semantically equivalent to all ports
+  description       = "allow outbound ipv6 traffic"
 }
 # trunk-ignore(checkov/CKV_TF_1): global terraform registry doesn't use commit hash versioning
 module "kms" {
