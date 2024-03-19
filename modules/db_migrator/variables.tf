@@ -18,7 +18,7 @@ variable "log_bucket" {
 }
 variable "secondary_sources" {
   type    = list(map(string))
-  default = [{ source_id = "doorway_source", source_location = "https://github.com/gbbayareametro/doorway.git" }]
+  default = [{ source_id = "doorway_source", source_location = "gbbayareametro/doorway" }]
 }
 variable "vpcs" {
   type = list(object({
