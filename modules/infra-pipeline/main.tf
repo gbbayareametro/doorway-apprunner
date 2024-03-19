@@ -161,7 +161,7 @@ resource "aws_codepipeline" "infra-pipeline" {
         provider        = "CodeBuild"
         input_artifacts = ["infra-source"]
         version         = "1"
-        run_order       = 2
+        run_order       = 3
         configuration = {
           ProjectName = module.db_migrator[var.build_envs[stage.key]].name
         }
