@@ -32,14 +32,6 @@ module "vpc" {
   public_subnets        = [for k, v in local.azs : cidrsubnet(local.cidr, 8, k + 4)]
   database_subnets      = [for k, v in local.azs : cidrsubnet(local.cidr, 8, k + 8)]
   database_subnet_names = [for k, v in local.azs : "${var.name}-db-${k}"]
-  default_security_group_egress = [{
-    from_port = 0
-    to_port   = 0
-    protocol  = -1
-    self      = true
-
-
-  }]
 }
 
 # trunk-ignore(checkov/CKV_TF_1): global terraform registry doesn't use commit hash versioning
@@ -76,7 +68,7 @@ module "db_migrator" {
   log_bucket    = module.log_bucket.bucket
   vpcs = [{
     vpc_id             = module.vpc[each.key].vpc_id
-    subnets            = module.vpc[each.key].private_subnets
+    subnets            = module.vpc[each.key].public_subnets
     security_group_ids = [module.vpc[each.key].default_security_group_id]
   }]
 }
