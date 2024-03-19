@@ -90,7 +90,7 @@ module "db_migrator" {
   log_bucket    = module.log_bucket.bucket
   vpcs = [{
     vpc_id             = module.vpc[each.key].vpc_id
-    subnets            = module.vpc[each.key].public_subnets
+    subnets            = module.vpc[each.key].private_subnets
     security_group_ids = [aws_security_group.egress_to_internet[each.key].id]
   }]
 }
@@ -123,20 +123,20 @@ resource "aws_codepipeline" "infra-pipeline" {
 
 
     }
-    action {
-      name             = "DoorwaySource"
-      category         = "Source"
-      owner            = "AWS"
-      provider         = "CodeStarSourceConnection"
-      version          = "1"
-      output_artifacts = ["doorway-source"]
-      configuration = {
-        ConnectionArn    = data.aws_codestarconnections_connection.github.arn
-        FullRepositoryId = var.doorway_source_repo
-        BranchName       = var.doorway_source_branch
-      }
+    # action {
+    #   name             = "DoorwaySource"
+    #   category         = "Source"
+    #   owner            = "AWS"
+    #   provider         = "CodeStarSourceConnection"
+    #   version          = "1"
+    #   output_artifacts = ["doorway-source"]
+    #   configuration = {
+    #     ConnectionArn    = data.aws_codestarconnections_connection.github.arn
+    #     FullRepositoryId = var.doorway_source_repo
+    #     BranchName       = var.doorway_source_branch
+    #   }
 
-    }
+    # }
   }
   dynamic "stage" {
     for_each = var.build_envs

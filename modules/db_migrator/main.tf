@@ -9,6 +9,7 @@ module "db_migrator_job" {
     { name = "PIPELINE_NAME", value = var.pipeline_name },
     { name = "APP_NAME", value = var.app_name },
   { name = "ENVIRONMENT", value = var.environment }, ]
-  buildspec = "./modules/db_migrator/buildspec.yaml"
-  vpcs      = var.vpcs
+  buildspec         = "./modules/db_migrator/buildspec.yaml"
+  secondary_sources = var.secondary_sources
+  vpcs              = var.vpcs
 }
