@@ -35,7 +35,24 @@ module "vpc" {
   database_subnets                   = [for k, v in local.azs : cidrsubnet(local.cidr, 8, k + 8)]
   database_subnet_names              = [for k, v in local.azs : "${var.name}-db-${k}"]
 }
+resource "aws_security_group" "egress_to_internet" {
+  name        = "allow internet egress"
+  vpc_id      = module.vpc.vpc_id
+  description = "This will allow access to internet resources from within the VPC"
 
+
+}
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
+  security_group_id = aws_security_group.egress_to_internet.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1" # semantically equivalent to all ports
+}
+
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv6" {
+  security_group_id = aws_security_group.egress_to_internet.id
+  cidr_ipv6         = "::/0"
+  ip_protocol       = "-1" # semantically equivalent to all ports
+}
 # trunk-ignore(checkov/CKV_TF_1): global terraform registry doesn't use commit hash versioning
 module "kms" {
   for_each    = toset(var.build_envs)
@@ -71,7 +88,7 @@ module "db_migrator" {
   vpcs = [{
     vpc_id             = module.vpc[each.key].vpc_id
     subnets            = module.vpc[each.key].public_subnets
-    security_group_ids = [module.vpc[each.key].default_security_group_id]
+    security_group_ids = [aws_security_group.egress_to_internet.id]
   }]
 }
 resource "aws_codepipeline" "infra-pipeline" {
