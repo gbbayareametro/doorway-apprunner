@@ -109,7 +109,7 @@ resource "aws_codepipeline" "infra-pipeline" {
       owner            = "AWS"
       provider         = "CodeStarSourceConnection"
       version          = "1"
-      output_artifacts = ["doorway"]
+      output_artifacts = ["doorway-source"]
       configuration = {
         ConnectionArn    = data.aws_codestarconnections_connection.github.arn
         FullRepositoryId = var.doorway_source_repo
