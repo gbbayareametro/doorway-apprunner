@@ -4,7 +4,7 @@ module "db_migrator_job" {
   log_bucket          = var.log_bucket
   name                = var.name
   description         = "Runs Db Migration for Doorway"
-  allowed_aws_actions = ["secretsmanager:*", "ec2:*"]
+  allowed_aws_actions = ["secretsmanager:*", "ec2:*", "ssm:*"]
   environment_variables = [{ name = "WORKSPACE", value = var.name },
     { name = "PIPELINE_NAME", value = var.pipeline_name },
     { name = "APP_NAME", value = var.app_name },
