@@ -159,7 +159,7 @@ resource "aws_codepipeline" "infra-pipeline" {
         category        = "Build"
         owner           = "AWS"
         provider        = "CodeBuild"
-        input_artifacts = ["doorway-source"]
+        input_artifacts = ["infra-source"]
         version         = "1"
         run_order       = 2
         configuration = {
