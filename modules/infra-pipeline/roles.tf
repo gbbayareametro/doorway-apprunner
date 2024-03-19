@@ -37,7 +37,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       ]
       resources = [
         module.db_build[var.build_envs[statement.key]].build_arn,
-        # module.db_migrator[var.build_envs[statement.key]].build_arn
+        module.db_migrator[var.build_envs[statement.key]].build_arn
       ]
     }
   }
@@ -50,7 +50,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       ]
       resources = [
         module.db_build[var.build_envs[statement.key]].build_arn,
-        # module.db_migrator[var.build_envs[statement.key]].build_arn
+        module.db_migrator[var.build_envs[statement.key]].build_arn
       ]
     }
 
