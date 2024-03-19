@@ -45,14 +45,14 @@ resource "aws_security_group" "egress_to_internet" {
 }
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
   for_each          = toset(var.build_envs)
-  security_group_id = aws_security_group[each.key].egress_to_internet.id
+  security_group_id = aws_security_group.egress_to_internet[each.key].id
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1" # semantically equivalent to all ports
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv6" {
   for_each          = toset(var.build_envs)
-  security_group_id = aws_security_group[each.key].egress_to_internet.id
+  security_group_id = aws_security_group.egress_to_internet[each.key].id
   cidr_ipv6         = "::/0"
   ip_protocol       = "-1" # semantically equivalent to all ports
 }
