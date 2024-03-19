@@ -44,7 +44,7 @@ variable "log_bucket" {
 
 variable "build_image_url" {
   type    = string
-  default = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
+  default = "aws/codebuild/standard:7.0"
 
 }
 variable "environment_type" {
