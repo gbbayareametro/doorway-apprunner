@@ -12,4 +12,5 @@ module "db_migrator_job" {
   buildspec         = "./modules/db_migrator/buildspec.yaml"
   secondary_sources = var.secondary_sources
   vpcs              = var.vpcs
+  build_timeout     = 60
 }
