@@ -25,6 +25,6 @@ phases:
       - export PGUSER=$(aws secretsmanager get-secret-value --secret-id ${DB_SECRET_ID} --query SecretString|jq -r|jq -r .username)
       - export PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id ${DB_SECRET_ID} --query SecretString|jq -r|jq -r .password)
       - echo $PGUSER
-      - export DATABASE_URL = "postgresql://${PGUSER}@${PGHOST}:${PGPORT}/${PGDATABASE}"
+      - export DATABASE_URL="postgresql://${PGUSER}@${PGHOST}:${PGPORT}/${PGDATABASE}"
       - yarn install
       - yarn db:migration:run
