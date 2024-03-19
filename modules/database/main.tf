@@ -3,7 +3,7 @@ locals {
 
   tags = {
     Name        = var.name
-    Application = var.app_user
+    Application = "Doorway"
   }
 }
 
