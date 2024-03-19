@@ -36,20 +36,23 @@ module "vpc" {
   database_subnet_names              = [for k, v in local.azs : "${var.name}-db-${k}"]
 }
 resource "aws_security_group" "egress_to_internet" {
+  for_each    = toset(var.build_envs)
   name        = "allow internet egress"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = module.vpc[each.key].vpc_id
   description = "This will allow access to internet resources from within the VPC"
 
 
 }
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
-  security_group_id = aws_security_group.egress_to_internet.id
+  for_each          = toset(var.build_envs)
+  security_group_id = aws_security_group[each.key].egress_to_internet.id
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1" # semantically equivalent to all ports
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv6" {
-  security_group_id = aws_security_group.egress_to_internet.id
+  for_each          = toset(var.build_envs)
+  security_group_id = aws_security_group[each.key].egress_to_internet.id
   cidr_ipv6         = "::/0"
   ip_protocol       = "-1" # semantically equivalent to all ports
 }
@@ -88,7 +91,7 @@ module "db_migrator" {
   vpcs = [{
     vpc_id             = module.vpc[each.key].vpc_id
     subnets            = module.vpc[each.key].public_subnets
-    security_group_ids = [aws_security_group.egress_to_internet.id]
+    security_group_ids = [aws_security_group.egress_to_internet[each.key].id]
   }]
 }
 resource "aws_codepipeline" "infra-pipeline" {
