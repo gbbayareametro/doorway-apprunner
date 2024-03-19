@@ -56,4 +56,8 @@ resource "random_password" "master" {
   length  = 20
   special = false
 }
+resource "postgresql_database" "doorway_db" {
+  name = "doorway"
+
+}
 

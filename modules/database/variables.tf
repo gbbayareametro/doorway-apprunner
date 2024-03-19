@@ -13,16 +13,16 @@ variable "database_subnet_group" {
 }
 variable "master_username" {
   type        = string
-  default     = "root"
-  description = "pg admin"
-
-}
-variable "app_user" {
-  type        = string
   default     = "doorway"
-  description = "Doorway app user"
+  description = "Doorway user"
 
 }
+# variable "app_user" {
+#   type        = string
+#   default     = "doorway"
+#   description = "Doorway app user"
+
+# }
 variable "app_name" {
   type    = string
   default = "dw"
