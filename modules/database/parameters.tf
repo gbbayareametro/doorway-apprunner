@@ -15,9 +15,9 @@ resource "aws_ssm_parameter" "db_port" {
   key_id      = var.ssm_encryption_key
 }
 resource "aws_ssm_parameter" "secret_id" {
-  name        = "/${var.app_name}/pipelines/${var.pipeline_name}/${var.environment}/db/port"
+  name        = "/${var.app_name}/pipelines/${var.pipeline_name}/${var.environment}/db/secret_id"
   type        = "SecureString"
-  value       = module.aurora_postgresql_v2.cluster_master_user_secret
+  value       = module.aurora_postgresql_v2.cluster_master_user_secret[0]
   description = "The bucket for the tf state files for this pipeline"
   key_id      = var.ssm_encryption_key
 }
