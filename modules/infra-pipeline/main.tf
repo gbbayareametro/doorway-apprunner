@@ -32,6 +32,14 @@ module "vpc" {
   public_subnets        = [for k, v in local.azs : cidrsubnet(local.cidr, 8, k + 4)]
   database_subnets      = [for k, v in local.azs : cidrsubnet(local.cidr, 8, k + 8)]
   database_subnet_names = [for k, v in local.azs : "${var.name}-db-${k}"]
+  default_security_group_egress = {
+    from_port = 0
+    to_port   = 0
+    protocol  = -1
+    self      = true
+
+
+  }
 }
 
 # trunk-ignore(checkov/CKV_TF_1): global terraform registry doesn't use commit hash versioning
