@@ -23,7 +23,7 @@ phases:
     commands:
       # Verify the values of vars passed in via the project
       - echo "${WORKSPACE}"
-      - cd ${CODEBUILD_SRC_DIR_doorway_source}/backend/core
+      - cd ${CODEBUILD_SRC_DIR}/backend/core
       - export DATABASE_URL = "postgresql://${PGUSER}@${PGHOST}:${PGPORT}/${PGDATABASE}"
       - yarn install
       - yarn db:migration:run

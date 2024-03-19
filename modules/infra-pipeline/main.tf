@@ -101,24 +101,27 @@ resource "aws_codepipeline" "infra-pipeline" {
         BranchName       = var.infra_source_branch
       }
 
+
+    }
+    action {
+      name             = "DoorwaySource"
+      category         = "Source"
+      owner            = "AWS"
+      provider         = "CodeStarSourceConnection"
+      version          = "1"
+      output_artifacts = ["doorway"]
+      configuration = {
+        ConnectionArn    = data.aws_codestarconnections_connection.github.arn
+        FullRepositoryId = var.doorway_source_repo
+        BranchName       = var.doorway_source_branch
+      }
+
     }
   }
   dynamic "stage" {
     for_each = var.build_envs
     content {
       name = stage.value
-      # action {
-      #   name            = "Network"
-      #   category        = "Build"
-      #   owner           = "AWS"
-      #   provider        = "CodeBuild"
-      #   input_artifacts = ["infra-source"]
-      #   version         = "1"
-      #   run_order       = 1
-      #   configuration = {
-      #     ProjectName = module.network_build[var.build_envs[stage.key]].name
-      #   }
-      # }
       action {
         name            = "Database"
         category        = "Build"
@@ -136,7 +139,7 @@ resource "aws_codepipeline" "infra-pipeline" {
         category        = "Build"
         owner           = "AWS"
         provider        = "CodeBuild"
-        input_artifacts = ["infra-source"]
+        input_artifacts = ["doorway-source"]
         version         = "1"
         run_order       = 2
         configuration = {

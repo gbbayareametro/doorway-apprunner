@@ -13,6 +13,17 @@ variable "infra_source_branch" {
   default     = "main"
   description = "the name of the branch"
 }
+variable "doorway_source_repo" {
+  type        = string
+  default     = "gbbayareametro/doorway"
+  description = "the name of the Github repository the infrastructure source code is located in"
+
+}
+variable "doorway_source_branch" {
+  type        = string
+  default     = "main"
+  description = "the name of the branch"
+}
 variable "app_name" {
   type    = string
   default = "dw"
