@@ -5,9 +5,6 @@ env:
     DB_SECRET_ID: "/${APP_NAME}/pipelines/${PIPELINE_NAME}/${ENVIRONMENT}/db/secret_id"
     PGHOST:  "/${APP_NAME}/pipelines/${PIPELINE_NAME}/${ENVIRONMENT}/db/host"
     PGPORT:  "/${APP_NAME}/pipelines/${PIPELINE_NAME}/${ENVIRONMENT}/db/port"
-  secrets-manager:
-    PGUSER: "${DB_SECRET_ID}:username"
-    PGPASSWORD: "${DB_SECRET_ID}:password"
 
 
 
@@ -24,6 +21,8 @@ phases:
       # Verify the values of vars passed in via the project
       - echo "${WORKSPACE}"
       - cd ${CODEBUILD_SRC_DIR}/backend/core
+      - export PGUSER=$(aws secretsmanager get-secret-value --secret-id '${DB_SECRET_ID}' --query SecretString|jq -r|jq -r .username)
+      - export PGUSER=$(aws secretsmanager get-secret-value --secret-id '${DB_SECRET_ID}' --query SecretString|jq -r|jq -r .password)
       - export DATABASE_URL = "postgresql://${PGUSER}@${PGHOST}:${PGPORT}/${PGDATABASE}"
       - yarn install
       - yarn db:migration:run
