@@ -14,8 +14,7 @@ phases:
       - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
       #- \[ -s "$NVM_DIR/nvm.sh" \]
       - export NVM_DIR="$HOME/.nvm"
-      - . "$NVM_DIR/nvm.sh"
-      - nvm install v18.19
+      - . "$NVM_DIR/nvm.sh" && nvm install v18.19
       - npm install -G yarn
 
   build:
