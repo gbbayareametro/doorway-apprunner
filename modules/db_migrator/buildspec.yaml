@@ -16,7 +16,7 @@ phases:
       - export NVM_DIR="$HOME/.nvm"
       - . "$NVM_DIR/nvm.sh" && nvm install v18.19
       - npm install -G yarn
-      - sudo apt install -y  postgresql-client-16
+      - sudo apt install -y  postgresql-client-15
 
   build:
     commands:
