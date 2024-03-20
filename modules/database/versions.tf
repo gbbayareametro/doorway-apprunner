@@ -18,7 +18,7 @@ terraform {
 }
 provider "postgresql" {
   host     = module.aurora_postgresql_v2.cluster_endpoint
-  port     = module.aurora_postgresql_v2.cluster_port
+  port     = 5432
   username = module.aurora_postgresql_v2.cluster_master_username
   password = module.aurora_postgresql_v2.cluster_master_password
 }
