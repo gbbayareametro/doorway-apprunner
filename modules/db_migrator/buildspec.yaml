@@ -26,7 +26,7 @@ phases:
       - cd ${CODEBUILD_SRC_DIR_doorway_source}/backend/core
       - export PGUSER=$(aws secretsmanager get-secret-value --secret-id ${DB_SECRET_ID} --query SecretString|jq -r|jq -r .username)
       - export PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id ${DB_SECRET_ID} --query SecretString|jq -r|jq -r .password)
-      - psql -U ${PGUSER} -c "CREATE DATABASE doorway;"
+      - createdb doorway
       - echo $PGUSER
       - export DATABASE_URL="postgresql://${PGUSER}@${PGHOST}:${PGPORT}/${PGDATABASE}"
       - yarn install
