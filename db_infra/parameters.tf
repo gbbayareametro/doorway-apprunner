@@ -33,7 +33,7 @@ resource "aws_ssm_parameter" "parameter_encryptor_id" {
   description = "Used to encrypt SSM parameters for ${var.app_name} ${var.environment}"
   key_id      = module.kms_parameter_store.key_id
 }
-resource "aws_ssm_parameter" "parameter_encryptor_id" {
+resource "aws_ssm_parameter" "vpc_id" {
   name        = "/${var.app_name}/${var.environment}/db/vpc_id"
   type        = "SecureString"
   value       = module.vpc.vpc_id

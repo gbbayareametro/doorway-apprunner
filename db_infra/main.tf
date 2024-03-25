@@ -20,11 +20,11 @@ module "aurora_postgresql_v2" {
   engine_version       = data.aws_rds_engine_version.postgresql.version
   storage_encrypted    = true
   master_username      = var.master_username
-  vpc_id               = data.aws_vpc.vpc.id
-  db_subnet_group_name = module.vpc.vpc_id
+  vpc_id               = module.vpc.vpc_id
+  db_subnet_group_name = module.vpc.database_subnet_group_name
   security_group_rules = {
     vpc_ingress = {
-      cidr_blocks = [data.aws_vpc.vpc.cidr_block]
+      cidr_blocks = [module.vpc.default_vpc_cidr_block]
     }
   }
   monitoring_interval = 60
