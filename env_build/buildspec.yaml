@@ -30,6 +30,7 @@ phases:
       # Verify the values of vars passed in via the project
       - echo "${WORKSPACE}"
       - echo ${TF_STATE_BUCKET}
+      - echo ${TF_STATE_KEY}
       - echo ${ENVIRONMENT}
       - cd ${CODEBUILD_SRC_DIR}/db_infra
       - terragrunt init
