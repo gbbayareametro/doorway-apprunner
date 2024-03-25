@@ -11,8 +11,6 @@ env:
     TF_INPUT: "false"
     TG_VERSION: "v0.55.16"
   parameter-store:
-    TF_STATE_BUCKET: "/${APP_NAME}/env-build/tfstate_bucket"
-    TF_STATE_KEY: "/${APP_NAME}/env-build/tfstate_key"
     PARM_KEY: "/${APP_NAME}/env-build/parameter_encryption_key"
 
 
