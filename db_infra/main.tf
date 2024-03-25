@@ -30,7 +30,7 @@ module "aurora_postgresql_v2" {
       cidr_blocks = [concat(
         module.vpc.database_subnets_cidr_blocks,
         module.vpc.private_subnets_cidr_blocks,
-        data.aws_vpc.default_vpc.cidr_block)
+        [data.aws_vpc.default_vpc.cidr_block])
       ]
 
 
