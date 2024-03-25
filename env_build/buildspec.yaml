@@ -10,13 +10,6 @@ env:
     # This var tells terraform to disable prompts for missing variables
     TF_INPUT: "false"
     TG_VERSION: "v0.55.16"
-  parameter-store:
-    TF_STATE_BUCKET: "/${APP_NAME}/pipelines/${PIPELINE_NAME}/tf_state_bucket"
-    KMS_KEY: "/${APP_NAME}/pipelines/${PIPELINE_NAME}/tf_state_bucket_encryption_key"
-    DB_SERVER_NAME: "/${APP_NAME}/pipelines/${PIPELINE_NAME}/${ENVIRONMENT}/db/server_name"
-    VPC_NAME: "/${APP_NAME}/pipelines/${PIPELINE_NAME}/${ENVIRONMENT}/vpc_name"
-    VPC_ID: "/${APP_NAME}/pipelines/${PIPELINE_NAME}/${ENVIRONMENT}/vpc_id"
-    SSM_KEY: "/${APP_NAME}/pipelines/${PIPELINE_NAME}/ssm_encryption_key"
 
 phases:
   install:
