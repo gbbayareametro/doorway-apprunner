@@ -9,6 +9,9 @@ data "aws_rds_engine_version" "postgresql" {
   engine  = "aurora-postgresql"
   version = "16.1"
 }
+data "aws_vpc" "default_vpc" {
+  default = true
+}
 
 # trunk-ignore(checkov/CKV_TF_1): git hashes arent used by main terraform registry
 module "aurora_postgresql_v2" {
@@ -24,7 +27,14 @@ module "aurora_postgresql_v2" {
   db_subnet_group_name = module.vpc.database_subnet_group_name
   security_group_rules = {
     vpc_ingress = {
-      cidr_blocks = [module.vpc.default_vpc_cidr_block]
+      cidr_blocks = [
+        module.vpc.database_subnets_cidr_blocks,
+        module.vpc.private_subnets_cidr_blocks,
+        data.aws_vpc.default_vpc.cidr_blocks
+      ]
+
+
+
     }
   }
   monitoring_interval = 60
