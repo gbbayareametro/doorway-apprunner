@@ -12,9 +12,10 @@ generate "backend" {
 remote_state {
   backend = "s3"
   config = {
-    bucket = "${get_env("TF_STATE_BUCKET")}/${get_env("ENVIRONMENT")}"
+    bucket = get_env("TF_STATE_BUCKET")
     region="us-west-2"
-    key=get_env("TF_STATE_KEY")
+    key=get_env("ENVIRONMENT")
+    kms_key_id=get_env("TF_STATE_KEY")
     encrypt=true
 
   }
