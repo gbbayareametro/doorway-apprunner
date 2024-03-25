@@ -11,3 +11,8 @@ variable "environment" {
   type = string
 
 }
+variable "parm_key" {
+  type        = string
+  description = "The encryption key for the parameter store"
+
+}

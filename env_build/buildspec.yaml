@@ -10,6 +10,11 @@ env:
     # This var tells terraform to disable prompts for missing variables
     TF_INPUT: "false"
     TG_VERSION: "v0.55.16"
+  parameter-store:
+    TF_STATE_BUCKET: "/${APP_NAME}/env_build/tf_state_bucket"
+    TF_STATE_KEY: "/${APP_NAME}/env_build/tf_state_key"
+    PARM_KEY: "/${APP_NAME}/env_build/parameter_encryption_key"
+
 
 phases:
   install:
@@ -31,4 +36,4 @@ phases:
       # Have to init again to make sure providers are present
       - terragrunt workspace select -or-create ${WORKSPACE}
       # Apply the previously saved plan file
-      - terragrunt apply -auto-approve  -var=app_name=${APP_NAME}  -var=environment=${ENVIRONMENT}
+      - terragrunt apply -auto-approve  -var=app_name=${APP_NAME}  -var=environment=${ENVIRONMENT} -var=parm_key=${PARM_KEY}
