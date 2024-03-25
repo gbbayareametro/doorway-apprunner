@@ -7,7 +7,7 @@ terraform {
   }
 }
 locals {
-  workspace = "${var.app_name}-envbuilder"
+  workspace = "${var.app_name}-env-build"
   allowed_aws_actions = [
     "ec2:*",
     "rds:*",
@@ -31,7 +31,7 @@ module "log_bucket" {
 }
 module "tf_state_bucket" {
   source = "../modules/s3"
-  name   = "${local.workspace}-artifacts"
+  name   = "${local.workspace}-tfstate"
 }
 resource "aws_codebuild_project" "codebuild" {
   name           = local.workspace
