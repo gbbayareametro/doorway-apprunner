@@ -9,5 +9,5 @@ variable "github_repo" {
 }
 variable "buildspec" {
   type    = string
-  default = "envbuild/buildspec.yaml"
+  default = "env_build/buildspec.yaml"
 }
