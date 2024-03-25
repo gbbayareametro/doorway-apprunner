@@ -27,10 +27,10 @@ module "aurora_postgresql_v2" {
   db_subnet_group_name = module.vpc.database_subnet_group_name
   security_group_rules = {
     vpc_ingress = {
-      cidr_blocks = [
+      cidr_blocks = [merge(
         module.vpc.database_subnets_cidr_blocks,
         module.vpc.private_subnets_cidr_blocks,
-        data.aws_vpc.default_vpc.cidr_block
+        data.aws_vpc.default_vpc.cidr_block)
       ]
 
 
