@@ -9,7 +9,7 @@ data "aws_availability_zones" "available" {
 module "vpc" {
   source                             = "terraform-aws-modules/vpc/aws"
   version                            = "~>5.1"
-  name                               = "${var.app_name}-${each.key}"
+  name                               = "${var.app_name}-${var.environment}"
   cidr                               = local.cidr
   azs                                = local.azs
   create_database_subnet_route_table = true
