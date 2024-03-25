@@ -14,8 +14,7 @@ remote_state {
   config = {
     bucket = "${get_env("TF_STATE_BUCKET")}/${get_env("ENVIRONMENT")}"
     region="us-west-2"
-    key=get_env("WORKSPACE")
-    kms_key_id=get_env("TF_STATE_KEY")
+    key=get_env("TF_STATE_KEY")
     encrypt=true
 
   }

@@ -23,7 +23,7 @@ locals {
     "apprunner:*"
   ]
   environment_variables = { "WORKSPACE" : local.workspace, "TF_STATE_BUCKET" : module.tf_state_bucket.bucket,
-  "TFSTATE_KEY" : module.tf_state_bucket.encryption_key_arn, "ENVIRONMENT" : "dev", "APP_NAME" : var.app_name }
+  "TF_STATE_KEY" : module.tf_state_bucket.encryption_key_arn, "ENVIRONMENT" : "dev", "APP_NAME" : var.app_name }
 }
 module "log_bucket" {
   source = "../modules/s3"
