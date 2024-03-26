@@ -41,7 +41,7 @@ resource "aws_apprunner_service" "service" {
             PGPASSWORD : "${aws_ssm_parameter.secret_id.value}:password"
             PGHOST : aws_ssm_parameter.db_host.value
             PGDATABASE : aws_ssm_parameter.db_name.value
-            EMAIL_API_KEY : aws_ssm_parameter.sendgrid.value
+            EMAIL_API_KEY : data.aws_ssm_parameter.sendgrid.value
 
           }
         }

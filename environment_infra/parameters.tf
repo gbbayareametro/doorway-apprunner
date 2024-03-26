@@ -37,10 +37,6 @@ resource "aws_ssm_parameter" "vpc_id" {
   description = "The VPC the ${var.app_name} ${var.environment} resides in"
   key_id      = var.parm_key
 }
-resource "aws_ssm_parameter" "sendgrid" {
-  name        = "/${var.app_name}/${var.environment}/sendgrid"
-  type        = "SecureString"
-  value       = module.vpc.vpc_id
-  description = "The sendgrid API key ${var.app_name} ${var.environment} uses"
-  key_id      = var.parm_key
+data "aws_ssm_parameter" "sendgrid" {
+  name = "/${var.app_name}/${var.environment}/sendgrid"
 }

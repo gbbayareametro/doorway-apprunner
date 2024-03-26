@@ -68,7 +68,7 @@ provider "postgresql" {
   connect_timeout = 15
 }
 
-resource "postgresql_database" "doorway_db" {
-  name  = var.database_name
-  owner = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["username"]
-}
+# resource "postgresql_database" "doorway_db" {
+#   name  = var.database_name
+#   owner = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["username"]
+# }
