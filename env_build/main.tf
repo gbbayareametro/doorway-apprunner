@@ -13,13 +13,13 @@ locals {
     "rds:*",
     "kms:*",
     "iam:*",
-    "ec2:CreateVpc",
-    "ec2:CreateTags",
     "ec2:*",
     "secretsmanager:*",
     "ssm:*",
     "s3:*",
     "cloudfront:*",
+    "apprunner:*",
+    "logs:*",
     "apprunner:*"
   ]
   environment_variables = { "WORKSPACE" : local.workspace, "TF_STATE_BUCKET" : module.tf_state_bucket.bucket,

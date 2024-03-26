@@ -52,3 +52,6 @@ variable "domain_name" {
   default = "changethis.housingbayarea.mtc.ca.gov"
 
 }
+variable "github_repo" {
+
+}
