@@ -30,7 +30,7 @@ phases:
       - echo ${TF_STATE_BUCKET}
       - echo ${TF_STATE_KEY}
       - echo ${ENVIRONMENT}
-      - cd ${CODEBUILD_SRC_DIR}/db_infra
+      - cd ${CODEBUILD_SRC_DIR}/environment_infra
       - terragrunt init
       # Have to init again to make sure providers are present
       - terragrunt workspace select -or-create ${WORKSPACE}
