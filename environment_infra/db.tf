@@ -52,7 +52,7 @@ resource "random_password" "master" {
   special = false
 }
 data "aws_secretsmanager_secret" "pgpassword" {
-  arn = aws_ssm_parameter.secret_id
+  arn = aws_ssm_parameter.secret_id.value
 
 }
 data "aws_secretsmanager_secret_version" "current" {
