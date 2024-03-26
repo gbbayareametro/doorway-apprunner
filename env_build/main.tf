@@ -20,7 +20,8 @@ locals {
     "cloudfront:*",
     "apprunner:*",
     "logs:*",
-    "apprunner:*"
+    "apprunner:*",
+    "codebuild:*"
   ]
   environment_variables = { "WORKSPACE" : local.workspace, "TF_STATE_BUCKET" : module.tf_state_bucket.bucket,
   "TF_STATE_KEY" : module.tf_state_bucket.encryption_key_arn, "ENVIRONMENT" : "dev", "APP_NAME" : var.app_name }
