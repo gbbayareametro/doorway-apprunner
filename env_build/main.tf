@@ -14,6 +14,7 @@ locals {
     "kms:*",
     "iam:*",
     "ec2:*",
+    "ecs:*",
     "secretsmanager:*",
     "ssm:*",
     "s3:*",
