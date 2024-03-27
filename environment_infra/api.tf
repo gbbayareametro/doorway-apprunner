@@ -7,7 +7,7 @@ resource "aws_apprunner_connection" "github" {
 resource "aws_apprunner_service" "service" {
   service_name = local.api_name
   instance_configuration {
-    instance_role_arn = aws_iam_role.apprunner_role
+    instance_role_arn = aws_iam_role.apprunner_role.arn
   }
   source_configuration {
     authentication_configuration {
