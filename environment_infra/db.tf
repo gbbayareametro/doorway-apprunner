@@ -25,6 +25,7 @@ module "aurora_postgresql_v2" {
   storage_encrypted             = true
   master_username               = var.master_username
   master_user_secret_kms_key_id = module.db_secret_encryption_key.key_id
+  manage_master_user_password   = true
   vpc_id                        = module.vpc.vpc_id
   db_subnet_group_name          = module.vpc.database_subnet_group_name
   security_group_rules = {
