@@ -12,7 +12,7 @@ data "aws_vpc" "default_vpc" {
 module "db_secret_encryption_key" {
   source      = "terraform-aws-modules/kms/aws"
   version     = "2.2.0"
-  description = "Encryption Key for${var.app_name}-${each.value} database parameters"
+  description = "Encryption Key for${var.app_name}-${var.environment} database parameters"
 }
 # trunk-ignore(checkov/CKV_TF_1): git hashes arent used by main terraform registry
 module "aurora_postgresql_v2" {
