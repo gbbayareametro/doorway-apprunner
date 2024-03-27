@@ -25,7 +25,7 @@ resource "aws_ssm_parameter" "db_name" {
 resource "aws_ssm_parameter" "secret_id" {
   name        = "/${var.app_name}/${var.environment}/db/secret_id"
   type        = "SecureString"
-  value       = module.aurora_postgresql_v2.cluster_master_user_secret[0].id
+  value       = module.aurora_postgresql_v2.cluster_master_user_secret[0].secret_arn
   description = "The ${var.app_name} ${var.environment} db login secret id"
   key_id      = var.parm_key
 }
