@@ -6,6 +6,7 @@ resource "aws_apprunner_connection" "github" {
 }
 resource "aws_apprunner_service" "service" {
   service_name = local.api_name
+
   instance_configuration {
     instance_role_arn = aws_iam_role.apprunner_role.arn
   }
@@ -40,8 +41,8 @@ resource "aws_apprunner_service" "service" {
             SHOW_LM_LINKS : "TRUE"
           }
           runtime_environment_secrets = {
-            PGUSER : "${aws_ssm_parameter.secret_id.value}:username"
-            PGPASSWORD : "${aws_ssm_parameter.secret_id.value}:password"
+            PGUSER : "${aws_ssm_parameter.secret_id.value}:username::"
+            PGPASSWORD : "${aws_ssm_parameter.secret_id.value}:password::"
             PGHOST : aws_ssm_parameter.db_host.arn
             PGDATABASE : aws_ssm_parameter.db_name.arn
             EMAIL_API_KEY : data.aws_ssm_parameter.sendgrid.arn
