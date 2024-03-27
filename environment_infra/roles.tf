@@ -19,10 +19,23 @@ data "aws_iam_policy_document" "apprunner-access" {
     actions   = ["secretsmanager:*", "ssm:*"]
     resources = ["*"]
   }
+  statement {
+    effect  = "Allow"
+    actions = ["kms:Encrypt", "kms:Decrypt"]
+    resources = [
+      aws_ssm_parameter.db_host.arn,
+      aws_ssm_parameter.db_name.arn,
+      aws_ssm_parameter.db_port.arn,
+      aws_ssm_parameter.secret_id.arn,
+      aws_ssm_parameter.vpc_id.arn,
+      aws_ssm_parameter.sendgrid.arn
+      module.aurora_postgresql_v2.cluster_master_user_secret.arn
+    ]
+  }
 
 
 }
-resource "aws_iam_role_policy" "codebuild_role_policy" {
+resource "aws_iam_role_policy" "apprunner_role_policy" {
   role   = aws_iam_role.apprunner_role.name
   policy = data.aws_iam_policy_document.apprunner-access.json
 }
