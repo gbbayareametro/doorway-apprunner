@@ -32,7 +32,7 @@ variable "runtime" {
 }
 variable "github_repo" {
   type    = string
-  default = "metrotranscom/doorway"
+  default = "https://github.com/metrotranscom/doorway.git"
 
 }
 variable "branch" {
