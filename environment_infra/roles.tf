@@ -30,7 +30,7 @@ data "aws_iam_policy_document" "apprunner-access" {
       aws_ssm_parameter.vpc_id.arn,
       data.aws_ssm_parameter.sendgrid.arn,
       module.aurora_postgresql_v2.cluster_master_user_secret[0].secret_arn,
-      module.aurora_postgresql_v2.master_user_secret_kms_key_id
+      module.db_secret_encryption_key.key_arn
     ]
   }
 

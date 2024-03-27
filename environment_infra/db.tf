@@ -8,19 +8,25 @@ data "aws_rds_engine_version" "postgresql" {
 data "aws_vpc" "default_vpc" {
   default = true
 }
-
+# trunk-ignore(checkov/CKV_TF_1): git hashes arent used by main terraform registry
+module "db_secret_encryption_key" {
+  source      = "terraform-aws-modules/kms/aws"
+  version     = "2.2.0"
+  description = "Encryption Key for${var.app_name}-${each.value} database parameters"
+}
 # trunk-ignore(checkov/CKV_TF_1): git hashes arent used by main terraform registry
 module "aurora_postgresql_v2" {
-  source               = "terraform-aws-modules/rds-aurora/aws"
-  version              = "~>9.1"
-  name                 = local.db_name
-  engine               = data.aws_rds_engine_version.postgresql.engine
-  engine_mode          = "provisioned"
-  engine_version       = data.aws_rds_engine_version.postgresql.version
-  storage_encrypted    = true
-  master_username      = var.master_username
-  vpc_id               = module.vpc.vpc_id
-  db_subnet_group_name = module.vpc.database_subnet_group_name
+  source                        = "terraform-aws-modules/rds-aurora/aws"
+  version                       = "~>9.1"
+  name                          = local.db_name
+  engine                        = data.aws_rds_engine_version.postgresql.engine
+  engine_mode                   = "provisioned"
+  engine_version                = data.aws_rds_engine_version.postgresql.version
+  storage_encrypted             = true
+  master_username               = var.master_username
+  master_user_secret_kms_key_id = module.db_secret_encryption_key.key_id
+  vpc_id                        = module.vpc.vpc_id
+  db_subnet_group_name          = module.vpc.database_subnet_group_name
   security_group_rules = {
     vpc_ingress = {
       cidr_blocks = [data.aws_vpc.default_vpc.cidr_block]
