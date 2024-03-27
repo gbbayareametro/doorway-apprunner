@@ -17,10 +17,10 @@ resource "aws_apprunner_service" "service" {
     code_repository {
       code_configuration {
         code_configuration_values {
-          build_command = "npm install --global yarn&&yarn install&&yarn build"
+          build_command = "yarn install&&yarn build"
           port          = var.api_port
           runtime       = var.runtime
-          start_command = "yarn db:migration&&yarn start"
+          start_command = "yarn db:migration:run&&yarn start"
           runtime_environment_variables = {
             APP_SECRET : "<dummy-value-that-is-at-least-16-character-long>",
             ASSET_FILE_SERVICE : "s3",
