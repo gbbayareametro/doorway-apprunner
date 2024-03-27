@@ -17,7 +17,7 @@ resource "aws_apprunner_service" "service" {
     code_repository {
       code_configuration {
         code_configuration_values {
-          build_command = "yarn install&&yarn build"
+          build_command = "npm install --global yarn&&yarn install&&yarn build"
           port          = var.api_port
           runtime       = var.runtime
           start_command = "yarn db:migration&&yarn start"
