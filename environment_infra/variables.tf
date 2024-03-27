@@ -16,30 +16,30 @@ variable "parm_key" {
   description = "The encryption key for the parameter store"
 
 }
-variable "autodeploy_apps" {
-  type    = bool
-  default = false
+# variable "autodeploy_apps" {
+#   type    = bool
+#   default = false
 
-}
-variable "api_port" {
-  type    = number
-  default = 3100
+# }
+# variable "api_port" {
+#   type    = number
+#   default = 3100
 
-}
-variable "runtime" {
-  type    = string
-  default = "NODEJS_18"
-}
-variable "github_repo" {
-  type    = string
-  default = "https://github.com/gbbayareametro/doorway"
+# }
+# variable "runtime" {
+#   type    = string
+#   default = "NODEJS_18"
+# }
+# variable "github_repo" {
+#   type    = string
+#   default = "https://github.com/gbbayareametro/doorway"
 
-}
-variable "branch" {
-  type    = string
-  default = "main"
+# }
+# variable "branch" {
+#   type    = string
+#   default = "main"
 
-}
+# }
 variable "public_portal_url" {
   type    = string
   default = "http://dev2.housingbayarea.mtc.ca.gov"

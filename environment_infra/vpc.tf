@@ -1,10 +1,5 @@
-locals {
-  azs  = slice(data.aws_availability_zones.available.names, 0, 3)
-  cidr = "10.0.0.0/16"
-}
-data "aws_availability_zones" "available" {
 
-}
+
 # trunk-ignore(checkov/CKV_TF_1): main registry doesn't version by hash
 module "vpc" {
   source                             = "terraform-aws-modules/vpc/aws"

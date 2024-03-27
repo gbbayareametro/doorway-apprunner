@@ -1,0 +1,38 @@
+version: 0.2
+env:
+  shell: bash
+  variables:
+    # This var is used to define which version of terraform to use
+    # This can be overridden by passing a TF_VERSION var to the build
+    TF_VERSION: "1.7.4"
+    # This var tells terraform that we're running in a CI/CD pipeline
+    TF_IN_AUTOMATION: "true"
+    # This var tells terraform to disable prompts for missing variables
+    TF_INPUT: "false"
+    TG_VERSION: "v0.55.16"
+  parameter-store:
+    PARM_KEY: "/${APP_NAME}/env-build/parameter_encryption_key"
+
+
+phases:
+  install:
+    commands:
+      # Install terraform in /usr/bin
+      - cd /usr/bin
+      - curl -s -qL -o terraform.zip "https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip"
+      - unzip -o terraform.zip
+      - curl -s -qL -o terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/${TG_VERSION}/terragrunt_linux_amd64
+      - chmod 755 /usr/bin/terragrunt
+  build:
+    commands:
+      # Verify the values of vars passed in via the project
+      - echo "${WORKSPACE}"
+      - echo ${TF_STATE_BUCKET}
+      - echo ${TF_STATE_KEY}
+      - echo ${ENVIRONMENT}
+      - cd ${CODEBUILD_SRC_DIR}/environment_infra
+      - terragrunt init
+      # Have to init again to make sure providers are present
+      - terragrunt workspace select -or-create ${WORKSPACE}
+      # Apply the previously saved plan file
+      - terragrunt apply -auto-approve  -var=app_name=${APP_NAME}  -var=environment=${ENVIRONMENT} -var=parm_key=${PARM_KEY}
