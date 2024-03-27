@@ -42,9 +42,9 @@ resource "aws_apprunner_service" "service" {
           runtime_environment_secrets = {
             PGUSER : "${aws_ssm_parameter.secret_id.value}:username"
             PGPASSWORD : "${aws_ssm_parameter.secret_id.value}:password"
-            PGHOST : aws_ssm_parameter.db_host.value
-            PGDATABASE : aws_ssm_parameter.db_name.value
-            EMAIL_API_KEY : data.aws_ssm_parameter.sendgrid.value
+            PGHOST : aws_ssm_parameter.db_host.arn
+            PGDATABASE : aws_ssm_parameter.db_name.arn
+            EMAIL_API_KEY : data.aws_ssm_parameter.sendgrid.arn
 
           }
         }
